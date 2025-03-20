@@ -1,0 +1,19 @@
+[project]
+name = "nhsuk-frontend-jinja"
+version = "0.1.0"
+description = "A port of NHS.UK frontend templates for the Jinja templating engine."
+authors = [{ name = "Mat Moore", email = "MatMoore@users.noreply.github.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["jinja2 (>=3.1.6,<4.0.0)"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+flask = "^3.1.0"
+
+[tool.poetry]
+include = ["nhsuk_frontend_jinja/templates"]

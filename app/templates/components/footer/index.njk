@@ -1,0 +1,32 @@
+{% set title = 'Footer (default)' %}
+{% from 'components/footer/macro.njk' import footer %}
+{% extends '_templates/example.njk' %}
+
+{% block main %}
+
+  {{ footer({
+    "links": [
+      {
+        "URL": "#",
+        "label": "Accessibility statement"
+      },
+      {
+        "URL": "#",
+        "label": "Give us feedback"
+      },
+      {
+        "URL": "#",
+        "label": "Cookies"
+      },
+      {
+        "URL": "#",
+        "label": "Privacy policy"
+      },
+      {
+        "URL": "#",
+        "label": "Terms and conditions"
+      }
+    ]
+  })}}
+
+{% endblock %}

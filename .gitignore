@@ -1,0 +1,25 @@
+# Python
+__pycache__
+.pytest_cache
+
+## Built artefacts
+dist
+
+# Dependencies
+node_modules
+
+# Editors
+.idea
+*.iml
+
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# BackstopJS
+tests/backstop/bitmaps_test/*
+tests/backstop/html_report/*
+
+# Puppeteer / chrome
+.cache
