@@ -13,7 +13,7 @@
     "test:visual:interactive": "backstop --config backstop.config.js remote",
     "test:visual:approve": "backstop --config backstop.config.js approve",
     "test:visual:clean": "rm -rf tests/backstop/bitmaps_test/*",
-    "test:visual:cli": "concurrently \"PYTHONPATH=app poetry run flask --app main run --debug\" \"wait-on --config wait-on.config.js && backstop --config backstop.config.js {@}\" --kill-others --passthrough-arguments --success first"
+    "test:visual:cli": "concurrently \"PYTHONPATH=app poetry run flask --app main run\" \"wait-on --config wait-on.config.js && backstop --config backstop.config.js {@}\" --kill-others --passthrough-arguments --success first"
   },
   "devDependencies": {
     "nhsuk-frontend": "9.3.0",
