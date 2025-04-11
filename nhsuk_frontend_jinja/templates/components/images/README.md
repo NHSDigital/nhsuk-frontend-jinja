@@ -22,7 +22,7 @@ Find out more about the images component and when to use it in the [NHS digital 
 </figure>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```
 {% from 'components/images/macro.njk' import image %}
@@ -41,9 +41,9 @@ Find out more about the images component and when to use it in the [NHS digital 
 }) }}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The images Nunjucks macro takes the following arguments:
+The images Jinja macro takes the following arguments:
 
 | Name           | Type   | Required | Description                                                                                  |
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------------- |

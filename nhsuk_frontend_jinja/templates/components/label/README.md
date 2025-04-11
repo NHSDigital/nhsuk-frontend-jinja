@@ -14,7 +14,7 @@
 </label>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/label/macro.njk' import label %}
@@ -38,7 +38,7 @@
 </label>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/label/macro.njk' import label %}
@@ -65,7 +65,7 @@
 </h1>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/label/macro.njk' import label %}
@@ -79,9 +79,9 @@
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The label Nunjucks macro takes the following arguments:
+The label Jinja macro takes the following arguments:
 
 | Name               | Type    | Required | Description                                                                                       |
 | ------------------ | ------- | -------- | ------------------------------------------------------------------------------------------------- |
@@ -91,8 +91,7 @@ The label Nunjucks macro takes the following arguments:
 | **classes**        | string  | No       | Optional additional classes to add to the label tag. Separate each class with a space.            |
 | **attributes**     | object  | No       | Any extra HTML attributes (for example data attributes) to add to the label tag.                  |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Label component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/label) with a few minor adaptations.

@@ -20,7 +20,7 @@ Find out more about the fieldset component and when to use it in the [NHS digita
 </fieldset>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/fieldset/macro.njk' import fieldset %}
@@ -50,7 +50,7 @@ Find out more about the fieldset component and when to use it in the [NHS digita
 </fieldset>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/fieldset/macro.njk' import fieldset %}
@@ -107,7 +107,7 @@ Find out more about the fieldset component and when to use it in the [NHS digita
 
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 To add input fields inside the fieldset, use the `call` block.
 
@@ -160,9 +160,9 @@ To add input fields inside the fieldset, use the `call` block.
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The fieldset Nunjucks macro takes the following arguments:
+The fieldset Jinja macro takes the following arguments:
 
 | Name                                   | Type    | Required | Description                                                                                                                         |
 | -------------------------------------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -174,8 +174,7 @@ The fieldset Nunjucks macro takes the following arguments:
 | **classes**                            | string  | No       | Optional additional classes to add to the fieldset container. Separate each class with a space.                                     |
 | **attributes**                         | object  | No       | Any extra HTML attributes (for example data attributes) to add to the fieldset container.                                           |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Fieldset component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/fieldset) with a few minor adaptations.

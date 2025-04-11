@@ -40,7 +40,7 @@ Find out more about the table component and when to use it in the [NHS digital s
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```html
 {% from 'components/tables/macro.njk' import table %}
@@ -125,7 +125,7 @@ Find out more about the table component and when to use it in the [NHS digital s
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```html
 {% from 'components/tables/macro.njk' import table %}
@@ -234,7 +234,7 @@ Find out more about the table component and when to use it in the [NHS digital s
 </table>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```html
 {% from 'components/tables/macro.njk' import table %}
@@ -304,9 +304,9 @@ Find out more about the table component and when to use it in the [NHS digital s
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The table Nunjucks macro takes the following arguments:
+The table Jinja macro takes the following arguments:
 
 | Name                               | Type    | Required | Description                                                                                                                                   |
 | ---------------------------------- | ------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -335,4 +335,4 @@ The table Nunjucks macro takes the following arguments:
 | **firstCellIsHeader**              | boolean | No       | If set to true, first cell in table row will be a TH instead of a TD.                                                                         |
 | **responsive**                     | boolean | No       | If set to true, responsive table classes will be applied.                                                                                     |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

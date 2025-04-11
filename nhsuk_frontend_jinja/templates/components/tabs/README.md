@@ -56,7 +56,7 @@ Find out more about the tabs component and when to use it in the [NHS digital se
 </div>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```html
 {% from 'components/tabs/macro.njk' import tabs %}
@@ -103,9 +103,9 @@ Find out more about the tabs component and when to use it in the [NHS digital se
 }) }}
 ```
 
-## Nunjucks arguments
+## Jinja arguments
 
-The tabs Nunjucks macro takes the following arguments:
+The tabs Jinja macro takes the following arguments:
 
 | Name           | Type   | Required | Description                                                                    |
 | -------------- | ------ | -------- | ------------------------------------------------------------------------------ |
@@ -133,4 +133,4 @@ The tabs Nunjucks macro takes the following arguments:
 | **html**       | string | Yes      | If `text` is set, this is not required. HTML to use within the each tab panel. If `html` is provided, the `text` argument will be ignored. |
 | **attributes** | object | No       | HTML attributes (for example data attributes) to add to the tab panel.                                                                     |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

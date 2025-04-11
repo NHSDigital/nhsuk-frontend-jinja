@@ -45,7 +45,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -118,7 +118,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -186,7 +186,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -254,7 +254,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -329,7 +329,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -428,7 +428,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -576,7 +576,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/checkboxes/macro.njk' import checkboxes %}
@@ -672,9 +672,9 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The checkboxes Nunjucks macro takes the following arguments:
+The checkboxes Jinja macro takes the following arguments:
 
 | Name                               | Type    | Required | Description                                                                                                                                                                  |
 | ---------------------------------- | ------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -701,8 +701,7 @@ The checkboxes Nunjucks macro takes the following arguments:
 | **exclusive**                      | boolean | No       | If set to `true`, marks this checkbox as the "None" option in a "None of these" type behaviour. Unchecking all other checkboxes in the group when "None" is clicked          |
 | **exclusiveGroup**                 | string  | No       | Used in conjunction with `exclusive` - this should be set to a string which groups checkboxes together into a set for use in a "None of these" scenario.                     |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Checkboxes component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/checkboxes) with a few minor adaptations.

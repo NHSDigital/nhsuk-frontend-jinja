@@ -25,7 +25,7 @@ Ensure the correct `id` value has been added to your main content for the skip l
 <a class="nhsuk-skip-link" href="#maincontent">Skip to main content</a>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```html
 {% from 'components/skip-link/macro.njk' import skipLink %}
@@ -36,9 +36,9 @@ Ensure the correct `id` value has been added to your main content for the skip l
 }) }}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The skip link Nunjucks macro takes the following arguments:
+The skip link Jinja macro takes the following arguments:
 
 | Name           | Type   | Required | Description                                                                            |
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------- |
@@ -47,4 +47,4 @@ The skip link Nunjucks macro takes the following arguments:
 | **classes**    | string | No       | Optional additional classes to add to the skip link. Separate each class with a space. |
 | **attributes** | object | No       | Any extra HTML attributes (for example data attributes) to add to the skip link.       |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

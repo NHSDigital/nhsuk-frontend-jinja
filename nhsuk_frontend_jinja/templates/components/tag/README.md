@@ -18,7 +18,7 @@ Find out more about the tag component and when to use it in the [NHS digital ser
 </strong>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/tag/macro.njk' import tag %}
@@ -40,7 +40,7 @@ See the full list of tag colours on the [NHS digital service manual](https://ser
 </strong>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/tag/macro.njk' import tag %}
@@ -51,9 +51,9 @@ See the full list of tag colours on the [NHS digital service manual](https://ser
 })}}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The tag Nunjucks macro takes the following arguments:
+The tag Jinja macro takes the following arguments:
 
 | Name       | Type   | Required | Description                                                                                                                               |
 | ---------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -62,4 +62,4 @@ The tag Nunjucks macro takes the following arguments:
 | classes    | string | No       | Optional additional classes to add to the tag. Separate each class with a space.                                                          |
 | attributes | object | No       | HTML attributes (for example data attributes) to add to the tag.                                                                          |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

@@ -53,7 +53,7 @@ Note: The `pattern` attribute is not valid HTML for inputs where the type attrib
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/date-input/macro.njk' import dateInput %}
@@ -137,7 +137,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/date-input/macro.njk' import dateInput %}
@@ -223,7 +223,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/date-input/macro.njk' import dateInput %}
@@ -308,7 +308,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/date-input/macro.njk' import dateInput %}
@@ -346,9 +346,9 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The date input Nunjucks macro takes the following arguments:
+The date input Jinja macro takes the following arguments:
 
 | Name              | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                               |
 | ----------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -371,8 +371,7 @@ The date input Nunjucks macro takes the following arguments:
 | **values.month**  | string | No       | Value attribute for the month input.                                                                                                                                                                                                                                                                                                                      |
 | **values.year**   | string | No       | Value attribute for the year input.                                                                                                                                                                                                                                                                                                                       |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Date input component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/date-input) with a few minor adaptations.

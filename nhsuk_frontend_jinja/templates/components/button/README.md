@@ -18,7 +18,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </button>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -42,7 +42,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </a>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -67,7 +67,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </button>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -92,7 +92,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </button>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -117,7 +117,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </button>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -142,7 +142,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </button>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -165,7 +165,7 @@ Find out more about the button component and when to use it in the [NHS digital 
 </button>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/button/macro.njk' import button %}
@@ -176,9 +176,9 @@ Find out more about the button component and when to use it in the [NHS digital 
 }) }}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The button Nunjucks macro takes the following arguments:
+The button Jinja macro takes the following arguments:
 
 | Name                   | Type    | Required | Description                                                                                                                                                                                                                                                                |
 | ---------------------- | ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -193,8 +193,7 @@ The button Nunjucks macro takes the following arguments:
 | **attributes**         | object  | No       | Any extra HTML attributes (for example data attributes) to add to the textarea tag.                                                                                                                                                                                        |
 | **preventDoubleClick** | boolean | No       | Prevent accidental double clicks on submit buttons from submitting forms multiple times                                                                                                                                                                                    |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Button component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/button) with a few minor adaptations.

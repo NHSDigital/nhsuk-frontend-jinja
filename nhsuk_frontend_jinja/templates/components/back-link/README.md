@@ -21,7 +21,7 @@ Find out more about the back link component and when to use it in the [NHS digit
 </div>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```
 {% from 'components/back-link/macro.njk' import backLink %}
@@ -49,7 +49,7 @@ Find out more about the back link component and when to use it in the [NHS digit
 </div>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```
 {% from 'components/back-link/macro.njk' import backLink %}
@@ -60,9 +60,9 @@ Find out more about the back link component and when to use it in the [NHS digit
 }) }}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The back link Nunjucks macro takes the following arguments:
+The back link Jinja macro takes the following arguments:
 
 | Name               | Type   | Required | Description                                                                                                     |
 | ------------------ | ------ | -------- | --------------------------------------------------------------------------------------------------------------- |
@@ -72,8 +72,7 @@ The back link Nunjucks macro takes the following arguments:
 | **element**        | string | No       | Which html element to use to render the back link - `button` or `a`. If not provided, defaults to `a`           |
 | **attributes**     | object | No       | Any extra HTML attributes (for example data attributes) to add to the tag.                                      |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Back link component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/back-link) with a few minor adaptations.

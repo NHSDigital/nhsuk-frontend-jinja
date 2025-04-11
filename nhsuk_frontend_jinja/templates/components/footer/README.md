@@ -46,7 +46,7 @@ Your copyright statement must reflect the ownership of your website or service. 
 </footer>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/footer/macro.njk' import footer %}
@@ -166,7 +166,7 @@ Your copyright statement must reflect the ownership of your website or service. 
 </footer>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/footer/macro.njk' import footer %}
@@ -306,7 +306,7 @@ Your copyright statement must reflect the ownership of your website or service. 
 </footer>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/footer/macro.njk' import footer %}
@@ -338,9 +338,9 @@ Your copyright statement must reflect the ownership of your website or service. 
 })}}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The footer Nunjucks macro takes the following arguments:
+The footer Jinja macro takes the following arguments:
 
 | Name                      | Type   | Required | Description                                                                                   |
 | ------------------------- | ------ | -------- | --------------------------------------------------------------------------------------------- |
@@ -361,4 +361,4 @@ The footer Nunjucks macro takes the following arguments:
 | **metaLinks.[].url**      | string | No       | The href of a policy navigation item in the footer.                                           |
 | **metaLinks.[].label**    | string | No       | The label of a policy navigation item in the footer.                                          |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

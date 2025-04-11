@@ -17,7 +17,7 @@ Find out more about the error message component and when to use it in the [NHS d
 </span>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```
 {% from 'components/error-message/macro.njk' import errorMessage %}
@@ -27,9 +27,9 @@ Find out more about the error message component and when to use it in the [NHS d
 }) }}
 ```
 
-### Nunjucks arguments
+### Jinja arguments
 
-The error message Nunjucks macro takes the following arguments:
+The error message Jinja macro takes the following arguments:
 
 | Name                   | Type   | Required | Description                                                                                         |
 | ---------------------- | ------ | -------- | --------------------------------------------------------------------------------------------------- |
@@ -39,8 +39,7 @@ The error message Nunjucks macro takes the following arguments:
 | **attributes**         | object | No       | Any extra HTML attributes (for example data attributes) to add to the error message span tag.       |
 | **visuallyHiddenText** | string | No       | A visually hidden prefix used before the error message. Defaults to "Error"                         |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Error message component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/error-message) with a few minor adaptations.

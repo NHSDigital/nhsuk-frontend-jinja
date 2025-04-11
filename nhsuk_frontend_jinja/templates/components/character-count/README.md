@@ -31,7 +31,7 @@ Find out more about the character component and when to use it in the [NHS digit
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/character-count/macro.njk' import characterCount %}
@@ -76,7 +76,7 @@ Find out more about the character component and when to use it in the [NHS digit
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/character-count/macro.njk' import characterCount %}
@@ -122,7 +122,7 @@ Find out more about the character component and when to use it in the [NHS digit
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/character-count/macro.njk' import characterCount %}
@@ -142,9 +142,9 @@ Find out more about the character component and when to use it in the [NHS digit
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The character count Nunjucks macro takes the following arguments:
+The character count Jinja macro takes the following arguments:
 
 | Name                     | Type   | Required | Description                                                                                                                                                                  |
 | ------------------------ | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -163,8 +163,7 @@ The character count Nunjucks macro takes the following arguments:
 | **threshold**            | string | No       | The percentage value of the limit at which point the count message is displayed. If this attribute is set, the count message will be hidden by default.                      |
 | **countMessage.classes** | string | No       | Classes to add to the count message.                                                                                                                                         |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Character Count component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/character-count) with a few minor adaptations.

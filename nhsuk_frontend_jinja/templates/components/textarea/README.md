@@ -24,7 +24,7 @@ Find out more about the textarea component and when to use it in the [NHS digita
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/textarea/macro.njk' import textarea %}
@@ -62,7 +62,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/textarea/macro.njk' import textarea %}
@@ -97,7 +97,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/textarea/macro.njk' import textarea %}
@@ -116,9 +116,9 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The textarea Nunjucks macro takes the following arguments:
+The textarea Jinja macro takes the following arguments:
 
 | Name             | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                               |
 | ---------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -134,8 +134,7 @@ The textarea Nunjucks macro takes the following arguments:
 | **autocomplete** | string | No       | Attribute to [identify input purpose](https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html), for instance "postal-code" or "username". See [Autofilling form controls: the autocomplete attribute](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill) for the full list of attributes that can be used. |
 | **attributes**   | object | No       | Any extra HTML attributes (for example data attributes) to add to the textarea tag.                                                                                                                                                                                                                                                                       |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Textarea component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/textarea) with a few minor adaptations.

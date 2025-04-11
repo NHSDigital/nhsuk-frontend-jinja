@@ -38,7 +38,7 @@ For this component to be accessible and compatible with older browsers, include 
 </details>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/details/macro.njk' import details %}
@@ -120,7 +120,7 @@ Find out more about the expander component and when to use it in the [NHS digita
 </details>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/details/macro.njk' import details %}
@@ -214,7 +214,7 @@ Find out more about the expander component and when to use it in the [NHS digita
 </div>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from 'components/details/macro.njk' import details %}
@@ -252,9 +252,9 @@ Find out more about the expander component and when to use it in the [NHS digita
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The details Nunjucks macro takes the following arguments:
+The details Jinja macro takes the following arguments:
 
 | Name       | Type    | Required | Description                                                                             |
 | ---------- | ------- | -------- | --------------------------------------------------------------------------------------- |
@@ -265,4 +265,4 @@ The details Nunjucks macro takes the following arguments:
 | classes    | string  | No       | Optional additional classes to add to the anchor tag. Separate each class with a space. |
 | attributes | object  | No       | Any extra HTML attributes (for example data attributes) to add to the anchor tag.       |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

@@ -60,7 +60,7 @@ Find out more about the task-list component and when to use it in the [NHS digit
 </ul>
 ```
 
-### Nunjucks macro
+### Jinja macro
 
 ```html
 {% from 'components/task-list/macro.njk' import taskList %}
@@ -128,9 +128,9 @@ Find out more about the task-list component and when to use it in the [NHS digit
 }) }}
 ```
 
-## Nunjucks arguments
+## Jinja arguments
 
-The task list Nunjucks macro takes the following arguments:
+The task list Jinja macro takes the following arguments:
 
 | Name           | Type   | Required | Description                                                                                                                                  |
 | -------------- | ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -173,4 +173,4 @@ The task list Nunjucks macro takes the following arguments:
 | **html**    | string | No       | HTML to use for the status, as an alternative to using a tag. If `html` or `tag` is provided, the `text` argument will be ignored. |
 | **classes** | string | No       | Classes to add to the status container.                                                                                            |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 

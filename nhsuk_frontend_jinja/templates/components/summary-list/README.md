@@ -72,7 +72,7 @@
 </dl>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from "components/summary-list/macro.njk" import summaryList %}
@@ -199,7 +199,7 @@
 </dl>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from "components/summary-list/macro.njk" import summaryList %}
@@ -290,7 +290,7 @@
 </dl>
 ```
 
-#### Nunjucks macro
+#### Jinja macro
 
 ```
 {% from "components/summary-list/macro.njk" import summaryList %}
@@ -336,9 +336,9 @@
 
 ---
 
-### Nunjucks arguments
+### Jinja arguments
 
-The summary list Nunjucks macro takes the following arguments:
+The summary list Jinja macro takes the following arguments:
 
 | Name                            | Type   | Required | Description                                                                                                                                                                                   |
 | ------------------------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -359,8 +359,7 @@ The summary list Nunjucks macro takes the following arguments:
 | action.items.html               | string | Yes      | If text is set, this is not required. HTML to use within the each action item. If html is provided, the text argument will be ignored.                                                        |
 | action.items.visuallyHiddenText | string | Yes      | Actions rely on context from the surrounding content so may require additional accessible text, text supplied to this option is appended to the end, use html for more complicated scenarios. |
 
-If you are using Nunjucks macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). Read more about this in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
-
+If you are using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting). 
 ## Thanks to the Government Digital Service (GDS)
 
 This component and documentation has been taken from [GOV.UK Frontend - Summary list component](https://github.com/alphagov/govuk-frontend/tree/main/package/govuk/components/summary-list) with a few minor adaptations.
