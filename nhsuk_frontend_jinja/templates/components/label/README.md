@@ -17,7 +17,7 @@
 #### Jinja macro
 
 ```
-{% from 'components/label/macro.njk' import label %}
+{% from 'components/label/macro.jinja' import label %}
 
 {{ label({
   "text": "National Insurance number"
@@ -41,7 +41,7 @@
 #### Jinja macro
 
 ```
-{% from 'components/label/macro.njk' import label %}
+{% from 'components/label/macro.jinja' import label %}
 
 {{ label({
   "classes": "nhsuk-label--s",
@@ -68,7 +68,7 @@
 #### Jinja macro
 
 ```
-{% from 'components/label/macro.njk' import label %}
+{% from 'components/label/macro.jinja' import label %}
 
 {{ label({
   "text": "National Insurance number",

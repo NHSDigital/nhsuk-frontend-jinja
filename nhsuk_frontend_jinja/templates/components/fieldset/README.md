@@ -23,7 +23,7 @@ Find out more about the fieldset component and when to use it in the [NHS digita
 #### Jinja macro
 
 ```
-{% from 'components/fieldset/macro.njk' import fieldset %}
+{% from 'components/fieldset/macro.jinja' import fieldset %}
 
 {{ fieldset({
   "legend": {
@@ -53,7 +53,7 @@ Find out more about the fieldset component and when to use it in the [NHS digita
 #### Jinja macro
 
 ```
-{% from 'components/fieldset/macro.njk' import fieldset %}
+{% from 'components/fieldset/macro.jinja' import fieldset %}
 
 {{ fieldset({
   "legend": {
@@ -112,8 +112,8 @@ Find out more about the fieldset component and when to use it in the [NHS digita
 To add input fields inside the fieldset, use the `call` block.
 
 ```
-{% from 'components/input/macro.njk' import input %}
-{% from 'components/fieldset/macro.njk' import fieldset %}
+{% from 'components/input/macro.jinja' import input %}
+{% from 'components/fieldset/macro.jinja' import fieldset %}
 
 {% call fieldset({
   legend: {

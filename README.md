@@ -55,7 +55,7 @@ jinja_env = Environment(
 All our macros take identical arguments to the Nunjucks ones, except you need to quote the parameter names.
 
 ```jinja
-{% from 'components/warning-callout/macro.njk' import warningCallout %}
+{% from 'components/warning-callout/macro.jinja' import warningCallout %}
 
 {{ warningCallout({
   "heading": "Quotey McQuoteface",
@@ -63,7 +63,7 @@ All our macros take identical arguments to the Nunjucks ones, except you need to
 }) }}
 ```
 
-Note that all macro paths must be prefixed with `components/`.
+Note that all macro paths must be prefixed with `components/` and have the `.jinja` extension.
 
 ## Contribute
 

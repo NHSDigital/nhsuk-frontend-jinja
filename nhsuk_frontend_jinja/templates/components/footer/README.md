@@ -49,7 +49,7 @@ Your copyright statement must reflect the ownership of your website or service. 
 #### Jinja macro
 
 ```
-{% from 'components/footer/macro.njk' import footer %}
+{% from 'components/footer/macro.jinja' import footer %}
 
 {{ footer({
   "links": [
@@ -169,7 +169,7 @@ Your copyright statement must reflect the ownership of your website or service. 
 #### Jinja macro
 
 ```
-{% from 'components/footer/macro.njk' import footer %}
+{% from 'components/footer/macro.jinja' import footer %}
 
 {{ footer({
   "copyright": "© Crown copyright",
@@ -309,7 +309,7 @@ Your copyright statement must reflect the ownership of your website or service. 
 #### Jinja macro
 
 ```
-{% from 'components/footer/macro.njk' import footer %}
+{% from 'components/footer/macro.jinja' import footer %}
 
 {{ footer({
   "copyright": "© East London NHS Foundation Trust",

@@ -1,0 +1,66 @@
+{% from 'components/header/macro.jinja' import header %}
+{% from 'components/footer/macro.jinja' import footer %}
+{% from 'components/skip-link/macro.jinja' import skipLink %}
+{% from 'components/action-link/macro.jinja' import actionLink %}
+{% from 'components/breadcrumb/macro.jinja' import breadcrumb %}
+{% from 'components/card/macro.jinja' import card %}
+{% from 'components/contents-list/macro.jinja' import contentsList %}
+{% from 'components/details/macro.jinja' import details %}
+{% from 'components/hero/macro.jinja' import hero %}
+{% from 'components/do-dont-list/macro.jinja' import list %}
+{% from 'components/images/macro.jinja' import image %}
+{% from 'components/inset-text/macro.jinja' import insetText %}
+{% from 'components/pagination/macro.jinja' import pagination %}
+{% from 'components/skip-link/macro.jinja' import skipLink %}
+{% from 'components/tables/macro.jinja' import table %}
+{% from 'components/warning-callout/macro.jinja' import warningCallout %}
+{% from 'components/back-link/macro.jinja' import backLink %}
+{% from 'components/button/macro.jinja' import button %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
+{% from 'components/date-input/macro.jinja' import dateInput %}
+{% from 'components/error-message/macro.jinja' import errorMessage %}
+{% from 'components/error-summary/macro.jinja' import errorSummary %}
+{% from 'components/fieldset/macro.jinja' import fieldset %}
+{% from 'components/hint/macro.jinja' import hint %}
+{% from 'components/input/macro.jinja' import input %}
+{% from 'components/label/macro.jinja' import label %}
+{% from 'components/radios/macro.jinja' import radios %}
+{% from 'components/select/macro.jinja' import select %}
+{% from 'components/summary-list/macro.jinja' import summaryList %}
+{% from 'components/textarea/macro.jinja' import textarea %}
+{% extends '_templates/layout.jinja' %}
+{% block header %}
+  {{ skipLink({"URL": "#maincontent", "heading": "Skip to main content"}) }}
+  {{ header({
+    "showNav": "false",
+    "showSearch": "false",
+    "homeHref": baseUrl
+    }) 
+  }}
+{% endblock %}
+{% block footer %}
+  {{ footer({
+    "links": [
+    {
+    "URL": baseUrl,
+    "label": "NHS.UK frontend"
+    },
+    {
+    "URL": baseUrl + "pages/install.html",
+    "label": "Install"
+    },
+    {
+    "URL": baseUrl + "pages/examples.html",
+    "label": "Examples"
+    },
+    {
+    "URL": baseUrl + "pages/about.html",
+    "label": "About"
+    },
+    {
+    "URL": "https://github.com/nhsuk/nhsuk-frontend",
+    "label": "GitHub"
+    }
+    ]
+    }) }}
+{% endblock %}

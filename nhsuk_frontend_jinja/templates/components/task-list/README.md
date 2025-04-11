@@ -63,7 +63,7 @@ Find out more about the task-list component and when to use it in the [NHS digit
 ### Jinja macro
 
 ```html
-{% from 'components/task-list/macro.njk' import taskList %}
+{% from 'components/task-list/macro.jinja' import taskList %}
 
 {{ taskList({
   idPrefix: "your-health",

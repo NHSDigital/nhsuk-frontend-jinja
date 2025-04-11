@@ -1,0 +1,7 @@
+{% set title = "Header with logo only" %}
+{% from 'components/header/macro.jinja' import header %}
+{% extends '_templates/example.jinja' %}
+{% block main %}
+  {{ header({"showNav": "false", "showSearch": "false"}) 
+  }}
+{% endblock %}

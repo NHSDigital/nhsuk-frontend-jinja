@@ -56,7 +56,7 @@ Note: The `pattern` attribute is not valid HTML for inputs where the type attrib
 #### Jinja macro
 
 ```
-{% from 'components/date-input/macro.njk' import dateInput %}
+{% from 'components/date-input/macro.jinja' import dateInput %}
 
 {{ dateInput({
   "id": "dob",
@@ -140,7 +140,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/date-input/macro.njk' import dateInput %}
+{% from 'components/date-input/macro.jinja' import dateInput %}
 
 {{ dateInput({
   "id": "dob-with-autocomplete-attribute",
@@ -226,7 +226,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/date-input/macro.njk' import dateInput %}
+{% from 'components/date-input/macro.jinja' import dateInput %}
 
 {{ dateInput({
   "id": "dob-errors",
@@ -311,7 +311,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/date-input/macro.njk' import dateInput %}
+{% from 'components/date-input/macro.jinja' import dateInput %}
 
 {{ dateInput({
   "id": "dob-day-error",

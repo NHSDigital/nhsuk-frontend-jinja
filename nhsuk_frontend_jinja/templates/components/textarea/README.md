@@ -27,7 +27,7 @@ Find out more about the textarea component and when to use it in the [NHS digita
 #### Jinja macro
 
 ```
-{% from 'components/textarea/macro.njk' import textarea %}
+{% from 'components/textarea/macro.jinja' import textarea %}
 
 {{ textarea({
   "name": "more-detail",
@@ -65,7 +65,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/textarea/macro.njk' import textarea %}
+{% from 'components/textarea/macro.jinja' import textarea %}
 
 {{ textarea({
   "name": "address",
@@ -100,7 +100,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/textarea/macro.njk' import textarea %}
+{% from 'components/textarea/macro.jinja' import textarea %}
 
 {{ textarea({
   "name": "no-ni-reason",

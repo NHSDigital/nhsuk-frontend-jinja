@@ -24,7 +24,7 @@ Find out more about the input component and when to use it in the [NHS digital s
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -59,7 +59,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -95,7 +95,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -138,7 +138,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -180,7 +180,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -219,7 +219,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -256,7 +256,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -294,7 +294,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {
@@ -336,7 +336,7 @@ See [Autofilling form controls: the autocomplete attribute](https://html.spec.wh
 #### Jinja macro
 
 ```
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ input({
   "label": {

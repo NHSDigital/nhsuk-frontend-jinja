@@ -28,7 +28,7 @@ Ensure the correct `id` value has been added to your main content for the skip l
 ### Jinja macro
 
 ```html
-{% from 'components/skip-link/macro.njk' import skipLink %}
+{% from 'components/skip-link/macro.jinja' import skipLink %}
 
 {{ skipLink({
   "href": "#maincontent",

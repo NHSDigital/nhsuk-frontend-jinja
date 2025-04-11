@@ -22,7 +22,7 @@ Find out more about the inset text component and when to use it in the [NHS digi
 If you’re using Jinja macros in production be aware that using `html` arguments, or ones ending with `html` can be a [security risk](https://en.wikipedia.org/wiki/Cross-site_scripting). More about it in the [Nunjucks documentation](https://mozilla.github.io/nunjucks/api.html#user-defined-templates-warning).
 
 ```
-{% from 'components/inset-text/macro.njk' import insetText %}
+{% from 'components/inset-text/macro.jinja' import insetText %}
 
 {{ insetText({
   "html": "<p>You can report any suspected side effect to the <a href=\"https://yellowcard.mhra.gov.uk/\" title=\"External website\">UK safety scheme</a>.</p>"

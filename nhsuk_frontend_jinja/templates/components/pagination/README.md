@@ -42,7 +42,7 @@ Find out more about the pagination component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/pagination/macro.njk' import pagination %}
+{% from 'components/pagination/macro.jinja' import pagination %}
 
 {{ pagination({
   "previousUrl": "/section/treatments",
@@ -79,7 +79,7 @@ Find out more about the pagination component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/pagination/macro.njk' import pagination %}
+{% from 'components/pagination/macro.jinja' import pagination %}
 
 {{ pagination({
   "nextUrl": "/section/symptoms",
@@ -114,7 +114,7 @@ Find out more about the pagination component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/pagination/macro.njk' import pagination %}
+{% from 'components/pagination/macro.jinja' import pagination %}
 
 {{ pagination({
   "previousUrl": "/section/treatments",

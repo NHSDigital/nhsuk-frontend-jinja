@@ -1,0 +1,38 @@
+{% set title = "Header organisational with white header and navigation" %}
+{% from 'components/header/macro.jinja' import header %}
+{% extends '_templates/example.jinja' %}
+{% block main %}
+  {{ header({
+    "showNav": "true",
+    "showSearch": "true",
+    "classes": "nhsuk-header--white nhsuk-header--white-nav",
+    "organisation": {
+      "name": "Anytown Anyplace",
+      "split": "Anywhere",
+      "descriptor": "NHS Foundation Trust"
+    },
+    "primaryLinks": [
+      {
+        "url": "#",
+        "label": "Your hospital visit"
+      },
+      {
+        "url": "#",
+        "label": "Wards and departments"
+      },
+      {
+        "url": "#",
+        "label": "Conditions and treatments"
+      },
+      {
+        "url": "#",
+        "label": "Our people"
+      },
+      {
+        "url": "#",
+        "label": "Our research"
+      }
+    ]
+  }) 
+  }}
+{% endblock %}

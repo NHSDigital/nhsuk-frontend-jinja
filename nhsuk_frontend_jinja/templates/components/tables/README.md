@@ -43,7 +43,7 @@ Find out more about the table component and when to use it in the [NHS digital s
 #### Jinja macro
 
 ```html
-{% from 'components/tables/macro.njk' import table %}
+{% from 'components/tables/macro.jinja' import table %}
 
 {{ table({
   panel: false,
@@ -128,7 +128,7 @@ Find out more about the table component and when to use it in the [NHS digital s
 #### Jinja macro
 
 ```html
-{% from 'components/tables/macro.njk' import table %}
+{% from 'components/tables/macro.jinja' import table %}
 
 {{ table({
   panel: true,
@@ -237,7 +237,7 @@ Find out more about the table component and when to use it in the [NHS digital s
 #### Jinja macro
 
 ```html
-{% from 'components/tables/macro.njk' import table %}
+{% from 'components/tables/macro.jinja' import table %}
 {{ table({
   responsive: true,
   panel: false,

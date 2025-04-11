@@ -24,7 +24,7 @@ Find out more about the back link component and when to use it in the [NHS digit
 ### Jinja macro
 
 ```
-{% from 'components/back-link/macro.njk' import backLink %}
+{% from 'components/back-link/macro.jinja' import backLink %}
 
 {{ backLink({
   "href": "#",
@@ -52,7 +52,7 @@ Find out more about the back link component and when to use it in the [NHS digit
 ### Jinja macro
 
 ```
-{% from 'components/back-link/macro.njk' import backLink %}
+{% from 'components/back-link/macro.jinja' import backLink %}
 
 {{ backLink({
   "element": "button",

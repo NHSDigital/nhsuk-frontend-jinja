@@ -42,7 +42,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "idPrefix": "example",
@@ -107,7 +107,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "idPrefix": "example",
@@ -173,7 +173,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "idPrefix": "example-disabled",
@@ -243,7 +243,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "idPrefix": "example-divider",
@@ -316,7 +316,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "idPrefix": "gov",
@@ -382,7 +382,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "name": "colours",
@@ -444,7 +444,7 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ radios({
   "idPrefix": "example",
@@ -549,8 +549,8 @@ Find out more about the radios component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/radios/macro.njk' import radios %}
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/radios/macro.jinja' import radios %}
+{% from 'components/input/macro.jinja' import input %}
 
 {% set emailHtml %}
   {{ input({

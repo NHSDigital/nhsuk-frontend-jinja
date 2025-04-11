@@ -28,7 +28,7 @@ Find out more about the select component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/select/macro.njk' import select %}
+{% from 'components/select/macro.jinja' import select %}
 
 {{ select({
   "id": "select-1",
@@ -85,7 +85,7 @@ Find out more about the select component and when to use it in the [NHS digital 
 #### Jinja macro
 
 ```
-{% from 'components/select/macro.njk' import select %}
+{% from 'components/select/macro.jinja' import select %}
 
 {{ select({
   "id": "select-2",

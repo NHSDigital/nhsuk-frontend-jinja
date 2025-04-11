@@ -24,7 +24,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "heading": "If you need help now, but it’s not an emergency",
@@ -54,7 +54,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "href": "#",
@@ -86,7 +86,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
     {{ card({
       "href": "#",
@@ -121,7 +121,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "imgURL": "https://assets.nhs.uk/prod/images/A_0218_exercise-main_FKW1X7.width-690.jpg",
@@ -275,7 +275,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 <h2>Halves</h2>
 
@@ -401,7 +401,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "feature": "true",
@@ -440,7 +440,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "type": "non-urgent",
@@ -489,7 +489,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "type": "urgent",
@@ -537,7 +537,7 @@ Find out more about the card component and when to use it in the [NHS digital se
 #### Jinja macro
 
 ```
-{% from 'components/card/macro.njk' import card %}
+{% from 'components/card/macro.jinja' import card %}
 
 {{ card({
   "type": "emergency",

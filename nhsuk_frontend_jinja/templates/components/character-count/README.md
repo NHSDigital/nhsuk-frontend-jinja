@@ -34,7 +34,7 @@ Find out more about the character component and when to use it in the [NHS digit
 #### Jinja macro
 
 ```
-{% from 'components/character-count/macro.njk' import characterCount %}
+{% from 'components/character-count/macro.jinja' import characterCount %}
 
 {{ characterCount({
   "name": "more-detail",
@@ -79,7 +79,7 @@ Find out more about the character component and when to use it in the [NHS digit
 #### Jinja macro
 
 ```
-{% from 'components/character-count/macro.njk' import characterCount %}
+{% from 'components/character-count/macro.jinja' import characterCount %}
 
 {{ characterCount({
   "name": "more-detail",
@@ -125,7 +125,7 @@ Find out more about the character component and when to use it in the [NHS digit
 #### Jinja macro
 
 ```
-{% from 'components/character-count/macro.njk' import characterCount %}
+{% from 'components/character-count/macro.jinja' import characterCount %}
 
 {{ characterCount({
   "name": "more-detail",

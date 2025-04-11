@@ -34,7 +34,7 @@ Find out more about the error summary component and when to use it in the [NHS d
 ### Jinja macro
 
 ```
-{% from 'components/error-summary/macro.njk' import errorSummary %}
+{% from 'components/error-summary/macro.jinja' import errorSummary %}
 
 {{ errorSummary({
   "titleText": "There is a problem",
@@ -104,8 +104,8 @@ Find out more about the error summary component and when to use it in the [NHS d
 ### Jinja macro
 
 ```
-{% from 'components/error-summary/macro.njk' import errorSummary %}
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/error-summary/macro.jinja' import errorSummary %}
+{% from 'components/input/macro.jinja' import input %}
 
 {{ errorSummary({
   "titleText": "There is a problem",
@@ -219,8 +219,8 @@ Find out more about the error summary component and when to use it in the [NHS d
 ### Jinja macro
 
 ```
-{% from 'components/error-summary/macro.njk' import errorSummary %}
-{% from 'components/radios/macro.njk' import radios %}
+{% from 'components/error-summary/macro.jinja' import errorSummary %}
+{% from 'components/radios/macro.jinja' import radios %}
 
 {{ errorSummary({
   "titleText": "There is a problem",

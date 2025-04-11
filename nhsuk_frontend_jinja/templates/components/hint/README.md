@@ -19,7 +19,7 @@ Find out more about the hint component and when to use it in the [NHS digital se
 ### Jinja macro
 
 ```
-{% from 'components/hint/macro.njk' import hint %}
+{% from 'components/hint/macro.jinja' import hint %}
 
 {{ hint({
   "text": "It’s on your National Insurance card, benefit letter, payslip or P60.\nFor example, ‘QQ 12 34 56 C’.\n"

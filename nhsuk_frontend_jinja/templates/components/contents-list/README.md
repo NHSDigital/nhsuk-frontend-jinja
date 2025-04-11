@@ -36,7 +36,7 @@ Find out more about the contents list component and when to use it in the [NHS d
 ### Jinja macro
 
 ```
-{% from 'components/contents-list/macro.njk' import contentsList %}
+{% from 'components/contents-list/macro.jinja' import contentsList %}
 
 {{ contentsList({
   items: [

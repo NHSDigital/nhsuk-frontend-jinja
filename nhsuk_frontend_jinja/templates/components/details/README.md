@@ -41,7 +41,7 @@ For this component to be accessible and compatible with older browsers, include 
 #### Jinja macro
 
 ```
-{% from 'components/details/macro.njk' import details %}
+{% from 'components/details/macro.jinja' import details %}
 
 {{ details({
   "text": "Where can I find my NHS number?",
@@ -123,7 +123,7 @@ Find out more about the expander component and when to use it in the [NHS digita
 #### Jinja macro
 
 ```
-{% from 'components/details/macro.njk' import details %}
+{% from 'components/details/macro.jinja' import details %}
 
 {{ details({
   "classes": "nhsuk-expander",
@@ -217,7 +217,7 @@ Find out more about the expander component and when to use it in the [NHS digita
 #### Jinja macro
 
 ```
-{% from 'components/details/macro.njk' import details %}
+{% from 'components/details/macro.jinja' import details %}
 
 <div class="nhsuk-expander-group">
   {{ details({

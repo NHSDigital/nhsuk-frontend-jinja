@@ -24,7 +24,7 @@ Find out more about the panel component and when to use it in the [NHS digital s
 ### Jinja macro
 
 ```
-{% from 'components/panel/macro.njk' import panel %}
+{% from 'components/panel/macro.jinja' import panel %}
 
 {{ panel({
   titleText: "Booking complete",

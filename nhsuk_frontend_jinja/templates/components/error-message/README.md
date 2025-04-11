@@ -20,7 +20,7 @@ Find out more about the error message component and when to use it in the [NHS d
 ### Jinja macro
 
 ```
-{% from 'components/error-message/macro.njk' import errorMessage %}
+{% from 'components/error-message/macro.jinja' import errorMessage %}
 
 {{ errorMessage({
   "text": "Error message about full name goes here"

@@ -75,7 +75,7 @@
 #### Jinja macro
 
 ```
-{% from "components/summary-list/macro.njk" import summaryList %}
+{% from "components/summary-list/macro.jinja" import summaryList %}
 
 {{ summaryList({
   rows: [
@@ -202,7 +202,7 @@
 #### Jinja macro
 
 ```
-{% from "components/summary-list/macro.njk" import summaryList %}
+{% from "components/summary-list/macro.jinja" import summaryList %}
 
 {{ summaryList({
   rows: [
@@ -293,7 +293,7 @@
 #### Jinja macro
 
 ```
-{% from "components/summary-list/macro.njk" import summaryList %}
+{% from "components/summary-list/macro.jinja" import summaryList %}
 
 {{ summaryList({
   classes: 'nhsuk-summary-list--no-border',

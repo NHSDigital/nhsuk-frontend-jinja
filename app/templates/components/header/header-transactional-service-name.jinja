@@ -1,0 +1,7 @@
+{% set title = "Header transactional with service name" %}
+{% from 'components/header/macro.jinja' import header %}
+{% extends '_templates/example.jinja' %}
+{% block main %}
+  {{ header({"transactionalService": {"name": "Find your NHS number"}, "showNav": "false", "showSearch": "false"}) 
+  }}
+{% endblock %}

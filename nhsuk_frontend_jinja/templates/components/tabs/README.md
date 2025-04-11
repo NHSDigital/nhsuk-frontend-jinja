@@ -59,7 +59,7 @@ Find out more about the tabs component and when to use it in the [NHS digital se
 ### Jinja macro
 
 ```html
-{% from 'components/tabs/macro.njk' import tabs %}
+{% from 'components/tabs/macro.jinja' import tabs %}
 
 {% set tabOneContent %}
   <h2>Tab one content</h2>

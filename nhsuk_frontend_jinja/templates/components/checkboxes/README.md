@@ -48,7 +48,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
 
 {{ checkboxes({
   "idPrefix": "nationality",
@@ -121,7 +121,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
 
 {{ checkboxes({
   "fieldset": {
@@ -189,7 +189,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
 
 {{ checkboxes({
   "name": "colours",
@@ -257,7 +257,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
 
 {{ checkboxes({
   "name": "waste",
@@ -332,7 +332,7 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
 
 {{ checkboxes({
   "name": "waste",
@@ -431,8 +431,8 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
+{% from 'components/input/macro.jinja' import input %}
 
 {% set emailHtml %}
   {{ input({
@@ -579,8 +579,8 @@ Find out more about the checkboxes component and when to use it in the [NHS digi
 #### Jinja macro
 
 ```
-{% from 'components/checkboxes/macro.njk' import checkboxes %}
-{% from 'components/input/macro.njk' import input %}
+{% from 'components/checkboxes/macro.jinja' import checkboxes %}
+{% from 'components/input/macro.jinja' import input %}
 
 {% set emailHtml %}
   {{ input({

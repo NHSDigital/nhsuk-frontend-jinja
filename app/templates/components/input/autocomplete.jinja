@@ -1,0 +1,18 @@
+{% set title = "Input with autocomplete attribute" %}
+{% from 'components/input/macro.jinja' import input %}
+{% extends '_templates/example.jinja' %}
+{% block content %}
+  <div class="nhsuk-grid-row">
+    <div class="nhsuk-grid-column-two-thirds">
+      {{ input({
+        "label": {
+          "text": "Postcode"
+        },
+        "id": "input-with-autocomplete-attribute",
+        "name": "postcode",
+        "autocomplete": "postal-code",
+        "classes": "nhsuk-input--width-5"
+      }) }}
+    </div>
+  </div>
+{% endblock %}

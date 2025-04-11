@@ -26,7 +26,7 @@
 #### Jinja macro
 
 ```
-{% from 'components/hero/macro.njk' import hero %}
+{% from 'components/hero/macro.jinja' import hero %}
 
 {{ hero({
 "heading": "We’re here for you",
@@ -63,7 +63,7 @@
 #### Jinja macro
 
 ```
-{% from 'components/hero/macro.njk' import hero %}
+{% from 'components/hero/macro.jinja' import hero %}
 
 {{ hero({
   "heading": "We’re here for you",
@@ -90,7 +90,7 @@
 #### Jinja macro
 
 ```
-{% from 'components/hero/macro.njk' import hero %}
+{% from 'components/hero/macro.jinja' import hero %}
 
 {{ hero({
   "imageURL": "https://assets.nhs.uk/prod/images/S_0818_homepage_hero_1_F0147446.width-1000.jpg"
