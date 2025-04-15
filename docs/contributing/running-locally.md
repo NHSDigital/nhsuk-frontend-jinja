@@ -54,6 +54,12 @@ Then install the python dependencies:
 poetry install
 ```
 
+Then install the pre-commit hooks:
+
+```
+poetry run pre-commit install
+```
+
 ## 4. Start a local server
 
 This will build files, serve web pages and watch for changes when you save a file.
@@ -66,4 +72,4 @@ npm start
 
 ---
 
-Next: [Application architecture](application-architecture.md)
+Next: [Gitleaks setup](gitleaks.md)
