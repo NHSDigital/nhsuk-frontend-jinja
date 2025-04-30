@@ -10,3 +10,5 @@
 8. Run `npm run test` (TODO) to check the templates generate the same HTML as `nhsuk-frontend`.
 9. Run `npm run test:visual:approve` to approve any visual changes.
 10. Create a pull request with the changes.
+
+Next: [Releasing](releasing.md)

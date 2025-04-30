@@ -20,3 +20,4 @@ If you have any questions please open a [GitHub issue](https://github.com/NHSDig
 - [Application architecture](docs/contributing/application-architecture.md)
 - [Coding standards and style guide](docs/contributing/coding-standards.md)
 - [Merging upstream changes](/docs/contributing/merging-upstream-changes.md)
+- [Releasing](/docs/contributing/releasing.md)
