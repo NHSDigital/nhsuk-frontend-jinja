@@ -9,7 +9,8 @@ NHS.UK frontend contains the code you need to start building user interfaces for
 We have not yet set up publishing to the Python Package Index (PyPI). In the meantime, you can install directly from GitHub:
 
 ```sh
-pip install git+https://github.com/NHSDigital/nhsuk-frontend-jinja.git@0.1.0
+pip install nhsuk-frontend-jinja
+```
 
 ### Compatibility
 
