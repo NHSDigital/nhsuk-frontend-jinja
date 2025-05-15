@@ -1,6 +1,7 @@
-{% set title = "Task list" %}
+{% set title = 'Task list' %}
 {% from 'components/task-list/macro.jinja' import taskList %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
@@ -65,6 +66,7 @@
           }
         ]
       }) }}
+
     </div>
   </div>
 {% endblock %}

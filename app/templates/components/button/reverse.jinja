@@ -1,16 +1,23 @@
-{% set title = "Button reverse" %}
+{% set title = 'Button reverse' %}
 {% from 'components/button/macro.jinja' import button %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block main %}
-  <section style="background-color: #005eb8;">
-    <div class="nhsuk-width-container">
-      <main class="nhsuk-main-wrapper" id="maincontent">
-        <div class="nhsuk-grid-row">
-          <div class="nhsuk-grid-column-two-thirds">
-            {{ button({"text": "Save and continue", "classes": "nhsuk-button--reverse"}) }}
-          </div>
+
+<section style="background-color: #005eb8;">
+  <div class="nhsuk-width-container">
+    <main class="nhsuk-main-wrapper" id="maincontent">
+
+      <div class="nhsuk-grid-row">
+        <div class="nhsuk-grid-column-two-thirds">
+          {{ button({
+            "text": "Log out",
+            "classes": "nhsuk-button--reverse"
+          }) }}
         </div>
-      </main>
-    </div>
-  </section>
+      </div>
+    </main>
+  </div>
+</section>
+
 {% endblock %}

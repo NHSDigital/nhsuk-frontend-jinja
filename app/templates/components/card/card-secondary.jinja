@@ -1,9 +1,11 @@
-{% set title = "Card - secondary" %}
+{% set title = 'Card - secondary' %}
 {% from 'components/card/macro.jinja' import card %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
+
       {{ card({
         "href": "#",
         "clickable": "true",
@@ -12,6 +14,7 @@
         "headingClasses": "nhsuk-heading-m",
         "description": "Services the NHS provides if you need urgent or emergency medical help"
       }) }}
+
     </div>
   </div>
 {% endblock %}

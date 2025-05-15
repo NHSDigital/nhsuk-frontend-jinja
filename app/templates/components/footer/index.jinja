@@ -1,7 +1,9 @@
-{% set title = "Footer (default)" %}
+{% set title = 'Footer (default)' %}
 {% from 'components/footer/macro.jinja' import footer %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block main %}
+
   {{ footer({
     "links": [
       {
@@ -25,5 +27,6 @@
         "label": "Terms and conditions"
       }
     ]
-  }) }}
+  })}}
+
 {% endblock %}

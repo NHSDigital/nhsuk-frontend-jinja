@@ -1,6 +1,7 @@
-{% set title = "Do and dont list" %}
+{% set title = 'Do and dont list' %}
 {% from 'components/do-dont-list/macro.jinja' import list %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
@@ -19,6 +20,7 @@
           }
         ]
       }) }}
+
       {{ list({
         "title": "Don't",
         "type": "cross",

@@ -1,6 +1,7 @@
-{% set title = "Character Count - with maxlength attribute" %}
+{% set title = 'Character Count - with maxlength attribute' %}
 {% from 'components/character-count/macro.jinja' import characterCount %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
@@ -9,7 +10,7 @@
         "id": "more-detail",
         "maxlength": 11,
         "attributes": {
-          "maxlength": 11
+            "maxlength": 11
         },
         "label": {
           "text": "Can you provide more detail?"

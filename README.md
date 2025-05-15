@@ -17,6 +17,7 @@ The following table shows the version of NHS.UK frontend jinja that you should u
 | NHS.UK frontend version | NHS.UK frontend jinja version |
 | -- | -- |
 | 9.3.0 | 0.1.0 |
+| 9.5.2 | 0.2.0 |
 
 ### Configuration
 

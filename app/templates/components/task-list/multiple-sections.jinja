@@ -1,11 +1,13 @@
-{% set title = "Task list" %}
+{% set title = 'Task list' %}
 {% from 'components/task-list/macro.jinja' import taskList %}
 {% from 'components/button/macro.jinja' import button %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
       <h1 class="nhsuk-heading-l">Service name</h1>
+
       <h2 class="nhsuk-heading-m">Check before you start</h2>
       {{ taskList({
         "idPrefix": "before-you-start",
@@ -34,7 +36,9 @@
           }
         ]
       }) }}
+
       <h2 class="nhsuk-heading-m">Prepare application</h2>
+
       {{ taskList({
         "idPrefix": "your-health",
         "items": [
@@ -96,7 +100,10 @@
           }
         ]
       }) }}
-      {{ button({"text": "Continue"}) }}
+
+      {{ button({
+        "text": "Continue"
+      }) }}
     </div>
   </div>
 {% endblock %}
