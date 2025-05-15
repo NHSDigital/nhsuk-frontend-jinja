@@ -1,3 +1,6 @@
 {% macro card(params) %}
+  {% if caller %}
+  {# noop for Jinja support #}
+  {% endif %}
   {%- include "components/card/template.jinja" -%}
 {% endmacro %}
