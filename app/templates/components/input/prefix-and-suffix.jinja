@@ -1,6 +1,7 @@
-{% set title = "Input with prefix and suffix" %}
+{% set title = 'Input with prefix and suffix' %}
 {% from 'components/input/macro.jinja' import input %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
@@ -14,6 +15,7 @@
         "prefix": "£",
         "suffix": "per item",
         "classes": "nhsuk-input--width-5"
+
       }) }}
     </div>
   </div>

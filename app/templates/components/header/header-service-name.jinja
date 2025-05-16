@@ -1,7 +1,14 @@
-{% set title = "Header with service name" %}
+{% set title = 'Header with service name' %}
 {% from 'components/header/macro.jinja' import header %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block main %}
-  {{ header({"service": {"name": "Prototype kit"}}) 
+
+  {{ header({
+      "service": {
+        "name": "Prototype kit"
+      }
+    })
   }}
+
 {% endblock %}

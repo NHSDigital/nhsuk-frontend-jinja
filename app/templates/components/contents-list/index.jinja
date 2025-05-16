@@ -1,6 +1,7 @@
-{% set title = "Contents list" %}
+{% set title = 'Contents list' %}
 {% from 'components/contents-list/macro.jinja' import contentsList %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
@@ -18,11 +19,13 @@
           {
             "href": "#",
             "text": "Getting diagnosed"
-          },
+          }
+          ,
           {
             "href": "#",
             "text": "Treatments"
-          },
+          }
+          ,
           {
             "href": "#",
             "text": "Living with AMD"

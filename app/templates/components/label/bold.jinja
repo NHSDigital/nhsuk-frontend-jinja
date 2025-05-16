@@ -1,10 +1,14 @@
-{% set title = "Label with bold text" %}
+{% set title = 'Label with bold text' %}
 {% from 'components/label/macro.jinja' import label %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
-      {{ label({"classes": "nhsuk-label--s", "text": "National Insurance number"}) }}
+      {{ label({
+        "classes": "nhsuk-label--s",
+        "text": "National Insurance number"
+      }) }}
     </div>
   </div>
 {% endblock %}

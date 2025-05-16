@@ -1,9 +1,11 @@
-{% set title = "Summary list" %}
+{% set title = 'Summary list' %}
 {% from "components/summary-list/macro.jinja" import summaryList %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
+
       {{ summaryList({
         "rows": [
           {
@@ -62,7 +64,7 @@
               "text": "Contact details"
             },
             "value": {
-              "html": "<p>07700 900457</p><p>sarah.philips@example.com</p>"
+              "html": '<p>07700 900457</p><p>sarah.philips@example.com</p>'
             },
             "actions": {
               "items": [
@@ -76,6 +78,7 @@
           }
         ]
       }) }}
+
     </div>
   </div>
 {% endblock %}

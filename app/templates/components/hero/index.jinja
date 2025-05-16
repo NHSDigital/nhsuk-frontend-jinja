@@ -1,6 +1,12 @@
-{% set title = "Hero" %}
+{% set title = 'Hero' %}
 {% from 'components/hero/macro.jinja' import hero %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block main %}
-  {{ hero({"heading": "We’re here for you", "text": "Helping you take control of your health and wellbeing."}) }}
+
+  {{ hero({
+    "heading": "We’re here for you",
+    "text": "Helping you take control of your health and wellbeing."
+  }) }}
+
 {% endblock %}

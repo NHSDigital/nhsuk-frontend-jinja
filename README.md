@@ -17,47 +17,67 @@ The following table shows the version of NHS.UK frontend jinja that you should u
 | NHS.UK frontend version | NHS.UK frontend jinja version |
 | -- | -- |
 | 9.3.0 | 0.1.0 |
+| 9.5.2 | 0.2.0 |
 
-## Usage
+### Configuration
 
-Visit the [NHS digital service manual](https://service-manual.nhs.uk/) for examples of components and guidance for when to use them.
-
-These templates require you to configure your Jinja environment to use `ChainableUndefined` and the package loader.
+Configure your Jinja environment to load templates from this package and use `ChainableUndefined`.
 
 Flask example:
 
 ```python
-from jinja2 import FileSystemLoader, PackageLoader, ChainableUndefined
+from jinja2 import FileSystemLoader, ChoiceLoader, PackageLoader, ChainableUndefined
 
 app.jinja_options = {
     "undefined": ChainableUndefined,  # This is needed to prevent jinja from throwing an error when chained parameters are undefined
     "loader": ChoiceLoader(
         [
             FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
+            PackageLoader("nhsuk_frontend_jinja", package_path="templates/components"),
+            PackageLoader("nhsuk_frontend_jinja", package_path="templates/macros"),
             PackageLoader("nhsuk_frontend_jinja"),
         ]
     ),
 }
 ```
 
-Plain Jinja example
+Plain Jinja example:
 
 ```python
-from jinja2 import FileSystemLoader, PackageLoader, ChainableUndefined
+from jinja2 import Environment, FileSystemLoader, ChoiceLoader, PackageLoader, ChainableUndefined
 
 jinja_env = Environment(
     undefined=ChainableUndefined,
-    loader=ChoiceLoader(
+    loader=ChoiceLoader([
         FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
+        PackageLoader("nhsuk_frontend_jinja", package_path="templates/components"),
+        PackageLoader("nhsuk_frontend_jinja", package_path="templates/macros"),
         PackageLoader("nhsuk_frontend_jinja"),
-    ),
+    ]),
     **options)
 ```
+
+You should then be able to extend the [default page template](https://service-manual.nhs.uk/design-system/styles/page-template):
+
+```jinja
+{% extends 'template.jinja' %}
+
+{% block pageTitle %}Example - NHS.UK Frontend{% endblock %}
+
+{% block content %}
+{% endblock %}
+```
+
+See [Page Template](https://service-manual.nhs.uk/design-system/styles/page-template) in the service manual for details of all the options.
+
+## Usage
+
+Visit the [NHS digital service manual](https://service-manual.nhs.uk/design-system) for examples of components and guidance for when to use them.
 
 All our macros take identical arguments to the Nunjucks ones, except you need to quote the parameter names.
 
 ```jinja
-{% from 'components/warning-callout/macro.jinja' import warningCallout %}
+{% from 'warning-callout/macro.jinja' import warningCallout %}
 
 {{ warningCallout({
   "heading": "Quotey McQuoteface",
@@ -65,7 +85,7 @@ All our macros take identical arguments to the Nunjucks ones, except you need to
 }) }}
 ```
 
-Note that all macro paths must be prefixed with `components/` and have the `.jinja` extension.
+Note that all macro paths use the `.jinja` extension.
 
 ## Contribute
 

@@ -1,10 +1,14 @@
-{% set title = "Button warning" %}
+{% set title = 'Button warning' %}
 {% from 'components/button/macro.jinja' import button %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
-      {{ button({"text": "Yes, delete this vaccine", "classes": "nhsuk-button--warning"}) }}
+      {{ button({
+        "text": "Yes, delete this vaccine",
+        "classes": "nhsuk-button--warning"
+      }) }}
     </div>
   </div>
 {% endblock %}

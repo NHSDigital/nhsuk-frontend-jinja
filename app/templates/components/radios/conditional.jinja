@@ -1,7 +1,8 @@
-{% set title = "Radios with conditonal content" %}
+{% set title = 'Radios with conditonal content' %}
 {% from 'components/radios/macro.jinja' import radios %}
 {% from 'components/input/macro.jinja' import input %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% set emailHtml %}
   {{ input({
     "id": "email",
@@ -12,9 +13,18 @@
     }
   }) }}
 {% endset -%}
+
 {% set phoneHtml %}
-  {{ input({"id": "phone", "name": "phone", "classes": "nhsuk-u-width-two-thirds", "label": {"text": "Phone number"}}) }}
+  {{ input({
+    "id": "phone",
+    "name": "phone",
+    "classes": "nhsuk-u-width-two-thirds",
+    "label": {
+      "text": "Phone number"
+    }
+  }) }}
 {% endset -%}
+
 {% set mobileHtml %}
   {{ input({
     "id": "mobile",
@@ -25,46 +35,47 @@
     }
   }) }}
 {% endset -%}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
       {{ radios({
-            "idPrefix": "contact",
-            "name": "contact",
-            "fieldset": {
-            "legend": {
+        "idPrefix": "contact",
+        "name": "contact",
+        "fieldset": {
+          "legend": {
             "text": "How would you prefer to be contacted?",
             "classes": "nhsuk-fieldset__legend--l",
             "isPageHeading": "true"
-            }
-            },
-            "hint": {
-            "text": "Select one option."
-            },
-            "items": [
-            {
+          }
+        },
+        "hint": {
+          "text": "Select one option."
+        },
+        "items": [
+          {
             "value": "email",
             "text": "Email",
             "conditional": {
-            "html": emailHtml
+              "html": emailHtml
             }
-            },
-            {
+          },
+          {
             "value": "phone",
             "text": "Phone",
             "conditional": {
-            "html": phoneHtml
+              "html": phoneHtml
             }
-            },
-            {
+          },
+          {
             "value": "text",
             "text": "Text message",
             "conditional": {
-            "html": mobileHtml
+              "html": mobileHtml
             }
-            }
-            ]
-            }) }}
+          }
+        ]
+      }) }}
     </div>
   </div>
 {% endblock %}

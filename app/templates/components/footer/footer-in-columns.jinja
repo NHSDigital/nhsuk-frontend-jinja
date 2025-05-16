@@ -1,7 +1,9 @@
-{% set title = "Footer (columns)" %}
+{% set title = 'Footer (columns)' %}
 {% from 'components/footer/macro.jinja' import footer %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block main %}
+
   {{ footer({
     "copyright": "© Crown copyright",
     "links": [
@@ -96,5 +98,6 @@
         "label": "Cookies"
       }
     ]
-  }) }}
+  })}}
+
 {% endblock %}

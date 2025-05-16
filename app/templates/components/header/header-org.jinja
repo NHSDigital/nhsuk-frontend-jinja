@@ -1,8 +1,10 @@
-{% set title = "Header organisational" %}
+{% set title = 'Header organisational' %}
 {% from 'components/header/macro.jinja' import header %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block main %}
-  {{ header({
+
+{{ header({
     "showNav": "true",
     "showSearch": "true",
     "organisation": {
@@ -12,26 +14,27 @@
     },
     "primaryLinks": [
       {
-        "url": "#",
-        "label": "Your hospital visit"
+        "url"  : "#",
+        "label" : "Your hospital visit"
       },
       {
-        "url": "#",
-        "label": "Wards and departments"
+        'url' : '#',
+        'label' : 'Wards and departments'
       },
       {
-        "url": "#",
-        "label": "Conditions and treatments"
+        'url'  : '#',
+        'label' : 'Conditions and treatments'
       },
       {
-        "url": "#",
-        "label": "Our people"
+        'url'  : '#',
+        'label' : 'Our people'
       },
       {
-        "url": "#",
-        "label": "Our research"
+        'url' : '#',
+        'label' : 'Our research'
       }
     ]
-  }) 
-  }}
+  })
+}}
+
 {% endblock %}

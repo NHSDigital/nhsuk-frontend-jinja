@@ -1,3 +1,6 @@
 {% macro errorSummary(params) %}
+  {% if caller %}
+  {# noop for Jinja support #}
+  {% endif %}
   {%- include 'components/error-summary/template.jinja' -%}
 {% endmacro %}

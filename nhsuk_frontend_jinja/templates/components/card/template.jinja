@@ -44,8 +44,8 @@
   {%- if params.type %}
   <div class="nhsuk-card__content">
 {%- endif %}
-{%- if params.descriptionHtml %}
-  {{ params.descriptionHtml | safe }}
+{%- if caller or params.descriptionHtml %}
+  {{ caller() if caller else params.descriptionHtml | safe }}
 {%- elif params.HTML %}
   {{ params.HTML | safe }}
 {%- elif params.description %}

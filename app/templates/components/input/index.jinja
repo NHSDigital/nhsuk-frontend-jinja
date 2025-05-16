@@ -1,10 +1,17 @@
-{% set title = "Input" %}
+{% set title = 'Input' %}
 {% from 'components/input/macro.jinja' import input %}
-{% extends '_templates/example.jinja' %}
+{% extends 'example.jinja' %}
+
 {% block content %}
   <div class="nhsuk-grid-row">
     <div class="nhsuk-grid-column-two-thirds">
-      {{ input({"label": {"text": "National Insurance number"}, "id": "input-example", "name": "test-name"}) }}
+      {{ input({
+        "label": {
+          "text": "National Insurance number"
+        },
+        "id": "input-example",
+        "name": "test-name"
+      }) }}
     </div>
   </div>
 {% endblock %}
