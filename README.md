@@ -1,5 +1,7 @@
 # NHS.UK frontend jinja templates
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=NHSDigital_nhsuk-frontend-jinja&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=NHSDigital_nhsuk-frontend-jinja)
+
 A Jinja implementation of the [NHS.UK frontend](https://github.com/nhsuk/nhsuk-frontend) components.
 
 NHS.UK frontend contains the code you need to start building user interfaces for NHS websites and services.
