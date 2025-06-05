@@ -6,6 +6,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
+    "install:playwright": "playwright install chromium --with-deps --only-shell",
+    "install:puppeteer": "puppeteer browsers install",
     "start": "PYTHONPATH=app poetry run flask --app main run --debug",
     "lint": "djlint -e jinja --lint --profile jinja nhsuk_frontend_jinja/templates",
     "test:visual": "npm run test:visual:cli -- -- test",

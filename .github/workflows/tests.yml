@@ -1,0 +1,69 @@
+name: Tests
+
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Tests
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .tool-versions
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+      - uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version-file: '.tool-versions'
+          cache: poetry
+          cache-dependency-path: ./poetry.lock
+
+      - name: Install Python dependencies
+        run: poetry install
+
+      - name: Install Node dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Setup Playwright
+        run: npm run install:playwright
+
+      - name: Run linting
+        run: npm run lint
+
+      # Remove once we can test for HTML equivalence with nhsuk-frontend
+      - name: Run visual tests
+        run: npm run test:visual --ignore-scripts
+
+      - name: Save backstop report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Backstop report
+          path: tests/backstop/
+          if-no-files-found: ignore
