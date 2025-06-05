@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.3.0 - 5 June 2025
+
+- Update to [nhsuk-frontend v9.6.1](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md#961---22-may-2025).
+
 ## 0.2.0 - 15 May 2025
 
 - Update to [nhsuk-frontend v9.5.2](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md#952---14-may-2025).
