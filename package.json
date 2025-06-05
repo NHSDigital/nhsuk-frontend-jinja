@@ -7,7 +7,6 @@
   },
   "scripts": {
     "install:playwright": "playwright install chromium --with-deps --only-shell",
-    "install:puppeteer": "puppeteer browsers install",
     "start": "PYTHONPATH=app poetry run flask --app main run --debug",
     "lint": "djlint -e jinja --lint --profile jinja nhsuk_frontend_jinja/templates",
     "test:visual": "npm run test:visual:cli -- -- test",
@@ -23,8 +22,6 @@
     "djlint": "^1.36.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "jest-environment-puppeteer": "^11.0.0",
-    "jest-puppeteer": "^11.0.0",
     "nhsuk-frontend": "^9.6.1",
     "wait-on": "^8.0.3"
   },

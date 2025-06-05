@@ -1,5 +1,3 @@
-const { executablePath } = require('puppeteer')
-
 const {
   HEADLESS,
   PORT = 5000,
@@ -62,7 +60,6 @@ module.exports = {
       '--hide-scrollbars'
     ],
     browser: 'chromium',
-    chromePath: executablePath(),
     gotoParameters: { waitUntil: 'load' },
 
     // Allow headless mode switching using `HEADLESS=false`
