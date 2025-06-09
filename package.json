@@ -16,7 +16,7 @@
     "test:visual:cli": "concurrently \"PYTHONPATH=app poetry run flask --app main run\" \"wait-on --config wait-on.config.js && backstop --config backstop.config.js {@}\" --kill-others --passthrough-arguments --success first"
   },
   "devDependencies": {
-    "nhsuk-frontend": "^9.5.2",
+    "nhsuk-frontend": "^9.6.1",
     "backstopjs": "^6.3.25",
     "concurrently": "^9.1.2",
     "djlint": "^1.36.4",
