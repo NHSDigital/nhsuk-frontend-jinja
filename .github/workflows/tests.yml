@@ -1,0 +1,76 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Check for changes
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.diff_templates.outputs.changes || 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # check out the whole history
+          fetch-depth: 0
+
+      - name: Check for changes to the template files
+        id: diff_templates
+        shell: bash
+        run: |
+          set +e
+          git diff ${{github.event.pull_request.base.sha || github.event.before }} --exit-code --quiet -- 'nhsuk_frontend_jinja'
+          [ $? -eq 0 ] && echo "changes=false" >> "${GITHUB_OUTPUT}"
+          exit 0
+
+  test:
+    name: Tests
+    runs-on: macos-latest
+    needs: check
+    if: ${{ needs.check.outputs.changes == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .tool-versions
+          cache: 'npm'
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version-file: '.tool-versions'
+          cache: poetry
+          cache-dependency-path: ./poetry.lock
+
+      - name: Install Python dependencies
+        run: poetry install
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Setup Playwright
+        run: npm run install:playwright
+
+      - name: Run linting
+        run: npm run lint
+
+      # Remove once we can test for HTML equivalence with nhsuk-frontend
+      - name: Run visual tests
+        run: npm run test:visual --ignore-scripts
+
+      - name: Save backstop report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Backstop report
+          path: tests/backstop/
+          if-no-files-found: ignore

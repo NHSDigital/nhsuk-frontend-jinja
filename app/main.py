@@ -29,16 +29,16 @@ def home():
 @app.route("/nhsuk-frontend/")
 def index():
     template_path = f"index.jinja"
-    return render_template(template_path, baseUrl="/nhsuk-frontend/", version="9.5.2")
+    return render_template(template_path, baseUrl="/nhsuk-frontend/", version="9.6.1")
 
 
 @app.route("/nhsuk-frontend/pages/<page>.html")
 def components(page):
     template_path = f"pages/{page}.jinja"
-    return render_template(template_path, baseUrl="/nhsuk-frontend/", version="9.5.2")
+    return render_template(template_path, baseUrl="/nhsuk-frontend/", version="9.6.1")
 
 
 @app.route("/nhsuk-frontend/components/<component>/<variant>.html")
 def component(component, variant):
     template_path = f"components/{component}/{variant}.jinja"
-    return render_template(template_path, baseUrl="/nhsuk-frontend/", version="9.5.2")
+    return render_template(template_path, baseUrl="/nhsuk-frontend/", version="9.6.1")
