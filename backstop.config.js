@@ -7,6 +7,7 @@ const {
 
 /**
  * Default viewport sizes
+ *
  * @type {Map<string, Viewport>}
  */
 const viewports = new Map([
@@ -88,12 +89,70 @@ module.exports = {
       url: `${BASE_URL}/components/back-link/index.html`
     },
     {
-      label: 'Back link as button',
+      clickSelector: '.nhsuk-back-link__link',
+      label: 'Back link click',
+      url: `${BASE_URL}/components/back-link/index.html`
+    },
+    {
+      hoverSelector: '.nhsuk-back-link__link',
+      label: 'Back link hover',
+      url: `${BASE_URL}/components/back-link/index.html`
+    },
+    {
+      label: 'Back link reverse',
+      url: `${BASE_URL}/components/back-link/reverse.html`
+    },
+    {
+      clickSelector: '.nhsuk-back-link__link',
+      label: 'Back link reverse click',
+      url: `${BASE_URL}/components/back-link/reverse.html`
+    },
+    {
+      hoverSelector: '.nhsuk-back-link__link',
+      label: 'Back link reverse hover',
+      url: `${BASE_URL}/components/back-link/reverse.html`
+    },
+    {
+      label: 'Back link as a button',
+      url: `${BASE_URL}/components/back-link/button.html`
+    },
+    {
+      clickSelector: '.nhsuk-back-link__link',
+      label: 'Back link as a button click',
+      url: `${BASE_URL}/components/back-link/button.html`
+    },
+    {
+      hoverSelector: '.nhsuk-back-link__link',
+      label: 'Back link as a button hover',
       url: `${BASE_URL}/components/back-link/button.html`
     },
     {
       label: 'Breadcrumb',
       url: `${BASE_URL}/components/breadcrumb/index.html`
+    },
+    {
+      clickSelector: '.nhsuk-breadcrumb a',
+      label: 'Breadcrumb click',
+      url: `${BASE_URL}/components/breadcrumb/index.html`
+    },
+    {
+      hoverSelector: '.nhsuk-breadcrumb a',
+      label: 'Breadcrumb hover',
+      url: `${BASE_URL}/components/breadcrumb/index.html`
+    },
+    {
+      label: 'Breadcrumb reverse',
+      url: `${BASE_URL}/components/breadcrumb/reverse.html`
+    },
+    {
+      clickSelector: '.nhsuk-breadcrumb a',
+      label: 'Breadcrumb reverse click',
+      url: `${BASE_URL}/components/breadcrumb/reverse.html`
+    },
+    {
+      hoverSelector: '.nhsuk-breadcrumb a',
+      label: 'Breadcrumb reverse hover',
+      url: `${BASE_URL}/components/breadcrumb/reverse.html`
     },
     {
       label: 'Button',
@@ -105,23 +164,190 @@ module.exports = {
       url: `${BASE_URL}/components/button/index.html`
     },
     {
-      label: 'Button as link',
-      url: `${BASE_URL}/components/button/link.html`
+      hoverSelector: '.nhsuk-button',
+      label: 'Button hover',
+      url: `${BASE_URL}/components/button/index.html`
     },
     {
       label: 'Button disabled',
       url: `${BASE_URL}/components/button/disabled.html`
     },
     {
+      label: 'Button as a link',
+      url: `${BASE_URL}/components/button/link.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button as a link click',
+      url: `${BASE_URL}/components/button/link.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button as a link hover',
+      url: `${BASE_URL}/components/button/link.html`
+    },
+    {
       label: 'Button secondary',
       url: `${BASE_URL}/components/button/secondary.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button secondary click',
+      url: `${BASE_URL}/components/button/secondary.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button secondary hover',
+      url: `${BASE_URL}/components/button/secondary.html`
+    },
+    {
+      label: 'Button secondary disabled',
+      url: `${BASE_URL}/components/button/secondary-disabled.html`
+    },
+    {
+      label: 'Button secondary as a link',
+      url: `${BASE_URL}/components/button/secondary-link.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button secondary as a link click',
+      url: `${BASE_URL}/components/button/secondary-link.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button secondary as a link hover',
+      url: `${BASE_URL}/components/button/secondary-link.html`
+    },
+    {
+      label: 'Button secondary, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button secondary click, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button secondary hover, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid.html`
+    },
+    {
+      label: 'Button secondary disabled, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid-disabled.html`
+    },
+    {
+      label: 'Button secondary as a link, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid-link.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button secondary as a link click, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid-link.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button secondary as a link hover, solid background',
+      url: `${BASE_URL}/components/button/secondary-solid-link.html`
     },
     {
       label: 'Button reverse',
       url: `${BASE_URL}/components/button/reverse.html`
     },
     {
-      label: 'Card, Basic',
+      clickSelector: '.nhsuk-button',
+      label: 'Button reverse click',
+      url: `${BASE_URL}/components/button/reverse.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button reverse hover',
+      url: `${BASE_URL}/components/button/reverse.html`
+    },
+    {
+      label: 'Button reverse disabled',
+      url: `${BASE_URL}/components/button/reverse-disabled.html`
+    },
+    {
+      label: 'Button reverse as a link',
+      url: `${BASE_URL}/components/button/reverse-link.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button reverse as a link click',
+      url: `${BASE_URL}/components/button/reverse-link.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button reverse as a link hover',
+      url: `${BASE_URL}/components/button/reverse-link.html`
+    },
+    {
+      label: 'Button warning',
+      url: `${BASE_URL}/components/button/warning.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button warning click',
+      url: `${BASE_URL}/components/button/warning.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button warning hover',
+      url: `${BASE_URL}/components/button/warning.html`
+    },
+    {
+      label: 'Button warning disabled',
+      url: `${BASE_URL}/components/button/warning-disabled.html`
+    },
+    {
+      label: 'Button warning as a link',
+      url: `${BASE_URL}/components/button/warning-link.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button warning as a link click',
+      url: `${BASE_URL}/components/button/warning-link.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button warning as a link hover',
+      url: `${BASE_URL}/components/button/warning-link.html`
+    },
+    {
+      label: 'Button login',
+      url: `${BASE_URL}/components/button/login.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button login click',
+      url: `${BASE_URL}/components/button/login.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button login hover',
+      url: `${BASE_URL}/components/button/login.html`
+    },
+    {
+      label: 'Button login disabled',
+      url: `${BASE_URL}/components/button/login-disabled.html`
+    },
+    {
+      label: 'Button login as a link',
+      url: `${BASE_URL}/components/button/login-link.html`
+    },
+    {
+      clickSelector: '.nhsuk-button',
+      label: 'Button login as a link click',
+      url: `${BASE_URL}/components/button/login-link.html`
+    },
+    {
+      hoverSelector: '.nhsuk-button',
+      label: 'Button login as a link hover',
+      url: `${BASE_URL}/components/button/login-link.html`
+    },
+    {
+      label: 'Card, basic',
       url: `${BASE_URL}/components/card/basic-card.html`,
       viewports: [
         viewports.get('mobile'),
@@ -130,7 +356,7 @@ module.exports = {
       ]
     },
     {
-      label: 'Card, Clickable',
+      label: 'Card, clickable',
       url: `${BASE_URL}/components/card/clickable-card.html`,
       viewports: [
         viewports.get('mobile'),
@@ -167,6 +393,42 @@ module.exports = {
       ]
     },
     {
+      label: 'Primary card (with chevron)',
+      url: `${BASE_URL}/components/card/card-primary.html`,
+      viewports: [
+        viewports.get('mobile'),
+        viewports.get('tablet'),
+        viewports.get('desktop')
+      ]
+    },
+    {
+      label: 'Primary card (with chevron and description)',
+      url: `${BASE_URL}/components/card/card-primary-with-description.html`,
+      viewports: [
+        viewports.get('mobile'),
+        viewports.get('tablet'),
+        viewports.get('desktop')
+      ]
+    },
+    {
+      label: 'Secondary card',
+      url: `${BASE_URL}/components/card/card-secondary.html`,
+      viewports: [
+        viewports.get('mobile'),
+        viewports.get('tablet'),
+        viewports.get('desktop')
+      ]
+    },
+    {
+      label: 'Top task card',
+      url: `${BASE_URL}/components/card/top-task-card.html`,
+      viewports: [
+        viewports.get('mobile'),
+        viewports.get('tablet'),
+        viewports.get('desktop')
+      ]
+    },
+    {
       label: 'Care card (Non urgent)',
       url: `${BASE_URL}/components/card/care-card-non-urgent.html`,
       viewports: [
@@ -194,16 +456,16 @@ module.exports = {
       ]
     },
     {
-      label: 'Character Count with max characters',
+      label: 'Character count with max characters',
       url: `${BASE_URL}/components/character-count/index.html`
     },
     {
-      label: 'Character Count with threshold',
+      label: 'Character count with threshold',
       url: `${BASE_URL}/components/character-count/with-threshold.html`,
       viewports: [viewports.get('tablet')]
     },
     {
-      label: 'Character Count with max words',
+      label: 'Character count with max words',
       url: `${BASE_URL}/components/character-count/with-word-count.html`,
       viewports: [viewports.get('tablet')]
     },
@@ -334,6 +596,16 @@ module.exports = {
     },
     {
       clickSelector: '.nhsuk-details__summary',
+      label: 'Expander alongside card',
+      url: `${BASE_URL}/components/details/expander-alongside-card.html`,
+      viewports: [
+        viewports.get('mobile'),
+        viewports.get('tablet'),
+        viewports.get('desktop')
+      ]
+    },
+    {
+      clickSelector: '.nhsuk-details__summary',
       label: 'Expander group',
       url: `${BASE_URL}/components/details/expander-group.html`,
       viewports: [
@@ -394,6 +666,7 @@ module.exports = {
     {
       label: 'Header (default)',
       url: `${BASE_URL}/components/header/index.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
@@ -404,6 +677,7 @@ module.exports = {
     {
       label: 'Header with navigation',
       url: `${BASE_URL}/components/header/header-navigation.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
@@ -444,6 +718,7 @@ module.exports = {
     {
       label: 'Header with service name, search, navigation',
       url: `${BASE_URL}/components/header/header-service-name-with-nav.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
@@ -464,6 +739,7 @@ module.exports = {
     {
       label: 'Header organisational',
       url: `${BASE_URL}/components/header/header-org.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
@@ -474,6 +750,7 @@ module.exports = {
     {
       label: 'Header organisational with white header',
       url: `${BASE_URL}/components/header/header-org-white.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
@@ -484,6 +761,7 @@ module.exports = {
     {
       label: 'Header organisational with white header, navigation',
       url: `${BASE_URL}/components/header/header-org-white-nav.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
@@ -495,6 +773,7 @@ module.exports = {
       clickSelector: '#toggle-menu',
       label: 'Header with navigation open',
       url: `${BASE_URL}/components/header/header-navigation.html`,
+      onReadyScript: 'playwright/onReadyResize.js',
       viewports: [viewports.get('mobile'), viewports.get('tablet')]
     },
     {
@@ -742,6 +1021,15 @@ module.exports = {
     {
       label: 'Summary list without border',
       url: `${BASE_URL}/components/summary-list/without-border.html`,
+      viewports: [
+        viewports.get('mobile'),
+        viewports.get('tablet'),
+        viewports.get('desktop')
+      ]
+    },
+    {
+      label: 'Summary list without row border',
+      url: `${BASE_URL}/components/summary-list/without-row-border.html`,
       viewports: [
         viewports.get('mobile'),
         viewports.get('tablet'),
