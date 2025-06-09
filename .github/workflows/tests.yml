@@ -68,6 +68,7 @@ jobs:
         run: npm run test:visual --ignore-scripts
 
       - name: Save backstop report
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: Backstop report
