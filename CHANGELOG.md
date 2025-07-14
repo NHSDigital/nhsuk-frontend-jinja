@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+## 0.4.0 - 14 July 2025
+
+- Update to [nhsuk-frontend v1.0.0]()
+
+### Breaking changes
+
+Rename details component `text` param to `summaryText`:
+
+```
+  {{ details({
+-   "text": "Where can I find my NHS number?",
++   "summaryText": "Where can I find my NHS number?",
+    "html": "<p>An NHS number is a 10 digit number, like 485 777 3456.</p>"
+  }) }}
+```
+
+### Fixes
+
+nhsuk-frontend-jinja templates are now tested to be HTML equivalent to the Nunjucks versions in nhsuk-frontend.
+
+This fixes `aria-describedby` not being added correctly in previous versions.
+
 ## 0.3.1 - 5 June 2025
 
 - Update to [nhsuk-frontend v9.6.2](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md#962---9-june-2025).
