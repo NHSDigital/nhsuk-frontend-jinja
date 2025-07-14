@@ -35,7 +35,7 @@
               <div>
                 <p class="nhsuk-footer__copyright">{{ copyrightText }}</p>
               </div>
-      </div> {# close nhsuk-footer #}
+      </div> {# close nhsuk-footer +#}
           {% else %}
             <ul class="nhsuk-footer__list">
               {% for item in params.links -%}
@@ -71,11 +71,11 @@
               {%- endfor %}
             </ul>
             {%- endif %}
-      </div> {# close nhsuk-footer #}
+      </div> {# close nhsuk-footer +#}
       <div>
         <p class="nhsuk-footer__copyright">{{ copyrightText }}</p>
       </div>
-      {% endif %}
-    </div> {# close nhsuk-width-container #}
-  {# djlint:off #}</div>{# djlint:on #} {# close nhsuk-footer-container #}
+      {%- endif %}
+    </div> {#+ close nhsuk-width-container +#}
+  {#+ djlint:off #}</div>{# djlint:on +#} {#+ close nhsuk-footer-container +#}
 </footer>
