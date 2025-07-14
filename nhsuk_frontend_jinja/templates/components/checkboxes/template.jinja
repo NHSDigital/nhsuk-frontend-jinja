@@ -10,7 +10,7 @@
 
 {#- a record of other elements that we need to associate with the input using
    aria-describedby – for example hints or error messages -#}
-{% set describedBy = "" %}
+{% set ns = namespace(describedBy = "") %}
 
 {#- Jinja compatability - avoid referencing params.items/params.values directly
   as it clashes with dict.items() and dict.values() -#}
@@ -23,7 +23,7 @@
 {% set innerHtml %}
 {% if params.hint %}
   {% set hintId = idPrefix ~ '-hint' %}
-  {% set describedBy = describedBy ~ ' ' ~ hintId if describedBy else hintId %}
+  {% set ns.describedBy = ns.describedBy ~ ' ' ~ hintId if ns.describedBy else hintId %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -34,7 +34,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = idPrefix ~ '-error' %}
-  {% set describedBy = describedBy ~ ' ' ~ errorId if describedBy else errorId %}
+  {% set ns.describedBy = ns.describedBy ~ ' ' ~ errorId if ns.describedBy else errorId %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,
@@ -94,7 +94,7 @@
 <div class="nhsuk-form-group {%- if params.errorMessage %} nhsuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}">
 {% if params.fieldset %}
   {% call fieldset({
-    "describedBy": describedBy,
+    "describedBy": ns.describedBy,
     "classes": params.fieldset.classes,
     "attributes": params.fieldset.attributes,
     "legend": params.fieldset.legend
