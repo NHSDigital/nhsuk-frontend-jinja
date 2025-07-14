@@ -45,7 +45,7 @@
   {%- if params.classes %} {{ params.classes }}{% endif %} {%- if isConditional %} nhsuk-radios--conditional{% endif -%}"
   {{- nhsukAttributes(params.attributes) }}>
     {%- for item in items %}
-    {%- set id = item.id if item.id else idPrefix ~ "-" ~ loop.index %}
+    {%- set id = item.id if item.id else idPrefix ~ (("-" ~ loop.index) if loop.index > 1 else "") %}
     {% set conditionalId = "conditional-" ~ id %}
     {%- if item.divider %}
     <div class="nhsuk-radios__divider">{{ item.divider }}</div>
