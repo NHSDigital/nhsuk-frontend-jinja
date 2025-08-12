@@ -44,8 +44,8 @@
   }) | indent(2) | trim }}
 {%- endif %}
   <select class="nhsuk-select
-    {%- if params.classes %} {{ params.classes }}{% endif %}
-    {%- if params.errorMessage %} nhsuk-select--error{% endif %}" id="{{ id }}" name="{{ params.name }}"
+    {%- if params.classes %} {{ params.classes }}{% endif %}{%- if params.errorMessage %} nhsuk-select--error{% endif %}" id="{{ id }}" name="{{ params.name }}"
+    {%- if params.disabled %} disabled{% endif %}
     {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
     {{- nhsukAttributes(params.attributes) }}>
   {%- for item in items %}
