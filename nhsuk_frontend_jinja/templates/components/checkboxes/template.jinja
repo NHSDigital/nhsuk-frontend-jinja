@@ -43,7 +43,7 @@
   }) | indent(2) | trim }}
 {% endif %}
   <div class="nhsuk-checkboxes {%- if params.classes %} {{ params.classes }}{% endif %} {%- if isConditional %} nhsuk-checkboxes--conditional{% endif -%}"
-    {{- nhsukAttributes(params.attributes) }}>
+    {{- nhsukAttributes(params.attributes) }} data-module="nhsuk-checkboxes">
     {% for item in items %}
     {% set id = item.id if item.id else idPrefix ~ ("-" ~ loop.index if loop.index > 1 else "") %}
     {% set name = item.name if item.name else params.name %}
