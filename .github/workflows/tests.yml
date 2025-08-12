@@ -13,7 +13,7 @@ jobs:
     outputs:
       changes: ${{ steps.diff_templates.outputs.changes || 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # check out the whole history
           fetch-depth: 0
@@ -33,7 +33,7 @@ jobs:
     needs: check
     if: ${{ needs.check.outputs.changes == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node
         uses: actions/setup-node@v4
