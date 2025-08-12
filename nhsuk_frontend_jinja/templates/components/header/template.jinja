@@ -86,7 +86,7 @@
       {%- if params.account.classes %} {{ params.account.classes }}{% endif %}" aria-label="{{ params.account.ariaLabel | default("Account") }}"
       {{- nhsukAttributes(params.account.attributes) }}>
       <ul class="nhsuk-header__account-list">
-      {% for item in params.account.items %}
+      {% for item in params.account.get('items', []) %}
         {% if item %}
         <li class="nhsuk-header__account-item {%- if item.classes %} {{ item.classes }}{% endif %}">
         {% if item.href %}
@@ -109,13 +109,14 @@
     </nav>
 {% endif %}
   </div>
-{% if params.navigation and params.navigation.items | length %}
+{% set navigationItems = params.navigation.get('items', []) if params.navigation else [] %}
+{% if navigationItems %}
   <nav class="nhsuk-header__navigation
     {%- if params.navigation.classes %} {{ params.navigation.classes }}{% endif %}" aria-label="{{ params.navigation.ariaLabel | default("Menu") }}"
     {{- nhsukAttributes(params.navigation.attributes) }}>
     <div class="nhsuk-header__navigation-container nhsuk-width-container {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
       <ul class="nhsuk-header__navigation-list">
-      {% for item in params.navigation.items %}
+      {% for item in navigationItems %}
         {% set linkInnerContent %}
           {#- Wrap active links in strong element so users who override colours
               or styles still have some indicator of the current nav item. -#}
