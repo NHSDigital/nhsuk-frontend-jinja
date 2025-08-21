@@ -12,9 +12,7 @@
 7. Run `npm run lint` to check for Nunjucks/Jinja incompatibilities, and review the [coding standards](./coding-standards.md) for other differences between Jinja and Nunjucks.
 8. [Run the app locally](./running-locally.md) to manually check the components.
 9. Run `npm run test` to check the templates generate the same HTML as `nhsuk-frontend`.
-10. Run `npm run test:visual` to visually see what's changed.
-11. Run `npm run test:visual:approve` to approve any visual changes.
-12. Update the changelog
-13. Create a pull request with the changes.
+10. Update the changelog
+11. Create a pull request with the changes.
 
 Next: [Releasing](releasing.md)
