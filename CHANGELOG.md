@@ -2,11 +2,15 @@
 
 ## Unreleased
 
-## 0.4.0 - 14 July 2025
+## 0.4.0 - 21 August 2025
 
-- Update to [nhsuk-frontend v1.0.0]()
+- Supports [nhsuk-frontend v1.0.0](https://github.com/nhsuk/nhsuk-frontend/compare/v9.6.4...v10.0.0).
+- This includes redesigns of the header and footer components.
+- See the [nhsuk-frontend changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md) for further details.
 
 ### Breaking changes
+
+#### Details component
 
 Rename details component `text` param to `summaryText`:
 
@@ -18,11 +22,135 @@ Rename details component `text` param to `summaryText`:
   }) }}
 ```
 
-### Fixes
+#### Header component
 
-nhsuk-frontend-jinja templates are now tested to be HTML equivalent to the Nunjucks versions in nhsuk-frontend.
+If you're using the `header` macro in your service, you must:
 
-This fixes `aria-describedby` not being added correctly in previous versions.
+- Rename the `transactionalService` option to the new `service` option, and remove the boolean `transactional` option.
+- Replace the `primaryLinks` option with the nested `navigation.items` option, using `text` and `href` instead of `label` and `url`.
+- Replace the `searchAction` option with the nested `search.action` option.
+- Replace the `searchInputName` option with the nested `search.name` option.
+- Remove the boolean `showNav` and `showSearch` options. The respective parts of the header are now shown automatically when `navigation.items` or `search` options are provided.
+- Check the `classes` option for `nhsuk-header--white-nav` and remove it. To turn the navigation white, add the modifier class `nhsuk-header__navigation--white` to the nested `navigation.classes` option.
+- Remove the `nhsuk-header__navigation-list--left-aligned` modifier class, navigation items are now aligned left by default.
+
+To restore the previous justified alignment, where navigation items appeared evenly spaced out, add the new `nhsuk-header__navigation--justified` modifier class to the nested `navigation.classes` option.
+
+#### Footer component
+
+If you're using the `footer` macro in your service, you must:
+
+- Replace the `links` option with the nested `navigation.items` option.
+- Replace the `metaLinks` option with the nested `meta.items` option.
+- Update all items to rename `label` to `text` and `URL` to `href`.
+
+Before:
+
+```jinja
+{% block footer %}
+  {{ footer({
+    links: [
+      {
+        label: "NHS sites",
+        URL: "https://www.nhs.uk/nhs-sites"
+      },
+      {
+        label: "About us",
+        URL: "https://www.nhs.uk/about-us"
+      },
+      {
+        label: "Give us feedback",
+        URL: "https://www.nhs.uk/give-feedback-about-the-nhs-website/"
+      }
+    ],
+    metaLinks: [
+      {
+        label: "Accessibility",
+        URL: "https://www.nhs.uk/accessibility/"
+      },
+      {
+        label: "Our policies",
+        URL: "https://www.nhs.uk/our-policies/"
+      }
+    ]
+  }) }}
+{% endblock %}
+```
+
+After:
+
+```jinja
+{% block footer %}
+  {{ footer({
+    navigation: {
+      items: [
+        {
+          text: "NHS sites",
+          href: "https://www.nhs.uk/nhs-sites"
+        },
+        {
+          text: "About us",
+          href: "https://www.nhs.uk/about-us"
+        },
+        {
+          text: "Give us feedback",
+          href: "https://www.nhs.uk/give-feedback-about-the-nhs-website/"
+        }
+      ]
+    },
+    meta: {
+      items: [
+        {
+          href: "https://www.nhs.uk/accessibility/",
+          text: "Accessibility"
+        },
+        {
+          href: "https://www.nhs.uk/our-policies/",
+          text: "Our policies"
+        }
+      ]
+    }
+  }) }}
+{% endblock %}
+```
+
+#### Error summary component
+
+If you've linked from an [error summary](https://design-system.service.gov.uk/components/error-summary/) component to the first input in a [radios](https://design-system.service.gov.uk/components/radios/) or [checkboxes](https://design-system.service.gov.uk/components/checkboxes/) component, the link may no longer work.
+
+This is because the `id` of the first checkbox or radio item no longer has the suffix `-1`.
+
+If you're using the `errorSummary` macro, remove `-1` from the end of the `href` attribute:
+
+```patch
+  {{ errorSummary({
+    titleText: "There is a problem",
+    errorList: [
+      {
+        "text": "Select how you like to be contacted",
+-       "href": "#contact-preference-1"
++       "href": "#contact-preference"
+      }
+    ]
+  }) }}
+```
+
+#### Rename component `HTML` param to `html`
+
+If you're using the `card`, `details`, `insetText` or `warningCallout` macros, you need to rename the `HTML` param to `html`:
+
+```patch
+  {{ insetText({
+-   "HTML": "<p>You'll need to stay away from school, nursery or work until all the spots have crusted over. This is usually 5 days after the spots first appeared.</p>"
++   "html": "<p>You'll need to stay away from school, nursery or work until all the spots have crusted over. This is usually 5 days after the spots first appeared.</p>"
+  }) }}
+```
+
+### Fixes and improvements
+
+- nhsuk-frontend-jinja now tests all examples from `nhsuk-frontend` to make sure the rendered HTML is the same.
+
+- `aria-describedby` is no longer missing from the rendered HTML.
 
 ## 0.3.1 - 5 June 2025
 
