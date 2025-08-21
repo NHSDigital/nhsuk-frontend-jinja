@@ -67,7 +67,7 @@
       {{ _serviceName(params.service.text, params.service.href) | indent(6) }}
     {% endif %}
     </div>
-{% if params.search %}
+{% if params.search not in [none, undefined] %}
     <search class="nhsuk-header__search">
       <form class="nhsuk-header__search-form" id="search" action="{{ searchAction }}" method="get">
         <label class="nhsuk-u-visually-hidden" for="search-field">{{ searchVisuallyHiddenLabel }}</label>
