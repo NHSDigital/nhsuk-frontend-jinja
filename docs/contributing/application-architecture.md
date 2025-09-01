@@ -22,7 +22,7 @@ The Jinja HTML templates.
 
 `tests/`
 
-Unit tests for testing compatability with `nhsuk-fronted`.
+Unit tests for testing compatibility with `nhsuk-fronted`.
 
 ---
 

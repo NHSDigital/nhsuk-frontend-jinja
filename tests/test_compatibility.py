@@ -1,5 +1,5 @@
 """
-Test HTML-compatability with NHS.UK frontend
+Test HTML-compatibility with NHS.UK frontend
 """
 
 import difflib

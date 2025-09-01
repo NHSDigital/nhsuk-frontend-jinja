@@ -4,7 +4,7 @@
 {% from "nhsuk/components/input/macro.jinja" import input %}
 {% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
 
-{#- Jinja compatability - avoid referencing params.values directly
+{#- Jinja compatibility - avoid referencing params.values directly
   as it clashes with dict.values() -#}
 {% set values = params["values"] %}
 

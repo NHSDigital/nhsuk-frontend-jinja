@@ -1,6 +1,6 @@
 {% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
 
-{#- Jinja compatability - avoid referencing params.items directly
+{#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
 {% set items = params["items"] if "items" in params else [] %}
 

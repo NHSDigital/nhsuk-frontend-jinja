@@ -12,7 +12,7 @@
    aria-describedby – for example hints or error messages -#}
 {% set ns = namespace(describedBy = "") %}
 
-{#- Jinja compatability - avoid referencing params.items/params.values directly
+{#- Jinja compatibility - avoid referencing params.items/params.values directly
   as it clashes with dict.items() and dict.values() -#}
 {% set items = params["items"] if "items" in params else [] %}
 {% set values = params["values"] if "values" in params else [] %}
