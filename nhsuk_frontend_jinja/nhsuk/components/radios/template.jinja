@@ -14,7 +14,8 @@
 
 {#- a record of other elements that we need to associate with the input using
    aria-describedby – for example hints or error messages -#}
-{% set ns = namespace(describedBy = "") %}
+{%- set ns = namespace() -%}
+{%- set ns.describedBy = params.fieldset.describedBy if params.fieldset.describedBy else "" -%}
 
 {% set isConditional = items | map(attribute="conditional", default={}) | selectattr("html") | list | length %}
 

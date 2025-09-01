@@ -11,6 +11,9 @@
 {#- a record of other elements that we need to associate with the input using
    aria-describedby – for example hints or error messages -#}
 {% set ns = namespace(describedBy = "") %}
+{%- if params.fieldset.describedBy -%}
+  {% set ns.describedBy = params.fieldset.describedBy %}
+{%- endif -%}
 
 {#- Jinja compatibility - avoid referencing params.items/params.values directly
   as it clashes with dict.items() and dict.values() -#}
