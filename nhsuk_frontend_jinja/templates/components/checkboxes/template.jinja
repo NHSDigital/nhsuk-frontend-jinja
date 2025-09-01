@@ -42,7 +42,7 @@
     "text": params.errorMessage.text
   }) | indent(2) | trim }}
 {% endif %}
-  <div class="nhsuk-checkboxes {%- if params.classes %} {{ params.classes }}{% endif %} {%- if isConditional %} nhsuk-checkboxes--conditional{% endif -%}"
+  <div {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-checkboxes {%- if params.classes %} {{ params.classes }}{% endif %} {%- if isConditional %} nhsuk-checkboxes--conditional{% endif -%}"
     {{- nhsukAttributes(params.attributes) }} data-module="nhsuk-checkboxes">
     {% for item in items %}
     {% set id = item.id if item.id else idPrefix ~ ("-" ~ loop.index if loop.index > 1 else "") %}
