@@ -8,20 +8,12 @@ from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
-from jinja2 import ChainableUndefined, ChoiceLoader, Environment, FileSystemLoader
 
 from .fixture_loader import FixtureLoader
 
 ROOT = Path(__file__).parent.parent
 
 FIXTURE_LOADER = FixtureLoader()
-
-environment = Environment(
-    undefined=ChainableUndefined,
-    loader=FileSystemLoader(ROOT / "nhsuk_frontend_jinja"),
-    trim_blocks=True,
-    lstrip_blocks=True,
-)
 
 
 def camel_case(kebab_case):
@@ -32,7 +24,7 @@ def camel_case(kebab_case):
     return parts[0] + "".join([s.title() for s in parts[1:]])
 
 
-def render(component, options, call_content):
+def render(environment, component, options, call_content):
     """
     Generate a template that renders a component, and return the rendered result
 
@@ -57,11 +49,14 @@ def render(component, options, call_content):
 
 
 @pytest.mark.parametrize("component,fixture_name", FIXTURE_LOADER.fixture_keys)
-def test_compatibility(component, fixture_name):
+def test_compatibility(environment, component, fixture_name):
     ideal = FIXTURE_LOADER.expected_html(component, fixture_name)
     options = FIXTURE_LOADER.options(component, fixture_name)
     actual = render(
-        component, options, FIXTURE_LOADER.call_content(component, fixture_name)
+        environment,
+        component,
+        options,
+        FIXTURE_LOADER.call_content(component, fixture_name),
     )
 
     # We are not currently matching the nunjucks version on whitespace, so test
