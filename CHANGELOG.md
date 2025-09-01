@@ -7,8 +7,32 @@
 - Supports [nhsuk-frontend v1.0.0](https://github.com/nhsuk/nhsuk-frontend/compare/v9.6.4...v10.0.0).
 - This includes redesigns of the header and footer components.
 - See the [nhsuk-frontend changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md) for further details.
+- Renamed the template path (see breaking changes below)
 
 ### Breaking changes
+
+#### Jinja2 environment configuration
+
+The top level template path has changed from `templates` to `nhsuk`, to more closely match `nhsuk-frontend`, and to avoid confusion
+if multiple design systems are used in the same application.
+
+In your app configuration, change any `PackageLoader` that pass a `package_path`:
+
+Before:
+
+```python
+PackageLoader("nhsuk_frontend_jinja", package_path="templates/components"),
+PackageLoader("nhsuk_frontend_jinja", package_path="templates/macros"),
+```
+
+After:
+
+```python
+PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/components"),
+PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/macros"),
+```
+
+Any imports starting with `templates/` should be changed to `nhsuk/` as well.
 
 #### Details component
 

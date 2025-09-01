@@ -1,0 +1,6 @@
+{% macro notificationBanner(params) %}
+  {% if caller %}
+  {# noop for Jinja support #}
+  {% endif %}
+  {%- include "nhsuk/components/notification-banner/template.jinja" -%}
+{% endmacro %}

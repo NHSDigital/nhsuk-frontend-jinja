@@ -18,13 +18,7 @@ FIXTURE_LOADER = FixtureLoader()
 
 environment = Environment(
     undefined=ChainableUndefined,
-    loader=ChoiceLoader(
-        [
-            FileSystemLoader(ROOT / "nhsuk_frontend_jinja" / "templates"),
-            FileSystemLoader(ROOT / "app" / "templates"),
-            FileSystemLoader(ROOT / "app" / "templates" / "_templates"),
-        ]
-    ),
+    loader=FileSystemLoader(ROOT / "nhsuk_frontend_jinja"),
     trim_blocks=True,
     lstrip_blocks=True,
 )
@@ -54,9 +48,9 @@ def render(component, options, call_content):
     options_json = json.dumps(options)
 
     if call_content:
-        template_string = f"{{% from 'components/{component}/macro.jinja' import {component_camel_case}%}}\n{{% call {component_camel_case}({options_json}) %}}{call_content}{{% endcall %}}"
+        template_string = f"{{% from 'nhsuk/components/{component}/macro.jinja' import {component_camel_case}%}}\n{{% call {component_camel_case}({options_json}) %}}{call_content}{{% endcall %}}"
     else:
-        template_string = f"{{% from 'components/{component}/macro.jinja' import {component_camel_case}%}}\n{{{{ {component_camel_case}({options_json}) }}}}"
+        template_string = f"{{% from 'nhsuk/components/{component}/macro.jinja' import {component_camel_case}%}}\n{{{{ {component_camel_case}({options_json}) }}}}"
 
     result = environment.from_string(template_string).render()
     return result
