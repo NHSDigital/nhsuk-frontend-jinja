@@ -8,7 +8,7 @@
   "scripts": {
     "install:playwright": "playwright install chromium --with-deps --only-shell",
     "start": "PYTHONPATH=app poetry run flask --app main run --debug",
-    "lint": "djlint -e jinja --lint --profile jinja nhsuk_frontend_jinja/nhsuk",
+    "lint": "djlint -e jinja --lint --profile jinja nhsuk_frontend_jinja",
     "test": "poetry run pytest",
     "test:visual": "npm run test:visual:cli -- -- test",
     "test:visual:ref": "npm run test:visual:cli -- -- reference",

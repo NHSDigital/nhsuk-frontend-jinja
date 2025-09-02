@@ -64,8 +64,8 @@ Alternatively, if you want to reference components without the 'nhsuk/components
 ChoiceLoader([
     FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
 
-    PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/components"),
-    PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/macros"),
+    PackageLoader("nhsuk_frontend_jinja", package_path="templates/nhsuk/components"),
+    PackageLoader("nhsuk_frontend_jinja", package_path="templates/nhsuk/macros"),
 
     PackageLoader("nhsuk_frontend_jinja"),
 ])
@@ -74,7 +74,7 @@ ChoiceLoader([
 You should then be able to extend the [default page template](https://service-manual.nhs.uk/design-system/styles/page-template):
 
 ```jinja
-{% extends 'template.jinja' %}
+{% extends 'nhsuk/template.jinja' %}
 
 {% block pageTitle %}Example - NHS.UK Frontend{% endblock %}
 
