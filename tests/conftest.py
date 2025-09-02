@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pytest
-from jinja2 import ChainableUndefined, ChoiceLoader, Environment, FileSystemLoader
+from jinja2 import ChainableUndefined, Environment, FileSystemLoader
 
 ROOT = Path(__file__).parent.parent
 
@@ -10,7 +10,7 @@ ROOT = Path(__file__).parent.parent
 def environment():
     return Environment(
         undefined=ChainableUndefined,
-        loader=FileSystemLoader(ROOT / "nhsuk_frontend_jinja"),
+        loader=FileSystemLoader(ROOT / "nhsuk_frontend_jinja" / "templates"),
         trim_blocks=True,
         lstrip_blocks=True,
     )

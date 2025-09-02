@@ -2,7 +2,18 @@
 
 ## Unreleased
 
-## 0.4.0 - 21 August 2025
+## 0.4.1 - 2 September 2025
+
+Reintroduced `templates/` into the templates path so as not to break Jinja conventions.
+
+Any `PackageLoader` configuration making use of the `package_path` argument should now use:
+
+```python
+PackageLoader("nhsuk_frontend_jinja", package_path="templates/nhsuk/components"),
+PackageLoader("nhsuk_frontend_jinja", package_path="templates/nhsuk/macros"),
+```
+
+## 0.4.0 - 2 September 2025
 
 - Supports [nhsuk-frontend v1.0.0](https://github.com/nhsuk/nhsuk-frontend/compare/v9.6.4...v10.0.0).
 - This includes redesigns of the header and footer components.
@@ -30,6 +41,20 @@ After:
 ```python
 PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/components"),
 PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/macros"),
+```
+
+Templates extending from the base template must now include the `nhsuk` prefix.
+
+Before:
+
+```jinja
+{% extends "template.jinja" %}
+```
+
+After:
+
+```jinja
+{% extends "nhsuk/template.jinja" %}
 ```
 
 Any imports starting with `templates/` should be changed to `nhsuk/` as well.
