@@ -22,6 +22,7 @@ The following table shows the version of NHS.UK frontend jinja that you should u
 | 9.5.2 | 0.2.0 |
 | 9.6.1 | 0.3.0 |
 | 9.6.2 | 0.3.1 |
+| 10.0.0 | 0.4.0 |
 
 ### Configuration
 
@@ -37,8 +38,6 @@ app.jinja_options = {
     "loader": ChoiceLoader(
         [
             FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
-            PackageLoader("nhsuk_frontend_jinja", package_path="templates/components"),
-            PackageLoader("nhsuk_frontend_jinja", package_path="templates/macros"),
             PackageLoader("nhsuk_frontend_jinja"),
         ]
     ),
@@ -54,11 +53,22 @@ jinja_env = Environment(
     undefined=ChainableUndefined,
     loader=ChoiceLoader([
         FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
-        PackageLoader("nhsuk_frontend_jinja", package_path="templates/components"),
-        PackageLoader("nhsuk_frontend_jinja", package_path="templates/macros"),
         PackageLoader("nhsuk_frontend_jinja"),
     ]),
     **options)
+```
+
+Alternatively, if you want to reference components without the 'nhsuk/components' or 'nhsuk/macros' prefixes, you can include additional `PackageLoaders` that specify `package_path`:
+
+```python
+ChoiceLoader([
+    FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
+
+    PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/components"),
+    PackageLoader("nhsuk_frontend_jinja", package_path="nhsuk/macros"),
+
+    PackageLoader("nhsuk_frontend_jinja"),
+])
 ```
 
 You should then be able to extend the [default page template](https://service-manual.nhs.uk/design-system/styles/page-template):
@@ -81,7 +91,7 @@ Visit the [NHS digital service manual](https://service-manual.nhs.uk/design-syst
 All our macros take identical arguments to the Nunjucks ones, except you need to quote the parameter names.
 
 ```jinja
-{% from 'warning-callout/macro.jinja' import warningCallout %}
+{% from 'nhsuk/warning-callout/macro.jinja' import warningCallout %}
 
 {{ warningCallout({
   "heading": "Quotey McQuoteface",

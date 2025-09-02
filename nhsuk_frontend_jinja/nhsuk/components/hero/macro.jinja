@@ -1,0 +1,6 @@
+{% macro hero(params) %}
+  {% if caller %}
+  {# noop for Jinja support #}
+  {% endif %}
+  {%- include 'nhsuk/components/hero/template.jinja' -%}
+{% endmacro %}

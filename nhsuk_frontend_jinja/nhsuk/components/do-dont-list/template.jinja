@@ -1,0 +1,21 @@
+{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
+{% from "nhsuk/macros/icon.jinja" import nhsukIcon %}
+
+{#- Jinja compatibility - avoid referencing params.items directly
+  as it clashes with dict.items() -#}
+{% set items = params["items"] if "items" in params else [] %}
+
+{% set headingLevel = params.headingLevel if params.headingLevel else 3 %}
+<div {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-do-dont-list
+{%- if params.classes %} {{ params.classes }}{% endif %}"
+{{- nhsukAttributes(params.attributes) }}>
+  <h{{ headingLevel }} class="nhsuk-do-dont-list__label">{{ params.title }}</h{{ headingLevel }}>
+  <ul class="nhsuk-list {% if params.type == 'tick' %}nhsuk-list--tick{% else %}nhsuk-list--cross{% endif %}" role="list">
+    {%- for data in items %}
+    <li>
+      {{ nhsukIcon("cross") if params.type == "cross" else nhsukIcon("tick") }}
+      {% if params.type == "cross" %}{% if not params.hidePrefix %}do not {% endif %}{% endif %}{{ data.item | safe }}
+    </li>
+    {%- endfor %}
+  </ul>
+</div>

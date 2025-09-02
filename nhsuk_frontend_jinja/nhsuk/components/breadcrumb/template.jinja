@@ -1,0 +1,35 @@
+{% from "nhsuk/components/back-link/macro.jinja" import backLink %}
+{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
+
+{#- Jinja compatibility - avoid referencing params.items directly
+  as it clashes with dict.items() -#}
+{% set items = params["items"] if "items" in params else [] %}
+
+<nav {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-breadcrumb{% if params.classes %} {{ params.classes }}{% endif %}" aria-label="{{ params.labelText | default("Breadcrumb") }}"
+  {{- nhsukAttributes(params.attributes) }}>
+  <ol class="nhsuk-breadcrumb__list">
+{% for item in items %}
+  {% if item.href %}
+    <li class="nhsuk-breadcrumb__list-item">
+      <a class="nhsuk-breadcrumb__link" href="{{ item.href }}" {{- nhsukAttributes(item.attributes) }}>{{ item.text }}</a>
+    </li>
+  {% endif %}
+{% endfor %}
+{% if params.href %}
+  <li class="nhsuk-breadcrumb__list-item">
+    <a class="nhsuk-breadcrumb__link" href="{{ params.href }}">{{ params.text }}</a>
+  </li>
+  {% set lastHref = params.href %}
+  {% set lastText = params.text %}
+{% else %}
+  {% set lastItem = items | last %}
+  {% set lastHref = lastItem.href %}
+  {% set lastText = lastItem.text %}
+{% endif %}
+  </ol>
+  {{ backLink({
+    "href": lastHref,
+    "html": '<span class="nhsuk-u-visually-hidden">Back to&nbsp;</span>' + lastText,
+    "attributes": lastItem.attributes
+  }) | indent(2) }}
+</nav>

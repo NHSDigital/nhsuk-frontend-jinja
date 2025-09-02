@@ -8,14 +8,6 @@ The application generates static HTML pages to preview components, with each com
 
 GitHub specific files, such templates for pull requests and issues.
 
-`app/`
-
-Jinja (HTML) files for the component example pages that you see at http://localhost:3000/nhsuk-frontend when running the application locally and on https://nhsuk.github.io/nhsuk-frontend
-
-`dist/` (Automatically generated)
-
-Automatically generated compiled files and build assets for GitHub pages, releases and python packages. Don't manually edit files in this folder as they will be deleted.
-
 `docs/`
 
 Markdown files for documentation on GitHub, such as contributing to the project, coding standards and more.
@@ -30,8 +22,7 @@ The Jinja HTML templates.
 
 `tests/`
 
-Test configuration files for our visual regression testing framework BackstopJS.
-TODO: add tests to verify identical output with upstream.
+Unit tests for testing compatibility with `nhsuk-fronted`.
 
 ---
 
