@@ -2,7 +2,7 @@
 
 1. Run `npm install nhsuk-frontend@latest`
 2. in `pyproject.toml` update the version: if a major update of nhsuk-frontend, update the major version, otherwise, update the minor version.
-3. update the [compatibility section of the readme](../README.md#Compatibility).
+3. update the [compatibility section of the readme](../../README.md#Compatibility).
 4. Check which components have changed in the last update using the ([compare view](https://github.com/nhsuk/nhsuk-frontend/compare/v9.3.0...v9.5.2)) and [changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md). Files to check:
    - *.njk files in `app/`
    - *.njk files in `src/nhsuk/components/`
