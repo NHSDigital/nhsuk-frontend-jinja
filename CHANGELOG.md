@@ -15,7 +15,7 @@ PackageLoader("nhsuk_frontend_jinja", package_path="templates/nhsuk/macros"),
 
 ## 0.4.0 - 2 September 2025
 
-- Supports [nhsuk-frontend v1.0.0](https://github.com/nhsuk/nhsuk-frontend/compare/v9.6.4...v10.0.0).
+- Supports [nhsuk-frontend v10.0.0](https://github.com/nhsuk/nhsuk-frontend/compare/v9.6.4...v10.0.0).
 - This includes redesigns of the header and footer components.
 - See the [nhsuk-frontend changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md) for further details.
 - Renamed the template path (see breaking changes below)
