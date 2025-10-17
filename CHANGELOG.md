@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Supports [nhsuk-frontend v10.1.0](https://github.com/nhsuk/nhsuk-frontend/compare/v10.0.0...v10.1.0).
+- This includes small checkboxes and radios, numbered pagination and localisation for every component.
+- See the [nhsuk-frontend changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md) for further details.
+
 ## 0.4.1 - 2 September 2025
 
 Reintroduced `templates/` into the templates path so as not to break Jinja conventions.
