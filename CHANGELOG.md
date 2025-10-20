@@ -24,7 +24,7 @@ PackageLoader("nhsuk_frontend_jinja", package_path="templates/nhsuk/macros"),
 - See the [nhsuk-frontend changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md) for further details.
 - Renamed the template path (see breaking changes below)
 
-### Breaking changes
+### :boom: **Breaking changes**
 
 #### Jinja2 environment configuration
 
@@ -199,7 +199,7 @@ If you're using the `card`, `details`, `insetText` or `warningCallout` macros, y
   }) }}
 ```
 
-### Fixes and improvements
+### :wrench: **Fixes**
 
 - nhsuk-frontend-jinja now tests all examples from `nhsuk-frontend` to make sure the rendered HTML is the same.
 
