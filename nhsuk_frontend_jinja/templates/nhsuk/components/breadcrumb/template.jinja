@@ -28,8 +28,13 @@
 {% endif %}
   </ol>
   {{ backLink({
-    "href": lastHref,
-    "html": '<span class="nhsuk-u-visually-hidden">Back to&nbsp;</span>' + lastText,
-    "attributes": lastItem.attributes
+    "id": params.backLink.id,
+    "visuallyHiddenText": params.backLink.visuallyHiddenText if params.backLink.visuallyHiddenText else "Back to",
+    "text": params.backLink.text if (params.backLink.html or params.backLink.text) else lastText,
+    "html": params.backLink.html if (params.backLink.html or params.backLink.text),
+    "href": params.backLink.href if params.backLink.href else lastHref,
+    "classes": params.backLink.classes,
+    "attributes": params.backLink.attributes if params.backLink.attributes else lastItem.attributes,
+    "element": params.backLink.element
   }) | indent(2) }}
 </nav>
