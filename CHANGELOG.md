@@ -102,28 +102,28 @@ Before:
 ```jinja
 {% block footer %}
   {{ footer({
-    links: [
+    "links": [
       {
-        label: "NHS sites",
-        URL: "https://www.nhs.uk/nhs-sites"
+        "label": "NHS sites",
+        "URL": "https://www.nhs.uk/nhs-sites"
       },
       {
-        label: "About us",
-        URL: "https://www.nhs.uk/about-us"
+        "label": "About us",
+        "URL": "https://www.nhs.uk/about-us"
       },
       {
-        label: "Give us feedback",
-        URL: "https://www.nhs.uk/give-feedback-about-the-nhs-website/"
+        "label": "Give us feedback",
+        "URL": "https://www.nhs.uk/give-feedback-about-the-nhs-website/"
       }
     ],
-    metaLinks: [
+    "metaLinks": [
       {
-        label: "Accessibility",
-        URL: "https://www.nhs.uk/accessibility/"
+        "label": "Accessibility",
+        "URL": "https://www.nhs.uk/accessibility/"
       },
       {
-        label: "Our policies",
-        URL: "https://www.nhs.uk/our-policies/"
+        "label": "Our policies",
+        "URL": "https://www.nhs.uk/our-policies/"
       }
     ]
   }) }}
@@ -135,31 +135,31 @@ After:
 ```jinja
 {% block footer %}
   {{ footer({
-    navigation: {
-      items: [
+    "navigation": {
+      "items": [
         {
-          text: "NHS sites",
-          href: "https://www.nhs.uk/nhs-sites"
+          "text": "NHS sites",
+          "href": "https://www.nhs.uk/nhs-sites"
         },
         {
-          text: "About us",
-          href: "https://www.nhs.uk/about-us"
+          "text": "About us",
+          "href": "https://www.nhs.uk/about-us"
         },
         {
-          text: "Give us feedback",
-          href: "https://www.nhs.uk/give-feedback-about-the-nhs-website/"
+          "text": "Give us feedback",
+          "href": "https://www.nhs.uk/give-feedback-about-the-nhs-website/"
         }
       ]
     },
-    meta: {
-      items: [
+    "meta": {
+      "items": [
         {
-          href: "https://www.nhs.uk/accessibility/",
-          text: "Accessibility"
+          "href": "https://www.nhs.uk/accessibility/",
+          "text": "Accessibility"
         },
         {
-          href: "https://www.nhs.uk/our-policies/",
-          text: "Our policies"
+          "href": "https://www.nhs.uk/our-policies/",
+          "text": "Our policies"
         }
       ]
     }
@@ -177,8 +177,8 @@ If you're using the `errorSummary` macro, remove `-1` from the end of the `href`
 
 ```patch
   {{ errorSummary({
-    titleText: "There is a problem",
-    errorList: [
+    "titleText": "There is a problem",
+    "errorList": [
       {
         "text": "Select how you like to be contacted",
 -       "href": "#contact-preference-1"
