@@ -19,7 +19,7 @@ To run the Jinja templates locally you'll need to:
 
 ## 2. Clone the repository
 
-You can clone the repository directly if you're a member of the [NHS.UK GitHub organisation](https://github.com/nhsuk/)
+You can clone the repository directly if you're a member of the [NHS Digital GitHub organisation](https://github.com/NHSDigital/)
 
 ```
 git clone git@github.com:NHSDigital/nhsuk-frontend-jinja.git nhsuk-frontend-jinja
