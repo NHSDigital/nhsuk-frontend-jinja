@@ -28,7 +28,7 @@ git clone git@github.com:NHSDigital/nhsuk-frontend-jinja.git nhsuk-frontend-jinj
 Otherwise you'll have to clone your own fork
 
 ```
-git clone https://github.com/[Username]/nhsuk-frontend.git nhsuk-frontend
+git clone https://github.com/[Username]/nhsuk-frontend-jinja.git nhsuk-frontend-jinja
 ```
 
 > Replace '[Username]' in the git clone command above with your own GitHub username.
@@ -39,10 +39,6 @@ We use [node package manager (npm)](https://docs.npmjs.com/getting-started/what-
 and [poetry](https://python-poetry.org/docs/) to manage python dependencies.
 
 Whilst in the project directory you will need to install the dependencies listed in `package.json`
-
-```
-cd nhsuk-frontend
-```
 
 ```
 npm install
