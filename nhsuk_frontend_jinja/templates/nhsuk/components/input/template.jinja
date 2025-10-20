@@ -27,7 +27,8 @@
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
-{% set describedBy = params.describedBy if params.describedBy else undefined -%}
+{% set ns = namespace() %}
+{% set ns.describedBy = params.describedBy if params.describedBy else undefined %}
 {%- set id = params.id if params.id else params.name -%}
 
 {%- set hasPrefix = true if prefix and (prefix.text or prefix.html) else false %}
@@ -57,7 +58,7 @@
         "optional": true
       },
       "aria-describedby": {
-        "value": describedBy,
+        "value": ns.describedBy,
         "optional": true
       },
       "autocomplete": {
@@ -99,7 +100,7 @@
   }) | trim | indent(2) }}
 {% if params.hint %}
   {% set hintId = id ~ '-hint' %}
-  {% set describedBy = describedBy ~ ' ' ~ hintId if describedBy else hintId %}
+  {% set ns.describedBy = ns.describedBy ~ ' ' ~ hintId if ns.describedBy else hintId %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -110,7 +111,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = id ~ '-error' %}
-  {% set describedBy = describedBy ~ ' ' ~ errorId if describedBy else errorId %}
+  {% set ns.describedBy = ns.describedBy ~ ' ' ~ errorId if ns.describedBy else errorId %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,

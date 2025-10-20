@@ -5,7 +5,8 @@
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
-{% set describedBy = params.describedBy if params.describedBy else "" %}
+{% set ns = namespace() %}
+{% set ns.describedBy = params.describedBy if params.describedBy else "" %}
 {%- set id = params.id if params.id else params.name -%}
 
 <div class="nhsuk-form-group {%- if params.errorMessage %} nhsuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}"
@@ -20,7 +21,7 @@
   }) | trim | indent(2) }}
 {% if params.hint %}
   {% set hintId = id ~ '-hint' %}
-  {% set describedBy = describedBy ~ ' ' ~ hintId if describedBy else hintId %}
+  {% set ns.describedBy = ns.describedBy ~ ' ' ~ hintId if ns.describedBy else hintId %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -31,7 +32,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = id ~ '-error' %}
-  {% set describedBy = describedBy ~ ' ' ~ errorId if describedBy else errorId %}
+  {% set ns.describedBy = ns.describedBy ~ ' ' ~ errorId if ns.describedBy else errorId %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,
@@ -47,7 +48,7 @@
   <textarea class="nhsuk-textarea {%- if params.errorMessage %} nhsuk-textarea--error{% endif %} {%- if params.classes %} {{ params.classes }}{% endif %}" id="{{ id }}" name="{{ params.name }}" rows="{{ params.rows | default(5, true) }}"
   {%- if (params.spellcheck == false) or (params.spellcheck == true) %} spellcheck="{{ params.spellcheck }}"{% endif %}
   {%- if params.disabled %} disabled{% endif %}
-  {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
+  {%- if ns.describedBy %} aria-describedby="{{ ns.describedBy }}"{% endif %}
   {%- if params.autocomplete %} autocomplete="{{ params.autocomplete }}"{% endif %}
   {{- nhsukAttributes(params.attributes) }}>{{ params.value }}</textarea>
 {% if params.formGroup.afterInput %}
