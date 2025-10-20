@@ -58,7 +58,7 @@ jobs:
         run: npm ci
 
       - name: Run linting
-        run: npm run lint
+        run: poetry run djlint -
 
       - name: Run unit tests
         run: poetry run pytest
