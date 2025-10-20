@@ -44,8 +44,8 @@
       "name": params.name,
       "type": params.type | default("text", true),
       "spellcheck": {
-        "value": params.spellcheck | string
-          if [true, false].includes(params.spellcheck)
+        "value": params.spellcheck | lower
+          if params.spellcheck | lower in ["true", "false"]
           else false,
         "optional": true
       },
