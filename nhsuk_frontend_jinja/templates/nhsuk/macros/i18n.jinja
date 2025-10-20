@@ -1,3 +1,5 @@
+{# Adapted from https://github.com/LandRegistry/govuk-frontend-jinja/blob/main/govuk_frontend_jinja/templates/macros/i18n.html #}
+
 {#
   Renders translated text into data attributes by translation key
 
@@ -16,6 +18,6 @@
 #}
 {% macro nhsukI18nAttributes(params) %}
   {%- if params.messages -%}
-    {% for pluralRule, message in params.messages %} data-i18n.{{ params.key }}.{{ pluralRule }}="{{ message | escape }}"{% endfor %}
+    {% for pluralRule, message in params.messages.items() %} data-i18n.{{ params.key }}.{{ pluralRule }}="{{ message | escape }}"{% endfor %}
   {% elif params.message %} data-i18n.{{ params.key }}="{{ params.message | escape }}"{% endif -%}
 {% endmacro %}
