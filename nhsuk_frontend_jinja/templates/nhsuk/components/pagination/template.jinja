@@ -1,6 +1,10 @@
 {% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
 {% from "nhsuk/macros/icon.jinja" import nhsukIcon %}
 
+{#- Jinja compatibility - avoid referencing params.items directly
+  as it clashes with dict.items() -#}
+{% set items = params["items"] if "items" in params else [] %}
+
 {%- set previous = {
   "href": params.previousUrl,
   "labelText": params.previousPage
@@ -27,11 +31,11 @@
 {%- endmacro -%}
 
 <nav {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-pagination
-  {%- if params.items | length %} nhsuk-pagination--numbered{% endif %}
+  {%- if items | length %} nhsuk-pagination--numbered{% endif %}
   {%- if params.classes %} {{ params.classes }}{% endif %}" role="navigation" aria-label="{{ params.landmarkLabel | default("Pagination", true) }}"
   {{- nhsukAttributes(params.attributes) }}>
 
-{% if previous.href and params.items | length %}
+{% if previous.href and items | length %}
   <a href="{{ previous.href }}" class="nhsuk-pagination__previous" rel="prev">
     {{ nhsukIcon("arrow-left") | trim | indent(4) }}
     <span class="nhsuk-pagination__title">
@@ -44,15 +48,15 @@
   </a>
 {% endif %}
 
-{%- if params.items | length %}
+{%- if items | length %}
   <ul class="nhsuk-pagination__list">
-  {% for item in params.items %}
+  {% for item in items %}
     {{ _pageItem(item) | indent(2) }}
   {% endfor %}
   </ul>
 {% endif %}
 
-{%- if next.href and params.items | length %}
+{%- if next.href and items | length %}
   <a href="{{ next.href }}" class="nhsuk-pagination__next" rel="next">
     <span class="nhsuk-pagination__title">
     {% if next.html or next.text %}
@@ -65,7 +69,7 @@
   </a>
 {% endif %}
 
-{% if not params.items | length %}
+{% if not items | length %}
   <ul class="nhsuk-list nhsuk-pagination__list">
   {% if previous.href %}
     <li class="nhsuk-pagination-item--previous">
