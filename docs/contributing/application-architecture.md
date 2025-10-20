@@ -1,6 +1,6 @@
 # Application architecture
 
-The application generates static HTML pages to preview components, with each component having their own page, these files can be found in `app/`. To make changes to components, you will have to edit the individual components files within `templates/`. These are usually the only 2 folders that you will need.
+The application follows instructions to [test if your HTML matches NHS.UK frontend](https://github.com/nhsuk/nhsuk-frontend/blob/main/docs/contributing/testing-your-html.md). To make changes to components, you will have to edit the individual components files within `templates/`.
 
 ---
 

@@ -10,7 +10,6 @@
 5. Update corresponding `*.jinja` files in `nhsuk_frontend_jinja/templates/nhsuk` with any changes
 6. If necessary, make sure to add `*.jinja` files for any new components, macros and templates
 7. Run `poetry run djlint -` to check for Nunjucks/Jinja incompatibilities, and review the [coding standards](./coding-standards.md) for other differences between Jinja and Nunjucks.
-8. [Run the app locally](./running-locally.md) to manually check the components.
 9. Run `poetry run pytest` to check the templates generate the same HTML as `nhsuk-frontend`.
 10. Update the changelog
 11. Create a pull request with the changes.
