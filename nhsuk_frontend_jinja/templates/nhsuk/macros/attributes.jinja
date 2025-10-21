@@ -72,7 +72,7 @@
     {% for name, value in (attributes.items() if attributes else {}.items()) %}
     {#- Detect if this is a `safe` filtered value. Just pass the value through if so. -#}
       {#- https://github.com/alphagov/govuk-frontend/issues/4937 -#}
-      {% if value is mapping and value.val not in [undefined, null] and value | length %}
+      {% if value is mapping and value.val not in [undefined, null, None] and value | length %}
         {% set value = value.val %}
       {% endif %}
 
@@ -86,7 +86,7 @@
       {% if options.optional is true and options.value is true %}
         {% set ns.attributesHtml = "{} {}".format(ns.attributesHtml, name | escape) %}
       {#- Skip optional empty attributes or output ` name="value"` pair by default -#}
-      {% elif (options.optional is true and options.value not in [undefined, null, None] and options.value is not false) or options.optional is not true %}
+      {% elif (options.optional is true and options.value not in [undefined, null, None, false]) or options.optional is not true %}
         {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, options.value | escape) %}
       {% endif %}
     {% endfor %}
