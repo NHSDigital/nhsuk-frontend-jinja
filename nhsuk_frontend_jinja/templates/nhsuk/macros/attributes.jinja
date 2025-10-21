@@ -83,10 +83,10 @@
       } %}
 
       {#- Output ` name` only (no value) for boolean attributes -#}
-      {% if options.optional is true and options.value is true %}
+      {% if options.optional is equalto(true) and options.value is equalto(true) %}
         {% set ns.attributesHtml = "{} {}".format(ns.attributesHtml, name | escape) %}
       {#- Skip optional empty attributes or output ` name="value"` pair by default -#}
-      {% elif (options.optional is true and options.value not in [undefined, null, None, false]) or options.optional is not true %}
+      {% elif (options.optional is equalto(true) and options.value not in [undefined, null, None, false]) or options.optional is not equalto(true) %}
         {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, options.value | escape) %}
       {% endif %}
     {% endfor %}
