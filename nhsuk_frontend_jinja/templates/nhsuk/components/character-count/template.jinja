@@ -25,7 +25,8 @@
 {% endif -%}
 {% endset -%}
 
-{%- set attributesHtml %}
+{%- set ns = namespace() %}
+{%- set ns.attributesHtml %}
   {{- nhsukAttributes({
     "data-module": "nhsuk-character-count",
     "data-maxlength": {
@@ -87,8 +88,8 @@
 {% endset -%}
 
 {#- Append form group attributes onto attributes set above #}
-{%- for name, value in params.formGroup.attributes %}
-  {% set attributesHtml = attributesHtml ~ " " ~ name | escape ~ '="' ~ value | escape ~ '"' %}
+{%- for name, value in (params.formGroup.attributes.items() if params.formGroup.attributes else {}.items()) %}
+  {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, value | escape) %}
 {% endfor -%}
 
 {{ textarea({
@@ -100,7 +101,7 @@
   "value": params.value,
   "formGroup": {
     "classes": 'nhsuk-character-count' ~ (' ' ~ params.formGroup.classes if params.formGroup.classes),
-    "attributes": attributesHtml,
+    "attributes": ns.attributesHtml,
     "beforeInput": params.formGroup.beforeInput,
     "afterInput": {
       "html": countMessageHtml
