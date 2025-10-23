@@ -1,32 +1,12 @@
 {
   "name": "nhsuk-frontend-jinja",
-  "version": "0.0.1",
+  "private": true,
   "description": "A port of NHS.UK frontend templates for the Jinja templating engine.",
+  "license": "MIT",
   "engines": {
     "node": ">=20.0.0"
   },
-  "scripts": {
-    "install:playwright": "playwright install chromium --with-deps --only-shell",
-    "start": "PYTHONPATH=app poetry run flask --app main run --debug",
-    "lint": "djlint -e jinja --lint --profile jinja nhsuk_frontend_jinja",
-    "test": "poetry run pytest",
-    "test:visual": "npm run test:visual:cli -- -- test",
-    "test:visual:ref": "npm run test:visual:cli -- -- reference",
-    "test:visual:interactive": "backstop --config backstop.config.js remote",
-    "test:visual:approve": "backstop --config backstop.config.js approve",
-    "test:visual:clean": "rm -rf tests/backstop/bitmaps_test/*",
-    "test:visual:cli": "concurrently \"PYTHONPATH=app poetry run flask --app main run\" \"wait-on --config wait-on.config.js && backstop --config backstop.config.js {@}\" --kill-others --passthrough-arguments --success first"
-  },
   "devDependencies": {
-    "backstopjs": "^6.3.25",
-    "concurrently": "^9.1.2",
-    "djlint": "^1.36.4",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "nhsuk-frontend": "^10.1.0",
-    "playwright-core": "^1.52.0",
-    "strip-ansi": "^7.1.0",
-    "wait-on": "^8.0.3"
-  },
-  "license": "MIT"
+    "nhsuk-frontend": "^10.1.0"
+  }
 }

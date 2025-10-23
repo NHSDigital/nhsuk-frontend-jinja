@@ -12,10 +12,17 @@ dependencies = ["jinja2 (>=3.1.6,<4.0.0)"]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.djlint]
+extension = "jinja"
+profile = "jinja"
+files = ["."]
+use_gitignore = true
+
 [tool.poetry.group.dev.dependencies]
 flask = "^3.1.1"
 pytest = "^8.4.2"
 beautifulsoup4 = "^4.13.4"
+djlint = "^1.36.4"
 
 [tool.poetry]
 include = ["nhsuk_frontend_jinja/templates"]

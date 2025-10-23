@@ -1,8 +1,8 @@
-# Running the application locally
+# Testing
 
 ## Requirements
 
-To run the Jinja templates locally you'll need to:
+To test the Jinja templates locally you'll need to:
 
 - [set up git](https://help.github.com/articles/set-up-git/)
 - [install Node.js](https://nodejs.org/en/)
@@ -50,12 +50,10 @@ Then install the python dependencies:
 poetry install
 ```
 
-## 4. Start a local server
-
-This will build files, serve web pages and watch for changes when you save a file.
+## 4. Run the tests
 
 ```
-npm start
+poetry run pytest
 ```
 
 > The application will be available at [http://localhost:3000/nhsuk-frontend](http://localhost:3000/nhsuk-frontend).

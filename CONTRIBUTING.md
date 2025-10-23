@@ -14,9 +14,9 @@ If you have any questions please open a [GitHub issue](https://github.com/NHSDig
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 - [Report a bug or issue](https://github.com/NHSDigital/nhsuk-frontend-jinja/issues/new)
 
-### Contributors
+### Documentation
 
-- [Running the application locally](docs/contributing/running-locally.md)
+- [Testing](docs/contributing/testing.md)
 - [Application architecture](docs/contributing/application-architecture.md)
 - [Coding standards and style guide](docs/contributing/coding-standards.md)
 - [Merging upstream changes](/docs/contributing/merging-upstream-changes.md)
