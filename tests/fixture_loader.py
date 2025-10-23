@@ -7,13 +7,9 @@ COMPONENTS_DIR = (
 )
 
 
-INSET_TEXT_DEFAULT = """<p>
-     You can report any suspected side effects to the
-     <a href="https://yellowcard.mhra.gov.uk/" title="External website">
-      UK safety scheme
-     </a>
-     .
-    </p>"""
+INSET_TEXT_DEFAULT = """
+     <p>You can report any suspected side effect using the <a href="#">Yellow Card safety scheme</a>.</p>
+    """
 
 CARD_DEFAULT = """
      <p class="nhsuk-card__description">
@@ -51,19 +47,24 @@ CARD_CUSTOM_HTML = """
 
 CARD_RED_AND_BLACK = """
      <ul>
-      <li>
-       spreads to your arms, back, neck or jaw
-      </li>
-      <li>
-       makes your chest feel tight or heavy
-      </li>
-      <li>
-       also started with shortness of breath, sweating and feeling or being sick
-      </li>
+      <li>spreads to your arms, back, neck or jaw</li>
+      <li>makes your chest feel tight or heavy</li>
+      <li>also started with shortness of breath, sweating and feeling or being sick</li>
      </ul>
-     <p>
-       You could be having a heart attack. Call 999 immediately as you need immediate treatment in hospital.
-     </p>
+     <p>You could be having a heart attack. Call 999 immediately as you need immediate treatment in hospital.</p>
+    """
+
+CARD_RED_AND_BLACK_ACTION_LINK = """
+     <ul>
+      <li>you're coughing up more than just a few spots or streaks of blood – this could be a sign of serious bleeding in your lungs</li>
+      <li>you have severe difficulty breathing – you're gasping, choking or not able to get words out</li>
+     </ul>
+     <a class="nhsuk-action-link nhsuk-action-link--reverse" href="#">
+      <svg class="nhsuk-icon nhsuk-icon--arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
+       <path d="M12 2a10 10 0 0 0-10 9h11.7l-4-4a1 1 0 0 1 1.5-1.4l5.6 5.7a1 1 0 0 1 0 1.4l-5.6 5.7a1 1 0 0 1-1.5 0 1 1 0 0 1 0-1.4l4-4H2A10 10 0 1 0 12 2z"/>
+      </svg>
+      <span class="nhsuk-action-link__text">Find your nearest A&amp;E</span>
+     </a>
     """
 
 CARD_NON_URGENT = """
@@ -114,7 +115,7 @@ DETAILS_DEFAULT = """
       An NHS number is a 10 digit number, like 485 777 3456.
      </p>
      <p>
-      You can find your NHS number on any document sent to you by the NHS. This may include:
+      You can find your NHS number by logging in to a GP online service or on any document the NHS has sent you, such as your:
      </p>
      <ul>
       <li>
@@ -129,12 +130,9 @@ DETAILS_DEFAULT = """
       <li>
        appointment letters
       </li>
-      <li>
-       your NHS medical card
-      </li>
      </ul>
      <p>
-      Ask your GP practice for help if you can't find your NHS number.
+      Ask your GP surgery for help if you can't find your NHS number.
      </p>
     """
 
@@ -221,7 +219,7 @@ FIELDSET_INPUTS = """
     </div>
     <div class="nhsuk-form-group">
      <label class="nhsuk-label" for="address-line2">
-      Address line 2
+      Address line 2 (optional)
      </label>
      <input autocomplete="address-line2" class="nhsuk-input" id="address-line2" name="address-line2" type="text"/>
     </div>
@@ -230,12 +228,6 @@ FIELDSET_INPUTS = """
       Town or city
      </label>
      <input autocomplete="address-level2" class="nhsuk-input nhsuk-u-width-two-thirds" id="address-town" name="address-town" type="text"/>
-    </div>
-    <div class="nhsuk-form-group">
-     <label class="nhsuk-label" for="address-county">
-      County (optional)
-     </label>
-     <input class="nhsuk-input nhsuk-u-width-two-thirds" id="address-county" name="address-county" type="text"/>
     </div>
     <div class="nhsuk-form-group">
      <label class="nhsuk-label" for="address-postcode">
@@ -251,13 +243,14 @@ FIXTURE_CALL_CONTENT = {
     ("card", "default"): CARD_DEFAULT,
     ("card", "basic with custom HTML"): CARD_CUSTOM_HTML,
     ("card", "emergency (red and black)"): CARD_RED_AND_BLACK,
+    ("card", "emergency (red and black) with action link"): CARD_RED_AND_BLACK_ACTION_LINK,
     ("card", "non-urgent (blue)"): CARD_NON_URGENT,
     ("card", "urgent (red)"): CARD_URGENT,
     ("details", "default"): DETAILS_DEFAULT,
     ("details", "open"): DETAILS_DEFAULT,
     ("details", "expander"): DETAILS_EXPANDER,
     ("details", "expander open"): DETAILS_EXPANDER,
-    ("fieldset", "with inputs"): FIELDSET_INPUTS,
+    ("fieldset", "default"): FIELDSET_INPUTS,
 }
 
 

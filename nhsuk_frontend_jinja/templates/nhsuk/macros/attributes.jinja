@@ -3,9 +3,9 @@
 {#
   Renders component attributes as string
 
-  * By default or using `'optional': false`, attributes render as ` name="value"`
-  * Using `'optional': true`, attributes with empty (`null`, `undefined` or `false`) values are omitted
-  * Using `'optional': true`, attributes with `true` (boolean) values render `name` only without value
+  * By default or using `"optional": false`, attributes render as ` name="value"`
+  * Using `"optional": true`, attributes with empty (`null`, `undefined` or `false`) values are omitted
+  * Using `"optional": true`, attributes with `true` (boolean) values render `name` only without value
 
   {@link https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML}
 
@@ -41,9 +41,9 @@
 
   ```njk
   nhsukAttributes({
-    hidden: {
-      'value': true,
-      'optional': true
+    "hidden": {
+      "value": true,
+      "optional": true
     },
   })
   ```
@@ -53,41 +53,53 @@
 
   ```njk
   nhsukAttributes({
-    hidden: {
-      'value': undefined,
-      'optional': true
+    "hidden": {
+      "value": undefined,
+      "optional": true
     },
   })
   ```
 
   @private
-  @param {{ [attribute: string]: string | { 'value': string, optional?: boolean } } | string} attributes - Component attributes param
+  @param {{ [attribute: string]: string | { "value": string, optional?: boolean } } | string} attributes - Component attributes param
 #}
 {% macro nhsukAttributes(attributes) -%}
-  {#- Default attributes output -#}
+  {#- Default attributes output as string -#}
   {% set ns = namespace(attributesHtml = attributes if attributes is string else "") %}
 
   {#- Append attribute name/value pairs -#}
   {%- if attributes is mapping %}
-    {% for name, value in (attributes.items() if attributes else {}.items()) %}
-    {#- Detect if this is a `safe` filtered value. Just pass the value through if so. -#}
-      {#- https://github.com/alphagov/govuk-frontend/issues/4937 -#}
-      {% if value is mapping and value.val not in [undefined, null] and value | length %}
-        {% set value = value.val %}
-      {% endif %}
-
+    {% for name, item in (attributes.items() if attributes else {}.items()) %}
       {#- Set default attribute options -#}
-      {% set options = value if value is mapping else {
-        'value': value if value is string else value | lower,
-        'optional': false
+      {% set options = item if item is mapping else {
+        "value": item,
+        "optional": false
       } %}
 
+      {#- Remove values when not provided -#}
+      {%- if options.value is undefined or options.value is none %}
+        {% set value = none %}
+        {% set valueEscaped = "" %}
+
+      {#- Extract unescaped value when `safe` filtered -#}
+      {#- https://github.com/alphagov/govuk-frontend/issues/4937 -#}
+      {%- elif options.value is escaped %}
+        {% set value = options.value.val %}
+        {% set valueEscaped = options.value %}
+
+      {#- Otherwise assume escaping is necessary -#}
+      {#- https://github.com/alphagov/govuk-frontend/issues/4940 -#}
+      {%- else %}
+        {% set value = options.value %}
+        {% set valueEscaped = options.value | escape %}
+      {% endif %}
+
       {#- Output ` name` only (no value) for boolean attributes -#}
-      {% if options.optional is true and options.value is true %}
-        {% set ns.attributesHtml = '{} {}'.format(ns.attributesHtml, name | escape) %}
+      {% if options.optional is true and value is true %}
+        {% set ns.attributesHtml = "{} {}".format(ns.attributesHtml, name | escape) %}
       {#- Skip optional empty attributes or output ` name="value"` pair by default -#}
-      {% elif (options.optional is true and options.value not in [undefined, null, None] and options.value is not false) or options.optional is not true %}
-        {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, options.value | escape) %}
+      {% elif (options.optional is true and value not in [none, false]) or options.optional is not true %}
+        {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, value | lower if value is boolean else valueEscaped) %}
       {% endif %}
     {% endfor %}
   {% endif -%}
