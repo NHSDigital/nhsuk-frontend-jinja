@@ -64,30 +64,42 @@
   @param {{ [attribute: string]: string | { "value": string, optional?: boolean } } | string} attributes - Component attributes param
 #}
 {% macro nhsukAttributes(attributes) -%}
-  {#- Default attributes output -#}
+  {#- Default attributes output as string -#}
   {% set ns = namespace(attributesHtml = attributes if attributes is string else "") %}
 
   {#- Append attribute name/value pairs -#}
   {%- if attributes is mapping %}
-    {% for name, value in (attributes.items() if attributes else {}.items()) %}
-    {#- Detect if this is a `safe` filtered value. Just pass the value through if so. -#}
-      {#- https://github.com/alphagov/govuk-frontend/issues/4937 -#}
-      {% if value is mapping and value.val not in [undefined, null, None] and value | length %}
-        {% set value = value.val %}
-      {% endif %}
-
+    {% for name, item in (attributes.items() if attributes else {}.items()) %}
       {#- Set default attribute options -#}
-      {% set options = value if value is mapping else {
-        "value": value if value is string else value | lower,
+      {% set options = item if item is mapping else {
+        "value": item,
         "optional": false
       } %}
 
+      {#- Remove values when not provided -#}
+      {%- if options.value is undefined or options.value is none %}
+        {% set value = none %}
+        {% set valueEscaped = "" %}
+
+      {#- Extract unescaped value when `safe` filtered -#}
+      {#- https://github.com/alphagov/govuk-frontend/issues/4937 -#}
+      {%- elif options.value is escaped %}
+        {% set value = options.value.val %}
+        {% set valueEscaped = options.value %}
+
+      {#- Otherwise assume escaping is necessary -#}
+      {#- https://github.com/alphagov/govuk-frontend/issues/4940 -#}
+      {%- else %}
+        {% set value = options.value %}
+        {% set valueEscaped = options.value | escape %}
+      {% endif %}
+
       {#- Output ` name` only (no value) for boolean attributes -#}
-      {% if options.optional is sameas(true) and options.value is sameas(true) %}
+      {% if options.optional is true and value is true %}
         {% set ns.attributesHtml = "{} {}".format(ns.attributesHtml, name | escape) %}
       {#- Skip optional empty attributes or output ` name="value"` pair by default -#}
-      {% elif (options.optional is sameas(true) and options.value not in [undefined, null, None, false]) or options.optional is not sameas(true) %}
-        {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, options.value | escape) %}
+      {% elif (options.optional is true and value not in [none, false]) or options.optional is not true %}
+        {% set ns.attributesHtml = '{} {}="{}"'.format(ns.attributesHtml, name | escape, value | lower if value is boolean else valueEscaped) %}
       {% endif %}
     {% endfor %}
   {% endif -%}
