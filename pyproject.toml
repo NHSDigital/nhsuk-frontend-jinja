@@ -17,6 +17,7 @@ extension = "jinja"
 profile = "jinja"
 files = ["."]
 use_gitignore = true
+ignore = "T003,T028,H006,H030,H031"
 
 [tool.poetry.group.dev.dependencies]
 flask = "^3.1.1"
