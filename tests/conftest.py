@@ -13,4 +13,5 @@ def environment():
         loader=FileSystemLoader(ROOT / "nhsuk_frontend_jinja" / "templates"),
         trim_blocks=True,
         lstrip_blocks=True,
+        autoescape=True,
     )
