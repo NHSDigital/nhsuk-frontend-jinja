@@ -4,7 +4,8 @@
   "description": "A port of NHS.UK frontend templates for the Jinja templating engine.",
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": "^24.11.0",
+    "npm": "^11.6.1"
   },
   "devDependencies": {
     "nhsuk-frontend": "^10.1.0"
