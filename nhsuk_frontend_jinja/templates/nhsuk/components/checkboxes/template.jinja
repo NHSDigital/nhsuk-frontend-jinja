@@ -38,8 +38,9 @@
     {% set itemHintId = itemId ~ "-item-hint" if hasHint else "" %}
     {% set itemDescribedBy = ns.describedBy if not hasFieldset else "" %}
     {% set itemDescribedBy = (itemDescribedBy ~ " " ~ itemHintId) | trim %}
+    {% set itemClasses = "nhsuk-checkboxes__input" ~ (" " ~ item.classes if item.classes) %}
     <div class="nhsuk-checkboxes__item">
-      <input class="nhsuk-checkboxes__input" id="{{ itemId }}" name="{{ itemName }}" type="checkbox" value="{{ item.value }}"
+      <input class="{{ itemClasses }}" id="{{ itemId }}" name="{{ itemName }}" type="checkbox" value="{{ item.value }}"
         {{- " checked" if isChecked }}
         {{- " disabled" if item.disabled }}
         {%- if item.exclusive %} data-checkbox-exclusive{% endif -%}
@@ -50,14 +51,15 @@
       {{ label({
         "html": item.html,
         "text": item.text,
-        "classes": 'nhsuk-checkboxes__label' ~ (' ' ~ item.label.classes if item.label.classes),
+        "classes": "nhsuk-checkboxes__label" ~ (" " ~ item.label.classes if item.label.classes),
+        "size": item.label.size,
         "attributes": item.label.attributes,
         "for": itemId
       }) | trim | indent(6) }}
       {% if hasHint %}
       {{ hint({
         "id": itemHintId,
-        "classes": 'nhsuk-checkboxes__hint' ~ (' ' ~ item.hint.classes if item.hint.classes),
+        "classes": "nhsuk-checkboxes__hint" ~ (" " ~ item.hint.classes if item.hint.classes),
         "attributes": item.hint.attributes,
         "html": item.hint.html,
         "text": item.hint.text
@@ -75,8 +77,8 @@
 {#- Capture the HTML so we can optionally nest it in a fieldset -#}
 {% set innerHtml %}
 {% if params.hint %}
-  {% set hintId = idPrefix ~ '-hint' %}
-  {% set ns.describedBy = ns.describedBy ~ ' ' ~ hintId if ns.describedBy else hintId %}
+  {% set hintId = idPrefix ~ "-hint" %}
+  {% set ns.describedBy = ns.describedBy ~ " " ~ hintId if ns.describedBy else hintId %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -86,8 +88,8 @@
   }) | trim | indent(2) }}
 {% endif %}
 {% if params.errorMessage %}
-  {% set errorId = idPrefix ~ '-error' %}
-  {% set ns.describedBy = ns.describedBy ~ ' ' ~ errorId if ns.describedBy else errorId %}
+  {% set errorId = idPrefix ~ "-error" %}
+  {% set ns.describedBy = ns.describedBy ~ " " ~ errorId if ns.describedBy else errorId %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,
