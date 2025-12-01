@@ -1,6 +1,135 @@
 # NHS.UK frontend jinja changelog
 
-## Unreleased
+## 0.6.0
+
+- Supports [nhsuk-frontend v10.2.0](https://github.com/nhsuk/nhsuk-frontend/compare/v10.1.0...v10.2.0).
+- See the [nhsuk-frontend changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md) for further details.
+
+### :new: **New features**
+
+#### Use the password input component to help users accessibly enter passwords
+
+The [password input component](https://service-manual.nhs.uk/design-system/components/password-input) allows users to choose:
+
+- whether their passwords are visible or not
+- to enter their passwords in plain text
+
+This helps users use longer and more complex passwords without needing to remember what they've already typed.
+
+#### Smaller versions of buttons
+
+You can now use smaller versions of [buttons](https://service-manual.nhs.uk/design-system/components/buttons) by adding the `nhsuk-button--small` class.
+
+#### Add inline buttons to text inputs and select menus
+
+You can now add inline buttons to text inputs and select menus using the `formGroup.afterInput` options.
+
+```jinja
+{{ input({
+  formGroup: {
+    afterInput: {
+      html: button({
+        text: "Search",
+        classes: "nhsuk-button--small"
+      })
+    }
+  }
+}) }}
+```
+
+#### Updated macro options for nested items
+
+For consistency with other components with nested items, we’ve added new macro options:
+
+- Action link and skip link `html` option
+- Checkboxes and radios item `classes` option
+- Contents list item `html`, `classes` and `attributes` options
+- Summary list action item `classes` and `attributes` options
+
+#### Add a modifier class for text input styles that accept codes and sequences
+
+We've added a new `.nhsuk-input--code` class for the [text input](https://service-manual.nhs.uk/design-system/components/text-input) component. This improves readability of text inputs that receive codes and sequences (like NHS numbers, security codes or booking references).
+
+You can add it through the classes option to the macro.
+
+#### Add a 'divider' option to selects
+
+Newer browsers support [using `<hr>` (horizontal rule) elements inside a `<select>` element](https://developer.chrome.com/blog/hr-in-select/) to help visually break up options for better readability.
+
+We've added a new `divider` option on select items to support this feature. For example:
+
+```jinja
+{{ select({
+  "label": {
+    "text": "Sort by"
+  },
+  "name": 'sort',
+  "items": [
+    {
+      "value": "first-name-ascending",
+      "text": "First name (A to Z)"
+    },
+    {
+      "value": "first-name-descending",
+      "text": "First name (Z to A)"
+    },
+    {
+      "divider": true
+    },
+    {
+      "value": "last-name-ascending",
+      "text": "Last name (A to Z)"
+    },
+    {
+      "value": "last-name-descending",
+      "text": "Last name (Z to A)"
+    }
+  ]
+}
+}) }}
+```
+
+#### Add a 'size' option to labels and legends
+
+We've added a new `size` option to labels and legends as a simpler alternative to the size modifier classes. For example:
+
+```patch
+  {{ input({
+    label: {
+      "text": 'What is your full name?',
+-     "classes": "nhsuk-label--l"
++     "size": "l"
+    }
+  }) }}
+```
+
+```patch
+  {{ radios({
+    "fieldset": {
+      "legend": {
+        "text": "How do you want to be contacted about this?",
+-       "classes": "nhsuk-fieldset__legend--l"
++       "size": "l"
+      }
+    },
+    "items": []
+  }}
+```
+
+#### Add a 'captionSize' option to tables
+
+We've added a new `captionSize` option to tables as a simpler alternative to the caption modifier classes. For example:
+
+```patch
+  {{ table({
+    "caption": "Skin symptoms and possible causes",
+-   "captionClasses": "nhsuk-table__caption--l",
++   "captionSize": "l",
+    "rows": []
+  }) }}
+```
+
+## 0.5.0
 
 - Supports [nhsuk-frontend v10.1.0](https://github.com/nhsuk/nhsuk-frontend/compare/v10.0.0...v10.1.0).
 - This includes small checkboxes and radios, numbered pagination and localisation for every component.
@@ -64,7 +193,7 @@ Visit the [design system in the NHS digital service manual](https://service-manu
 
 You can now insert custom HTML into form group wrappers for all components with form fields.
 
-```njk
+```jinja
 {{ input({
   "formGroup": {
     "beforeInput": {
@@ -83,7 +212,7 @@ The pagination component now supports numbered pagination, for example where you
 
 You can use it like this:
 
-```njk
+```jinja
 pagination({
   "previous": {
     "href": "#"
