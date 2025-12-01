@@ -45,7 +45,7 @@
       "type": params.type | default("text", true),
       "spellcheck": {
         "value": params.spellcheck | lower
-          if params.spellcheck | lower in ["true", "false"]
+          if params.spellcheck in [true, false]
           else false,
         "optional": true
       },
@@ -94,13 +94,14 @@
     "html": params.label.html,
     "text": params.label.text,
     "classes": params.label.classes,
+    "size": params.label.size,
     "isPageHeading": params.label.isPageHeading,
     "attributes": params.label.attributes,
     "for": id
   }) | trim | indent(2) }}
 {% if params.hint %}
-  {% set hintId = id ~ '-hint' %}
-  {% set ns.describedBy = ns.describedBy ~ ' ' ~ hintId if ns.describedBy else hintId %}
+  {% set hintId = id ~ "-hint" %}
+  {% set ns.describedBy = ns.describedBy ~ " " ~ hintId if ns.describedBy else hintId %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -110,8 +111,8 @@
   }) | trim | indent(2) }}
 {% endif %}
 {% if params.errorMessage %}
-  {% set errorId = id ~ '-error' %}
-  {% set ns.describedBy = ns.describedBy ~ ' ' ~ errorId if ns.describedBy else errorId %}
+  {% set errorId = id ~ "-error" %}
+  {% set ns.describedBy = ns.describedBy ~ " " ~ errorId if ns.describedBy else errorId %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,
@@ -123,7 +124,7 @@
 {% endif %}
 
 {%- if hasPrefix or hasSuffix or hasBeforeInput or hasAfterInput %}
-  <div class="nhsuk-input__wrapper {%- if params.inputWrapper.classes %} {{ params.inputWrapper.classes }}{% endif %}"
+  <div class="nhsuk-input-wrapper {%- if params.inputWrapper.classes %} {{ params.inputWrapper.classes }}{% endif %}"
     {{- nhsukAttributes(params.inputWrapper.attributes) }}>
     {% if hasBeforeInput %}
       {{- params.formGroup.beforeInput.html | safe | trim | indent(4, true) if params.formGroup.beforeInput.html else params.formGroup.beforeInput.text }}
