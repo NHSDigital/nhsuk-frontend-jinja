@@ -112,10 +112,10 @@ CARD_URGENT = """
 
 DETAILS_DEFAULT = """
      <p>
-      An NHS number is a 10 digit number, like 485 777 3456.
+      An NHS number is a 10 digit number, like <span class="nhsuk-u-nowrap">999 123 4567</span>.
      </p>
      <p>
-      You can find your NHS number by logging in to a GP online service or on any document the NHS has sent you, such as your:
+      You can find your NHS number by logging in to the NHS App or on any document the NHS has sent you, such as your:
      </p>
      <ul>
       <li>
@@ -132,7 +132,7 @@ DETAILS_DEFAULT = """
       </li>
      </ul>
      <p>
-      Ask your GP surgery for help if you can't find your NHS number.
+      Ask your GP surgery for help if you cannot find your NHS number.
      </p>
     """
 
@@ -243,7 +243,10 @@ FIXTURE_CALL_CONTENT = {
     ("card", "default"): CARD_DEFAULT,
     ("card", "basic with custom HTML"): CARD_CUSTOM_HTML,
     ("card", "emergency (red and black)"): CARD_RED_AND_BLACK,
-    ("card", "emergency (red and black) with action link"): CARD_RED_AND_BLACK_ACTION_LINK,
+    (
+        "card",
+        "emergency (red and black) with action link",
+    ): CARD_RED_AND_BLACK_ACTION_LINK,
     ("card", "non-urgent (blue)"): CARD_NON_URGENT,
     ("card", "urgent (red)"): CARD_URGENT,
     ("details", "default"): DETAILS_DEFAULT,
