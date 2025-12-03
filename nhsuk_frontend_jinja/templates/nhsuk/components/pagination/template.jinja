@@ -19,7 +19,7 @@
 {%- macro _pageItem(item) -%}
   <li class="nhsuk-pagination__item {%- if item.current %} nhsuk-pagination__item--current{% endif %} {%- if item.ellipsis %} nhsuk-pagination__item--ellipsis{% endif %} {%- if item.classes %} {{ item.classes }}{% endif %}">
   {% if item.ellipsis %}
-    ⋯
+    &ctdot;
   {% else %}
     <a class="nhsuk-pagination__link" href="{{ item.href }}" aria-label="{{ item.visuallyHiddenText | default("Page " ~ item.number) }}"
       {%- if item.current %} aria-current="page"{% endif %}
@@ -51,7 +51,7 @@
 {%- if items | length %}
   <ul class="nhsuk-pagination__list">
   {% for item in items %}
-    {{ _pageItem(item) | indent(2) }}
+    {{ _pageItem(item) | indent(2) if item }}
   {% endfor %}
   </ul>
 {% endif %}

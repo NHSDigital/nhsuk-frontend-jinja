@@ -56,9 +56,9 @@
         logoAlt,
         params.organisation.name,
         params.organisation.split,
-        params.service.text if combineLogoAndServiceNameLinks else "",
-        'homepage'
-      ] | select('string') | join(' ') %}
+        params.service.text if combineLogoAndServiceNameLinks else undefined,
+        "homepage"
+      ] | select("string") | join(" ") %}
       <a class="nhsuk-header__service-logo" href="{{ logoHref }}" aria-label="{{ logoAriaLabel }}">
         {{ _serviceLogo(params.logo, params.organisation) | indent(8) }}
         {{- _serviceName(params.service.text) if combineLogoAndServiceNameLinks }}
@@ -79,7 +79,7 @@
         <button class="nhsuk-header__search-submit" type="submit">
           {{ nhsukIcon("search", {
             "title": searchVisuallyHiddenButton
-          }) }}
+          }) | trim | indent(10) }}
         </button>
       </form>
     </search>
@@ -119,7 +119,8 @@
     {{- nhsukAttributes(params.navigation.attributes) }}>
     <div class="nhsuk-header__navigation-container nhsuk-width-container {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
       <ul class="nhsuk-header__navigation-list">
-      {% for item in navigationItems %}
+      {% for item in params.navigation.get('items', []) %}
+        {% if item %}
         {% set linkInnerContent %}
           {#- Wrap active links in strong element so users who override colours
               or styles still have some indicator of the current nav item. -#}
@@ -136,6 +137,7 @@
             {{- linkInnerContent | safe -}}
           </a>
         </li>
+        {% endif %}
       {% endfor %}
         <li class="nhsuk-header__menu" hidden>
           <button class="nhsuk-header__menu-toggle nhsuk-header__navigation-link" id="toggle-menu" aria-expanded="false">
