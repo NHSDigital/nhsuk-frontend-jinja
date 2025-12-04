@@ -22,7 +22,7 @@
   }) | trim | indent(2) }}
 {% if params.hint %}
   {% set hintId = id ~ "-hint" %}
-  {% set ns.describedBy = ns.describedBy ~ " " ~ hintId if ns.describedBy else hintId %}
+  {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -33,7 +33,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = id ~ "-error" %}
-  {% set ns.describedBy = ns.describedBy ~ " " ~ errorId if ns.describedBy else errorId %}
+  {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,

@@ -1,5 +1,9 @@
 # NHS.UK frontend jinja changelog
 
+## 0.6.1
+
+- Fix regression that caused extra `aria-describedby` attributes to be emitted with empty values.
+
 ## 0.6.0
 
 - Supports [nhsuk-frontend v10.2.0](https://github.com/nhsuk/nhsuk-frontend/compare/v10.1.0...v10.2.0).

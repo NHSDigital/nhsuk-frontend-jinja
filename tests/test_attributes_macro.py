@@ -152,7 +152,7 @@ def test_boolean_values_lowercase(environment):
     assert result == '<div a="true" b="false"></div>'
 
 
-def test_conditional_true_renders_name_only(environment):
+def test_optional_true_renders_name_only(environment):
     template = (
         '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
         + '<div{{ nhsukAttributes({"a": {"optional": True, "value": True}, "b": "abc"}) }}></div>'
@@ -162,7 +162,7 @@ def test_conditional_true_renders_name_only(environment):
     assert result == '<div a b="abc"></div>'
 
 
-def test_conditional_false_is_ommitted(environment):
+def test_optional_false_is_ommitted(environment):
     template = (
         '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
         + '<div{{ nhsukAttributes({"a": {"optional": True, "value": False}, "b": "abc"}) }}></div>'
@@ -170,6 +170,46 @@ def test_conditional_false_is_ommitted(environment):
 
     result = environment.from_string(template).render()
     assert result == '<div b="abc"></div>'
+
+
+def test_optional_none_is_ommitted(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"optional": True, "value": none}, "b": "abc"}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div b="abc"></div>'
+
+
+def test_optional_undefined_is_ommitted(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"optional": True, "value": undefined}, "b": "abc"}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div b="abc"></div>'
+
+
+def test_optional_empty_string_renders_value(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"optional": True, "value": ""}, "b": "abc"}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div a="" b="abc"></div>'
+
+
+def test_optional_safe_string_renders_value(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"optional": True, "value": "a &amp; b" | safe}, "b": "abc"}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div a="a &amp; b" b="abc"></div>'
 
 
 def test_empty_attributes(environment):
