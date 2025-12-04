@@ -78,7 +78,7 @@
 {% set innerHtml %}
 {% if params.hint %}
   {% set hintId = idPrefix ~ "-hint" %}
-  {% set ns.describedBy = ns.describedBy ~ " " ~ hintId if ns.describedBy else hintId %}
+  {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -89,7 +89,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = idPrefix ~ "-error" %}
-  {% set ns.describedBy = ns.describedBy ~ " " ~ errorId if ns.describedBy else errorId %}
+  {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,
