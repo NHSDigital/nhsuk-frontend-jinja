@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 
 from .fixture_loader import FixtureLoader
 
@@ -22,6 +23,19 @@ def camel_case(kebab_case):
     """
     parts = kebab_case.split("-")
     return parts[0] + "".join([s.title() for s in parts[1:]])
+
+
+def normalize_array_attributes(soup):
+    """
+    Account for a discrepency in formatting of JSON arrays in the attributes macro:
+    The Jinja version includes additional spaces between values that the Nunjucks
+    version doesn't have.
+    """
+    for descendant in soup.descendants:
+        if isinstance(descendant, Tag):
+            for name, value in descendant.attrs.items():
+                if value and value[:2] == '["' and value[-2:] == '"]':
+                    descendant.attrs[name] = value.replace(", ", ",")
 
 
 def render(environment, component, options, call_content):
@@ -65,7 +79,11 @@ def test_compatibility(environment, component, subtests):
             # We are not currently matching the nunjucks version on whitespace, so test
             # a prettified version.
             ideal_formatted = BeautifulSoup(ideal, features="html.parser").prettify()
-            actual_formatted = BeautifulSoup(actual, features="html.parser").prettify()
+
+            soup = BeautifulSoup(actual, features="html.parser")
+            normalize_array_attributes(soup)
+
+            actual_formatted = soup.prettify()
 
             assert actual_formatted == ideal_formatted, difflib.context_diff(
                 actual_formatted, ideal_formatted
