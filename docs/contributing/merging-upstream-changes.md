@@ -1,4 +1,4 @@
-## Merging upstream changes
+# Merging upstream changes
 
 1. Run `npm install nhsuk-frontend@latest`.
 2. in `pyproject.toml` update the version: if a major update of nhsuk-frontend, update the major version, otherwise, update the minor version.
