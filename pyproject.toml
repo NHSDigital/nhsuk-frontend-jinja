@@ -1,6 +1,6 @@
 [project]
 name = "nhsuk-frontend-jinja"
-version = "0.6.1"
+version = "0.7.0"
 description = "A port of NHS.UK frontend templates for the Jinja templating engine."
 authors = [{ name = "Mat Moore", email = "MatMoore@users.noreply.github.com" }]
 license = { text = "MIT" }
