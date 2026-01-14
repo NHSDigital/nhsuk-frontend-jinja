@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 
 from .fixture_loader import FixtureLoader
 
@@ -22,6 +23,19 @@ def camel_case(kebab_case):
     """
     parts = kebab_case.split("-")
     return parts[0] + "".join([s.title() for s in parts[1:]])
+
+
+def normalize_array_attributes(soup):
+    """
+    Account for a discrepency in formatting of JSON arrays in the attributes macro:
+    The Jinja version includes additional spaces between values that the Nunjucks
+    version doesn't have.
+    """
+    for descendant in soup.descendants:
+        if isinstance(descendant, Tag):
+            for name, value in descendant.attrs.items():
+                if value and value[:2] == '["' and value[-2:] == '"]':
+                    descendant.attrs[name] = value.replace(", ", ",")
 
 
 def render(environment, component, options, call_content):
@@ -48,25 +62,33 @@ def render(environment, component, options, call_content):
     return result
 
 
-@pytest.mark.parametrize("component,fixture_name", FIXTURE_LOADER.fixture_keys)
-def test_compatibility(environment, component, fixture_name):
-    ideal = FIXTURE_LOADER.expected_html(component, fixture_name)
-    options = FIXTURE_LOADER.options(component, fixture_name)
-    actual = render(
-        environment,
-        component,
-        options,
-        FIXTURE_LOADER.call_content(component, fixture_name),
-    )
+@pytest.mark.parametrize("component", FIXTURE_LOADER.components)
+def test_compatibility(environment, component, subtests):
+    for fixture_name, fixture in FIXTURE_LOADER.fixtures(component):
+        with subtests.test(msg=f"{component}: {fixture_name}"):
+            ideal = fixture.expected
+            options = fixture.options
 
-    # We are not currently matching the nunjucks version on whitespace, so test
-    # a prettified version.
-    ideal_formatted = BeautifulSoup(ideal, features="html.parser").prettify()
-    actual_formatted = BeautifulSoup(actual, features="html.parser").prettify()
+            actual = render(
+                environment,
+                component,
+                options,
+                fixture.call_block,
+            )
 
-    assert actual_formatted == ideal_formatted, difflib.context_diff(
-        actual_formatted, ideal_formatted
-    )
+            # We are not currently matching the nunjucks version on whitespace, so test
+            # a prettified version.
+            ideal_formatted = BeautifulSoup(ideal, features="html.parser").prettify()
+
+            soup = BeautifulSoup(actual, features="html.parser")
+            normalize_array_attributes(soup)
+
+            actual_formatted = soup.prettify()
+
+            assert actual_formatted == ideal_formatted, difflib.context_diff(
+                actual_formatted, ideal_formatted
+            )
+
 
 def test_character_count_form_group_attributes(environment):
     template = """
@@ -87,9 +109,11 @@ def test_character_count_form_group_attributes(environment):
             }
         }) | indent(8) }}
     """
-    
+
     result = environment.from_string(template).render()
-    assert result == """
+    assert (
+        result
+        == """
         <div class="nhsuk-form-group nhsuk-character-count app-character-count--custom-modifier" data-module="nhsuk-character-count" data-maxlength="150" data-attribute="my-attribute" data-attribute-2="my-attribute-2">
           <label class="nhsuk-label" for="example">
             Can you provide more detail?
@@ -100,3 +124,4 @@ def test_character_count_form_group_attributes(environment):
           </div>
         </div>
     """
+    )

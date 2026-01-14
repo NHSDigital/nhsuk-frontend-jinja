@@ -1,3 +1,8 @@
+import json
+
+from bs4 import BeautifulSoup
+
+
 def test_string_values(environment):
     template = (
         '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
@@ -220,3 +225,56 @@ def test_empty_attributes(environment):
 
     result = environment.from_string(template).render()
     assert result == "<div></div>"
+
+
+def test_array_attributes(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"type": "array", "value": ["one", "two"]}}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div a=\'["one", "two"]\'></div>'
+
+
+def test_array_attributes_with_double_quote(environment):
+    # Here, the value itself begins with a double quote.
+    # It is escaped twice; firstly for the string literal in the template,
+    # then again for the overall string in the test.
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"type": "array", "value": ["\\" onclick=\\"alert(1)\\"", "two"]}}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div a=\'["\\" onclick=\\"alert(1)\\"", "two"]\'></div>'
+
+    soup = BeautifulSoup(result, "html.parser")
+    assert "onclick" not in soup.div
+    assert json.loads(soup.div["a"]) == ['" onclick="alert(1)"', "two"]
+
+
+def test_array_attributes_with_single_quote(environment):
+    # Here, the value itself begins with a single quote.
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"type": "array", "value": ["\' onclick=\\"alert(1)\\"", "two"]}}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+
+    assert result == '<div a=\'["\\u0027 onclick=\\"alert(1)\\"", "two"]\'></div>'
+
+    soup = BeautifulSoup(result, "html.parser")
+    assert "onclick" not in soup.div
+    assert json.loads(soup.div["a"]) == ['\' onclick="alert(1)"', "two"]
+
+
+def test_array_attributes_with_safe_strings(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"type": "array", "value": ["&quot;one&quot;" | safe, "two" | safe]}}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div a=\'["\\u0026quot;one\\u0026quot;", "two"]\'></div>'

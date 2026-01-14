@@ -1,5 +1,143 @@
 # NHS.UK frontend jinja changelog
 
+## 0.7.0
+
+This version is compatible with v10.3.0 of nhsuk-frontend.
+
+### :new: **New features**
+
+#### New file upload component
+
+We've added a new [file upload component](https://service-manual.nhs.uk/design-system/components/file-upload) which:
+
+- makes the file inputs easier to use for drag and drop
+- allows the text of the component to be translated
+- fixes accessibility issues for users of Dragon, a speech recognition software
+
+To use the `fileUpload` macro in your service:
+
+```jinja
+{{ fileUpload({
+  "label": {
+    "text": "Upload your photo"
+  }
+  "id": "file-upload",
+  "name": "photo"
+}) }}
+```
+
+If you're importing components individually in your JavaScript, which we recommend for better performance, you'll then need to import and initialise the new `FileUpload` component.
+
+```mjs
+import { createAll, FileUpload } from 'nhsuk-frontend'
+
+createAll(FileUpload)
+```
+
+This change was introduced in [pull request #1556: Uplift GOV.UK Frontend file upload component](https://github.com/nhsuk/nhsuk-frontend/pull/1556)
+
+#### Interruption panel
+
+We've added a new variant of the panel component with a solid blue background and white text. This can be used as an interruption card.
+
+This was added in [pull request #1196: Add interruption panel variant](https://github.com/nhsuk/nhsuk-frontend/pull/1196).
+
+#### Use cards to visually separate multiple summary lists on a single page
+
+You can now wrap a [card](https://service-manual.nhs.uk/design-system/components/cards) around [summary lists](https://service-manual.nhs.uk/design-system/components/summary-list) to help you:
+
+- design and build pages with multiple summary lists
+- show visual dividers between summary lists
+- allow users to apply actions to entire lists
+
+This was added in [pull request #1685: Add card enhancement to summary list](https://github.com/nhsuk/nhsuk-frontend/pull/1685).
+
+### :wastebasket: **Deprecated features**
+
+#### Rename macro options for images
+
+For consistency with other components, macro options for images have changed. The previous names are deprecated and will be removed in a future release.
+
+If you're using the `card` macro with the `imgURL` or `imgALT` options in your service, you should:
+
+- replace the `imgURL` option with the nested `image.src` option
+- replace the `imgALT` option with the nested `image.alt` option
+
+```patch
+  {{ card({
+-   "imgURL": "https://service-manual.nhs.uk/assets/blog-prototype-kit.png",
+-   "imgALT": "Illustration showing icons, design system components and a terminal app. Each one follows a dotted line into a laptop to become a prototype.",
++   "image": {
++     "src": "https://service-manual.nhs.uk/assets/blog-prototype-kit.png",
++     "alt": "Illustration showing icons, design system components and a terminal app. Each one follows a dotted line into a laptop to become a prototype."
++   },
+    "heading": "Why we are reinvesting in the NHS prototype kit"
+  }) }}
+```
+
+If you're using the `hero` macro with the `imageURL` option in your service, you should:
+
+- replace the `imageURL` option with the nested `image.src` option
+
+```patch
+  {{ hero({
+-   "imageURL": "https://service-manual.nhs.uk/assets/blog-prototype-kit.png"
++   "image": {
++     "src": "https://service-manual.nhs.uk/assets/blog-prototype-kit.png"
++   }
+  }) }}
+```
+
+If you're using the `image` macro with the `caption` option in your service, you should:
+
+- replace the `caption` option with the nested `caption.text` option
+
+```patch
+  {{ image({
+    "src": "https://service-manual.nhs.uk/assets/image-example-stretch-marks-600w.jpg",
+    "alt": "Close-up of a person's tummy showing a number of creases in the skin under their belly button. Shown on light brown skin.",
+-   "caption": "Stretch marks can be pink, red, brown, black, silver or purple. They usually start off darker and fade over time."
++   "caption": {
++     "text": "Stretch marks can be pink, red, brown, black, silver or purple. They usually start off darker and fade over time."
++   }
+  }) }}
+```
+
+This change was introduced in [pull request #1763: Review Nunjucks params for header search and images](https://github.com/nhsuk/nhsuk-frontend/pull/1763).
+
+#### Update the HTML for tables as a panel
+
+For consistency with other components, the options for tables as a panel have changed. The previous names are deprecated and will be removed in a future release.
+
+If you're using the `table` macro with the `panel` option, you should migrate to the feature card enhancement:
+
+- replace the `heading` option with the nested `card.heading` option
+- replace the `headingLevel` option with the nested `card.headingLevel` option
+- replace the `panel` option with the nested `card.feature` option
+- replace the `panelClasses` option with the nested `card.classes` option
+- replace the `tableClasses` option with the `classes` option
+
+```patch
+  {{ table({
+-   "heading": "Skin symptoms and possible causes",
+-   "headingLevel": 3,
+-   "panel": true,
+-   "panelClasses": "nhsuk-u-margin-bottom-8",
++   "card": {
++     "heading": "Skin symptoms and possible causes",
++     "headingLevel": 3,
++     "feature": true,
++     "classes": "nhsuk-u-margin-bottom-8"
++   },
+-   "tableClasses": "nhsuk-u-margin-bottom-0",
++   "classes": "nhsuk-u-margin-bottom-0",
+    "head": [],
+    "rows": []
+  }) }}
+```
+
+This change was introduced in [pull request #1685: Add card enhancements to summary list, table and warning callout](https://github.com/nhsuk/nhsuk-frontend/pull/1685).
+
 ## 0.6.1
 
 - Fix regression that caused extra `aria-describedby` attributes to be emitted with empty values.
@@ -31,10 +169,10 @@ You can now add inline buttons to text inputs and select menus using the `formGr
 ```jinja
 {{ input({
   formGroup: {
-    afterInput: {
-      html: button({
-        text: "Search",
-        classes: "nhsuk-button--small"
+    "afterInput": {
+      "html": button({
+        "text": "Search",
+        "classes": "nhsuk-button--small"
       })
     }
   }
@@ -99,7 +237,7 @@ We've added a new `size` option to labels and legends as a simpler alternative t
 
 ```patch
   {{ input({
-    label: {
+    "label": {
       "text": 'What is your full name?',
 -     "classes": "nhsuk-label--l"
 +     "size": "l"

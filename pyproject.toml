@@ -1,6 +1,6 @@
 [project]
 name = "nhsuk-frontend-jinja"
-version = "0.6.1"
+version = "0.7.0"
 description = "A port of NHS.UK frontend templates for the Jinja templating engine."
 authors = [{ name = "Mat Moore", email = "MatMoore@users.noreply.github.com" }]
 license = { text = "MIT" }
@@ -17,10 +17,10 @@ extension = "jinja"
 profile = "jinja"
 files = ["."]
 use_gitignore = true
-ignore = "T003,T028,H006,H023,H025,H030,H031"
+ignore = "T003,T028,H006,H013,H023,H025,H030,H031"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^9.0.1"
+pytest = "^9.0.2"
 beautifulsoup4 = "^4.14.2"
 djlint = "^1.36.4"
 
