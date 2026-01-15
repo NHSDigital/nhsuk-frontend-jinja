@@ -36,7 +36,7 @@ git clone https://github.com/[Username]/nhsuk-frontend-jinja.git nhsuk-frontend-
 ## 3. Install dependencies
 
 We use [node package manager (npm)](https://docs.npmjs.com/getting-started/what-is-npm) to manage javascript dependencies,
-and [poetry](https://python-poetry.org/docs/) to manage python dependencies.
+and [uv](https://docs.astral.sh/uv/) to manage python dependencies.
 
 Whilst in the project directory you will need to install the dependencies listed in `package.json`
 
@@ -47,13 +47,13 @@ npm install
 Then install the python dependencies:
 
 ```
-poetry install
+uv install
 ```
 
 ## 4. Run the tests
 
 ```
-poetry run pytest
+uv run pytest
 ```
 
 > The application will be available at [http://localhost:3000/nhsuk-frontend](http://localhost:3000/nhsuk-frontend).
