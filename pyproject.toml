@@ -3,14 +3,21 @@ name = "nhsuk-frontend-jinja"
 version = "0.7.0"
 description = "A port of NHS.UK frontend templates for the Jinja templating engine."
 authors = [{ name = "Mat Moore", email = "MatMoore@users.noreply.github.com" }]
-license = { text = "MIT" }
-readme = "README.md"
 requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
 dependencies = ["jinja2 (>=3.1.6,<4.0.0)"]
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2,<10",
+    "beautifulsoup4>=4.14.2,<5",
+    "djlint>=1.36.4,<2",
+]
 
 [tool.djlint]
 extension = "jinja"
@@ -19,10 +26,5 @@ files = ["."]
 use_gitignore = true
 ignore = "T003,T028,H006,H013,H023,H025,H030,H031"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^9.0.2"
-beautifulsoup4 = "^4.14.2"
-djlint = "^1.36.4"
-
-[tool.poetry]
-include = ["nhsuk_frontend_jinja/templates"]
+[tool.hatch.build.targets.sdist.force-include]
+"nhsuk_frontend_jinja/templates" = "nhsuk_frontend_jinja/templates"
