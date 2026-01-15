@@ -26,24 +26,24 @@ jobs:
           node-version-file: .tool-versions
           cache: 'npm'
 
-      - name: Install Poetry
-        run: pipx install poetry
+      - name: Set up uv
+        uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b
+        with:
+          enable-cache: true
 
       - name: Set up Python
         uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
         with:
           python-version-file: ".tool-versions"
-          cache: poetry
-          cache-dependency-path: ./poetry.lock
 
       - name: Install Python dependencies
-        run: poetry install
+        run: uv sync --locked --all-extras --dev
 
       - name: Install Node dependencies
         run: npm ci
 
       - name: Run linting
-        run: poetry run djlint -
+        run: uv run djlint -
 
       - name: Run unit tests
-        run: poetry run pytest
+        run: uv run pytest
