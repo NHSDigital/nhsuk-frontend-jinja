@@ -8,6 +8,6 @@
     "npm": "^11.6.1"
   },
   "devDependencies": {
-    "nhsuk-frontend": "^10.3.0"
+    "nhsuk-frontend": "^10.3.1"
   }
 }
