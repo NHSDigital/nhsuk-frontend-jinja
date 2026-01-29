@@ -126,7 +126,7 @@
       {% if options.optional is true and value is true %}
         {% set ns.attributesHtml = "{} {}".format(ns.attributesHtml, name | escape) %}
       {#- Skip optional empty attributes or output ` name="value"` pair by default -#}
-      {% elif (options.optional is true and value not in [none, false]) or options.optional is not true %}
+      {% elif (options.optional is true and value is not none and value is not false) or options.optional is not true %}
         {% if '"' in valueEscaped %}
           {% set ns.attributesHtml = "{} {}='{}'".format(ns.attributesHtml, name | escape, value | lower if value is boolean else valueEscaped) %}
         {% else %}

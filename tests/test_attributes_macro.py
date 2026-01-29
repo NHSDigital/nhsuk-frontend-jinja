@@ -207,6 +207,16 @@ def test_optional_empty_string_renders_value(environment):
     assert result == '<div a="" b="abc"></div>'
 
 
+def test_optional_zero_renders_value(environment):
+    template = (
+        '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'
+        + '<div{{ nhsukAttributes({"a": {"optional": True, "value": 0}, "b": "abc"}) }}></div>'
+    )
+
+    result = environment.from_string(template).render()
+    assert result == '<div a="0" b="abc"></div>'
+
+
 def test_optional_safe_string_renders_value(environment):
     template = (
         '{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}\n'

@@ -1,5 +1,11 @@
 # NHS.UK frontend jinja changelog
 
+## 0.7.1
+
+### :wrench: **Fixes**
+
+- fix attributes sometimes being ignored if they have a value of 0
+
 ## 0.7.0
 
 This version is compatible with v10.3.0 of nhsuk-frontend.
