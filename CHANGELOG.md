@@ -1,5 +1,11 @@
 # NHS.UK frontend jinja changelog
 
+## 0.7.2
+
+### :wrench: **Fixes**
+
+- [#1797: Ensure input passes label.id down to the label](https://github.com/nhsuk/nhsuk-frontend/pull/1797)
+
 ## 0.7.1
 
 ### :wrench: **Fixes**
