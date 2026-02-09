@@ -7,12 +7,12 @@
    - `template.njk` files in `packages/nhsuk-frontend/src/nhsuk`
    - `*.njk` files in `packages/nhsuk-frontend/src/nhsuk/components`
    - `*.njk` files in `packages/nhsuk-frontend/src/nhsuk/macros`
-5. (Optional) run `poetry run scripts/refresh_components.py $component1 $component2...` to overwrite the working tree with the upstream template files.
+5. (Optional) run `uv run scripts/refresh_components.py $component1 $component2...` to overwrite the working tree with the upstream template files.
 6. Update corresponding `*.jinja` files in `nhsuk_frontend_jinja/templates/nhsuk` to reflect what's changed upstream, while preserving any Jinja-specific workarounds and adhering to the [coding standards](./coding-standards.md).
 7. If necessary, make sure to add `*.jinja` files for any new components, macros and templates.
-8. Run `poetry run djlint -` to check for Nunjucks/Jinja incompatibilities.
-9. Run `poetry run pytest` to check the templates generate the same HTML as `nhsuk-frontend`.
-    - Run `poetry run pytest -k "[$component]"` to test a single component at a time
+8. Run `uv run djlint -` to check for Nunjucks/Jinja incompatibilities.
+9. Run `uv run pytest` to check the templates generate the same HTML as `nhsuk-frontend`.
+    - Run `uv run pytest -k "[$component]"` to test a single component at a time
 10. Update the [changelog](/CHANGELOG.md).
 11. Create a pull request with the changes.
 
