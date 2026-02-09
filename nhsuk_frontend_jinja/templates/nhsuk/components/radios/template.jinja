@@ -41,6 +41,7 @@
         {{- nhsukAttributes(item.attributes) }}>
       {{ label({
         "html": item.html,
+        "id": item.label.id,
         "text": item.text,
         "classes": "nhsuk-radios__label" ~ (" " ~ item.label.classes if item.label.classes),
         "size": item.label.size,

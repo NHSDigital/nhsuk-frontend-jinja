@@ -73,6 +73,7 @@
     <div class="nhsuk-date-input__item">
       {{ input({
         "label": {
+          "id": item.label.id,
           "text": item.label if item.label else item.name | capitalize,
           "classes": "nhsuk-date-input__label"
         },
