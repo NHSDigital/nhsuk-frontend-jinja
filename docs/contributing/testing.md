@@ -47,7 +47,7 @@ npm install
 Then install the python dependencies:
 
 ```
-uv install
+uv sync
 ```
 
 ## 4. Run the tests
