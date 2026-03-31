@@ -1,5 +1,144 @@
 # NHS.UK frontend jinja changelog
 
+## Unreleased
+
+This version is compatible with v10.4.0 of nhsuk-frontend.
+
+### :new: **New features**
+
+#### Add a modifier class for header inline search or account links
+
+We've added a new `.nhsuk-header--inline` class and `"inline"` macro option for the [header](https://service-manual.nhs.uk/design-system/components/header) component. This positions the search bar (or account links) inline with the NHS logo on small screens, depending on the length of your service name. For example:
+
+```patch
+  {{ header({
++   "inline": true,
+    "account": {
+      "items": [
+        {
+          "text": "Log in",
+          "href": "/log-in"
+        }
+      ]
+    }
+  }) }}
+```
+
+This was added in pull requests [#1783: Add support for inline header search or account](https://github.com/nhsuk/nhsuk-frontend/pull/1783) and [#1801: Add Nunjucks options for components with modifier classes](https://github.com/nhsuk/nhsuk-frontend/pull/1801).
+
+#### Add macro options for components with modifier classes
+
+We've added a new `"variant"` macro option to action links, back links, buttons, breadcrumbs, panels and tables as a simpler alternative to the variant modifier classes. For example:
+
+```patch
+  {{ button({
+    "text": "Yes, delete this vaccine",
+-   "classes": "nhsuk-button--warning"
++   "variant": "warning"
+  }) }}
+```
+
+For modifiers that can exist together, these are now supported using boolean options, for example:
+
+```patch
+  {{ "radios"({
+    "fieldset": {
+      "legend": {
+        "text": "Sort by"
+      }
+    },
+-   "classes": "nhsuk-radios--small nhsuk-radios--inline",
++   "small": true,
++   "inline": true,
+```
+
+With the following boolean options now available:
+
+- Button, checkboxes and radios with `"small": true`
+- Date input items with `"error": true`
+- Radios with `"inline": true`
+- Header navigation with `"justified": true`
+- Summary lists with `"lastRowBorder": false`
+- Summary lists (and rows) with `"border": false`
+- Tags with `"border": false`
+- Text input with `"code": true`
+
+We've also added the `"width"` option to text and date input items as a simpler alternative to the [fixed width classes](https://service-manual.nhs.uk/design-system/components/text-input#fixed-width-inputs), for example:
+
+```patch
+  "items": [
+    {
+      "name": "day",
+-     "classes": "nhsuk-input--width-2"
++     "width": 2
+    },
+    {
+      "name": "month",
+-     "classes": "nhsuk-input--width-2"
++     "width": 2
+    },
+    {
+      "name": "year",
+-     "classes": "nhsuk-input--width-4"
++     "width": 4
+    }
+  ]
+```
+
+Or with both boolean and width modifiers set together:
+
+```patch
+  {{ input({
+    "label": {
+      "text": "NHS number"
+    },
+-   "classes": "nhsuk-input--width-10 nhsuk-input--code",
++   "width": 10,
++   "code": true,
+    "inputmode": "numeric",
+    "spellcheck": false
+  }) }}
+```
+
+We've also added the `"colour"` option to the tag component as a simpler way to set a colour:
+
+```patch
+  {{ tag({
+    "text": "Delayed",
+-   "classes": "nhsuk-tag--yellow"
++   "colour": "yellow"
+  }) }}
+```
+
+This was added in [pull request #1801: Add Nunjucks options for components with modifier classes](https://github.com/nhsuk/nhsuk-frontend/pull/1801).
+
+### :wastebasket: **Deprecated features**
+
+#### Rename macro macro options for component variants
+
+All component variants now use the new `"variant"` macro option so we've deprecated the `"type"` and boolean options for cards, notification banners and do and don't lists.
+
+If you're using the `card` macro:
+
+- replace the `"feature": true` option with `"variant": "feature"`
+- replace the `"primary": true` option with `"variant": "primary"`
+- replace the `"secondary": true` option with `"variant": "secondary"`
+- replace the `"warning": true` option with `"variant": "warning"`
+- replace the `"type": "non-urgent"` option with `"variant": "non-urgent"`
+- replace the `"type": "urgent"` option with `"variant": "urgent"`
+- replace the `"type": "emergency"` option with `"variant": "emergency"`
+
+If you're using the `notificationBanner` macro:
+
+- replace the `"type": "success"` option with `"variant": "success"`
+
+If you're using the `list` macro:
+
+- replace the `"type": "tick"` option with `"icon": "tick"`
+- replace the `"type": "cross"` option with `"icon": "cross"`
+
+The previous names are deprecated and will be removed in a future release.
+
 ## 0.7.2
 
 ### :wrench: **Fixes**

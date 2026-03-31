@@ -3,6 +3,23 @@
 {% from "nhsuk/components/hint/macro.jinja" import hint %}
 {% from "nhsuk/components/label/macro.jinja" import label %}
 
+{#- Set classes for this component #}
+{%- set classNames = "nhsuk-select" -%}
+{%- set classNamesFormGroup = "nhsuk-form-group" -%}
+
+{%- if params.errorMessage %}
+  {% set classNames = classNames ~ " nhsuk-select--error" %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " nhsuk-form-group--error" %}
+{% endif %}
+
+{%- if params.classes %}
+  {% set classNames = classNames ~ " " ~ params.classes %}
+{% endif %}
+
+{%- if params.formGroup.classes %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " " ~ params.formGroup.classes %}
+{% endif %}
+
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
 {% set items = params.get("items", []) if params else [] %}
@@ -16,8 +33,7 @@
 {%- set hasAfterInput = true if params.formGroup.afterInput and (params.formGroup.afterInput.text or params.formGroup.afterInput.html) else false %}
 
 {%- macro _selectElement(params) -%}
-  <select class="nhsuk-select
-    {%- if params.classes %} {{ params.classes }}{% endif %}{%- if params.errorMessage %} nhsuk-select--error{% endif %}" id="{{ id }}" name="{{ params.name }}"
+  <select class="{{ classNames }}" id="{{ id }}" name="{{ params.name }}"
     {%- if params.disabled %} disabled{% endif %}
     {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
     {{- nhsukAttributes(params.attributes) }}>
@@ -38,12 +54,11 @@
   </select>
 {%- endmacro -%}
 
-<div class="nhsuk-form-group {%- if params.errorMessage %} nhsuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}"
-  {{- nhsukAttributes(params.formGroup.attributes) }}>
+<div class="{{ classNamesFormGroup }}" {{- nhsukAttributes(params.formGroup.attributes) }}>
   {{ label({
     "html": params.label.html,
-    "id": params.label.id,
     "text": params.label.text,
+    "id": params.label.id,
     "classes": params.label.classes,
     "size": params.label.size,
     "isPageHeading": params.label.isPageHeading,
