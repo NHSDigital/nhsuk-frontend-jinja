@@ -56,8 +56,6 @@ uv sync
 uv run pytest
 ```
 
-> The application will be available at [http://localhost:3000/nhsuk-frontend](http://localhost:3000/nhsuk-frontend).
-
 ---
 
 Next: [Application architecture](application-architecture.md)
