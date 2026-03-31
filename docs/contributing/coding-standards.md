@@ -152,9 +152,9 @@ If the type of a value is unknown, `== true` can be safely used in place of `===
 
 `== false` is weaker than `=== false` and should be avoided. It is true for `false`, `null`, and `undefined` values, but values of `0`, `""`, `[]` or `{}` will yield different results depending on whether you are using Nunjucks or Jinja.
 
-### Avoid Javascript functions
+### Avoid JavaScript functions
 
-Avoid using Javascript functions directly, as it breaks compatibility with Jinja. Use filters instead.
+Avoid using JavaScript functions directly, as it breaks compatibility with Jinja. Use filters instead.
 
 Bad:
 
