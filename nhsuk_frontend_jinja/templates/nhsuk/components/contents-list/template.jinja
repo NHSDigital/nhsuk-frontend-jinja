@@ -21,7 +21,7 @@
       {{- item.html | safe | trim | indent(4) if item.html else item.text -}}
     </a>
   {% endif %}
-  {% if item.get("items", []) %}
+  {% if "items" in item %}
     {{ _contentsList(item.get("items", [])) | trim | indent(4) }}
   {% endif %}
   </li>
