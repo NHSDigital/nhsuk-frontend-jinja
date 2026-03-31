@@ -13,7 +13,7 @@
 {% set ns = namespace() %}
 {% set ns.describedBy = params.describedBy if params.describedBy else "" %}
 {% if params.fieldset.describedBy %}
-  {% set describedBy = params.fieldset.describedBy %}
+  {% set ns.describedBy = params.fieldset.describedBy %}
 {% endif %}
 
 {#- Jinja compatibility - avoid referencing params.items/params.values directly
