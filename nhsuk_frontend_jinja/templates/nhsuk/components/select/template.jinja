@@ -9,8 +9,7 @@
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
-{% set ns = namespace() %}
-{% set ns.describedBy = params.describedBy if params.describedBy else "" %}
+{% set describedBy = params.describedBy if params.describedBy else "" %}
 {%- set id = params.id if params.id else params.name -%}
 
 {%- set hasBeforeInput = true if params.formGroup.beforeInput and (params.formGroup.beforeInput.text or params.formGroup.beforeInput.html) else false %}
@@ -20,7 +19,7 @@
   <select class="nhsuk-select
     {%- if params.classes %} {{ params.classes }}{% endif %}{%- if params.errorMessage %} nhsuk-select--error{% endif %}" id="{{ id }}" name="{{ params.name }}"
     {%- if params.disabled %} disabled{% endif %}
-    {%- if ns.describedBy %} aria-describedby="{{ ns.describedBy }}"{% endif %}
+    {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
     {{- nhsukAttributes(params.attributes) }}>
   {% for item in params.get("items", []) %}
   {%- if item.divider %}
@@ -53,7 +52,7 @@
   }) | trim | indent(2) }}
 {% if params.hint %}
   {% set hintId = id ~ "-hint" %}
-  {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
+  {% set describedBy = (describedBy ~ " " ~ hintId) | trim %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -64,7 +63,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = id ~ "-error" %}
-  {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
+  {% set describedBy = (describedBy ~ " " ~ errorId) | trim %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,

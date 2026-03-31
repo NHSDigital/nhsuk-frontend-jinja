@@ -25,8 +25,7 @@
 {% endif -%}
 {% endset -%}
 
-{%- set ns = namespace() %}
-{%- set ns.attributesHtml %}
+{%- set attributesHtml %}
   {{- nhsukAttributes({
     "data-module": "nhsuk-character-count",
     "data-maxlength": {
@@ -98,7 +97,7 @@
   "value": params.value,
   "formGroup": {
     "classes": "nhsuk-character-count" ~ (" " ~ params.formGroup.classes if params.formGroup.classes),
-    "attributes": ns.attributesHtml,
+    "attributes": attributesHtml,
     "beforeInput": params.formGroup.beforeInput,
     "afterInput": {
       "html": countMessageHtml
