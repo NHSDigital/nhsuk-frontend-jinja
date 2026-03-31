@@ -18,8 +18,8 @@
 
 {#- Jinja compatibility - avoid referencing params.items/params.values directly
   as it clashes with dict.items() and dict.values() -#}
-{% set items = params["items"] if "items" in params else [] %}
-{% set values = params["values"] if "values" in params else [] %}
+{% set items = params.get("items", []) if params else [] %}
+{% set values = params.get("values", []) if params else [] %}
 
 {#- fieldset is false by default -#}
 {% set hasFieldset = true if params.fieldset else false %}

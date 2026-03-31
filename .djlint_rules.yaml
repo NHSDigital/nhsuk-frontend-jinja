@@ -10,14 +10,14 @@
 
 - rule:
     name: X002
-    message: Use params['items'] rather than params.items (Jinja compatability)
+    message: Use params.get("items", []) rather than params.items (Jinja compatability)
     flags: re.DOTALL|re.I
     patterns:
       - params.items
 
 - rule:
     name: X003
-    message: Use params['values'] rather than params.values (Jinja compatability)
+    message: Use params.get("values", []) rather than params.values (Jinja compatability)
     flags: re.DOTALL|re.I
     patterns:
       - params.values

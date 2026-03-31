@@ -53,7 +53,7 @@
 {% endif %}
 
 {%- set headingLevel = params.headingLevel if params.headingLevel else 2 %}
-{%- set actionsItems = params.actions["items"] | select("mapping") | list if params.actions["items"] | length else [] %}
+{%- set actionsItems = params.actions.get("items", []) | select("mapping") | list if params.actions and params.actions.get("items", []) | length else [] %}
 
 {%- set image = {
   "src": params.imgURL,

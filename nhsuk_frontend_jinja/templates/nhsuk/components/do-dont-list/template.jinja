@@ -3,7 +3,7 @@
 
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{%- set items = params.get("items", []) | select("mapping") | list if params else [] %}
 
 {%- set type = "cross" if params.type == "cross" else "tick" %}
 {%- set headingLevel = params.headingLevel if params.headingLevel else 3 %}

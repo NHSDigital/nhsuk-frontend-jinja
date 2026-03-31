@@ -5,7 +5,7 @@
 
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{% set items = params.get("items", []) if params else [] %}
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
@@ -22,7 +22,7 @@
     {%- if params.disabled %} disabled{% endif %}
     {%- if ns.describedBy %} aria-describedby="{{ ns.describedBy }}"{% endif %}
     {{- nhsukAttributes(params.attributes) }}>
-  {% for item in params.get('items', []) %}
+  {% for item in params.get("items", []) %}
   {%- if item.divider %}
     <hr>
   {% elif item %}

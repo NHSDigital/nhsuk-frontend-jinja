@@ -129,7 +129,7 @@
       {%- if params.account.classes %} {{ params.account.classes }}{% endif %}" aria-label="{{ params.account.ariaLabel | default("Account") }}"
       {{- nhsukAttributes(params.account.attributes) }}>
       <ul class="nhsuk-header__account-list">
-      {% for item in params.account.get('items', []) %}
+      {% for item in params.account.get("items", []) %}
         {% if item %}
         <li class="nhsuk-header__account-item {%- if item.classes %} {{ item.classes }}{% endif %}">
         {% if item.href %}
@@ -163,13 +163,13 @@
     </nav>
 {% endif %}
   </div>
-{% if params.navigation and params.navigation.get('items', []) | length %}
+{% if params.navigation and params.navigation.get("items", []) | length %}
   <nav class="nhsuk-header__navigation
     {%- if params.navigation.classes %} {{ params.navigation.classes }}{% endif %}" aria-label="{{ params.navigation.ariaLabel | default("Menu") }}"
     {{- nhsukAttributes(params.navigation.attributes) }}>
     <div class="nhsuk-header__navigation-container nhsuk-width-container {%- if params.containerClasses %} {{ params.containerClasses }}{% endif %}">
       <ul class="nhsuk-header__navigation-list">
-      {% for item in params.navigation.get('items', []) %}
+      {% for item in params.navigation.get("items", []) %}
         {% if item %}
         {% set linkInnerContent %}
           {#- Wrap active links in strong element so users who override colours

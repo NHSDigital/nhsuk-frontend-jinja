@@ -68,7 +68,7 @@ Bad (clashes with `dict.items()` in Jinja):
 Good:
 
 ```
-{% set items = params['items'] if 'items' in params else [] %}
+{% set items = params.get("items", []) if params else [] %}
 
 {% for item in items %}
 ```

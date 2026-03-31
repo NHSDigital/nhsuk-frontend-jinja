@@ -6,7 +6,7 @@
 
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{% set items = params.get("items", []) if params else [] %}
 
 {#- If an id 'prefix' is not passed, fall back to using the name attribute
   instead. We need this for error messages and hints as well -#}

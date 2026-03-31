@@ -3,7 +3,7 @@
 
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{%- set items = params.get("items", []) if params else [] -%}
 
 <nav {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-breadcrumb{% if params.classes %} {{ params.classes }}{% endif %}" aria-label="{{ params.labelText | default("Breadcrumb") }}"
   {{- nhsukAttributes(params.attributes) }}>

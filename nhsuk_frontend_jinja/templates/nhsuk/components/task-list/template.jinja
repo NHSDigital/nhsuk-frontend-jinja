@@ -3,7 +3,7 @@
 
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{%- set items = params.get("items", []) if params else [] -%}
 
 {%- set idPrefix = params.idPrefix if params.idPrefix else "task-list" -%}
 
