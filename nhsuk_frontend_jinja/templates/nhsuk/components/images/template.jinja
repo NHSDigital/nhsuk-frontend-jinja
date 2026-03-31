@@ -10,8 +10,8 @@
 {%- set caption = params.caption -%}
 
 {%- if caption and caption is string %}
-  {% set caption = { text: caption } %}
-{% endif %}
+  {% set caption = { "text": caption } %}
+{% endif -%}
 
 <figure {%- if params.id %} id="{{ params.id }}"{% endif %} class="{{ classNames }}"
   {{- nhsukAttributes(params.attributes) }}>
