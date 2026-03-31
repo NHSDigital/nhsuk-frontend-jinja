@@ -3,26 +3,41 @@
 {% from "nhsuk/components/hint/macro.jinja" import hint %}
 {% from "nhsuk/components/label/macro.jinja" import label %}
 
+{#- Set classes for this component #}
+{%- set classNames = "nhsuk-select" -%}
+{%- set classNamesFormGroup = "nhsuk-form-group" -%}
+
+{%- if params.errorMessage %}
+  {% set classNames = classNames ~ " nhsuk-select--error" %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " nhsuk-form-group--error" %}
+{% endif %}
+
+{%- if params.classes %}
+  {% set classNames = classNames ~ " " ~ params.classes %}
+{% endif %}
+
+{%- if params.formGroup.classes %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " " ~ params.formGroup.classes %}
+{% endif %}
+
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{% set items = params.get("items", []) if params else [] %}
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
-{% set ns = namespace() %}
-{% set ns.describedBy = params.describedBy if params.describedBy else "" %}
+{% set describedBy = params.describedBy if params.describedBy else "" %}
 {%- set id = params.id if params.id else params.name -%}
 
 {%- set hasBeforeInput = true if params.formGroup.beforeInput and (params.formGroup.beforeInput.text or params.formGroup.beforeInput.html) else false %}
 {%- set hasAfterInput = true if params.formGroup.afterInput and (params.formGroup.afterInput.text or params.formGroup.afterInput.html) else false %}
 
 {%- macro _selectElement(params) -%}
-  <select class="nhsuk-select
-    {%- if params.classes %} {{ params.classes }}{% endif %}{%- if params.errorMessage %} nhsuk-select--error{% endif %}" id="{{ id }}" name="{{ params.name }}"
+  <select class="{{ classNames }}" id="{{ id }}" name="{{ params.name }}"
     {%- if params.disabled %} disabled{% endif %}
-    {%- if ns.describedBy %} aria-describedby="{{ ns.describedBy }}"{% endif %}
+    {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
     {{- nhsukAttributes(params.attributes) }}>
-  {% for item in params.get('items', []) %}
+  {% for item in params.get("items", []) %}
   {%- if item.divider %}
     <hr>
   {% elif item %}
@@ -39,12 +54,11 @@
   </select>
 {%- endmacro -%}
 
-<div class="nhsuk-form-group {%- if params.errorMessage %} nhsuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}"
-  {{- nhsukAttributes(params.formGroup.attributes) }}>
+<div class="{{ classNamesFormGroup }}" {{- nhsukAttributes(params.formGroup.attributes) }}>
   {{ label({
     "html": params.label.html,
-    "id": params.label.id,
     "text": params.label.text,
+    "id": params.label.id,
     "classes": params.label.classes,
     "size": params.label.size,
     "isPageHeading": params.label.isPageHeading,
@@ -53,7 +67,7 @@
   }) | trim | indent(2) }}
 {% if params.hint %}
   {% set hintId = id ~ "-hint" %}
-  {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
+  {% set describedBy = (describedBy ~ " " ~ hintId) | trim %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -64,7 +78,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = id ~ "-error" %}
-  {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
+  {% set describedBy = (describedBy ~ " " ~ errorId) | trim %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,

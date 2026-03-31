@@ -1,3 +1,6 @@
 {% macro legend(params) %}
+  {%- if caller -%}
+  {# noop for Jinja support #}
+  {%- endif -%}
   {%- include "nhsuk/components/legend/template.jinja" -%}
 {% endmacro %}

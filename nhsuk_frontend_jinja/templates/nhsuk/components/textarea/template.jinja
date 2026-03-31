@@ -3,18 +3,33 @@
 {% from "nhsuk/components/hint/macro.jinja" import hint %}
 {% from "nhsuk/components/label/macro.jinja" import label %}
 
+{#- Set classes for this component #}
+{%- set classNames = "nhsuk-textarea" -%}
+{%- set classNamesFormGroup = "nhsuk-form-group" -%}
+
+{%- if params.errorMessage %}
+  {% set classNames = classNames ~ " nhsuk-textarea--error" %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " nhsuk-form-group--error" %}
+{% endif %}
+
+{%- if params.classes %}
+  {% set classNames = classNames ~ " " ~ params.classes %}
+{% endif %}
+
+{%- if params.formGroup.classes %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " " ~ params.formGroup.classes %}
+{% endif %}
+
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
-{% set ns = namespace() %}
-{% set ns.describedBy = params.describedBy if params.describedBy else "" %}
+{% set describedBy = params.describedBy if params.describedBy else "" %}
 {%- set id = params.id if params.id else params.name -%}
 
-<div class="nhsuk-form-group {%- if params.errorMessage %} nhsuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}"
-  {{- nhsukAttributes(params.formGroup.attributes) }}>
+<div class="{{ classNamesFormGroup }}" {{- nhsukAttributes(params.formGroup.attributes) }}>
   {{ label({
     "html": params.label.html,
-    "id": params.label.id,
     "text": params.label.text,
+    "id": params.label.id,
     "classes": params.label.classes,
     "size": params.label.size,
     "isPageHeading": params.label.isPageHeading,
@@ -23,7 +38,7 @@
   }) | trim | indent(2) }}
 {% if params.hint %}
   {% set hintId = id ~ "-hint" %}
-  {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
+  {% set describedBy = (describedBy ~ " " ~ hintId) | trim %}
   {{ hint({
     "id": hintId,
     "classes": params.hint.classes,
@@ -34,7 +49,7 @@
 {% endif %}
 {% if params.errorMessage %}
   {% set errorId = id ~ "-error" %}
-  {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
+  {% set describedBy = (describedBy ~ " " ~ errorId) | trim %}
   {{ errorMessage({
     "id": errorId,
     "classes": params.errorMessage.classes,
@@ -47,10 +62,10 @@
 {% if params.formGroup.beforeInput %}
   {{ params.formGroup.beforeInput.html | safe | trim | indent(2) if params.formGroup.beforeInput.html else params.formGroup.beforeInput.text }}
 {% endif %}
-  <textarea class="nhsuk-textarea {%- if params.errorMessage %} nhsuk-textarea--error{% endif %} {%- if params.classes %} {{ params.classes }}{% endif %}" id="{{ id }}" name="{{ params.name }}" rows="{{ params.rows | default(5, true) }}"
+  <textarea class="{{ classNames }}" id="{{ id }}" name="{{ params.name }}" rows="{{ params.rows | default(5, true) }}"
   {%- if params.spellcheck in [true, false] %} spellcheck="{{ params.spellcheck | lower }}"{% endif %}
   {%- if params.disabled %} disabled{% endif %}
-  {%- if ns.describedBy %} aria-describedby="{{ ns.describedBy }}"{% endif %}
+  {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
   {%- if params.autocomplete %} autocomplete="{{ params.autocomplete }}"{% endif %}
   {{- nhsukAttributes(params.attributes) }}>{{ params.value }}</textarea>
 {% if params.formGroup.afterInput %}

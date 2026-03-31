@@ -1,6 +1,6 @@
 {% macro footer(params) %}
-  {%- if caller %}
+  {%- if caller -%}
   {# noop for Jinja support #}
-  {% endif -%}
+  {%- endif -%}
   {%- include "nhsuk/components/footer/template.jinja" -%}
 {% endmacro %}

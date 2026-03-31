@@ -1,6 +1,6 @@
 {% macro details(params) %}
-  {% if caller %}
+  {%- if caller -%}
   {# noop for Jinja support #}
-  {% endif %}
+  {%- endif -%}
   {%- include "nhsuk/components/details/template.jinja" -%}
 {% endmacro %}

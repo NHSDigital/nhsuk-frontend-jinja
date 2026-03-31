@@ -4,6 +4,23 @@
 {% from "nhsuk/components/hint/macro.jinja" import hint %}
 {% from "nhsuk/components/label/macro.jinja" import label %}
 
+{#- Set classes for this component #}
+{%- set classNames = "nhsuk-checkboxes" -%}
+{%- set classNamesFormGroup = "nhsuk-form-group" -%}
+
+{%- if params.small and (not params.classes or not "nhsuk-checkboxes--small" in params.classes) %}
+  {% set classNames = classNames ~ " nhsuk-checkboxes--small" %}
+{% endif %}
+
+{%- if params.errorMessage %}
+  {% set classNames = classNames ~ " nhsuk-checkboxes--error" %}
+  {% set classNamesFormGroup = classNamesFormGroup ~ " nhsuk-form-group--error" %}
+{% endif %}
+
+{%- if params.classes %}
+  {% set classNames = classNames ~ " " ~ params.classes %}
+{% endif %}
+
 {#- If an id 'prefix' is not passed, fall back to using the name attribute
   instead. We need this for error messages and hints as well -#}
 {% set idPrefix = params.idPrefix if params.idPrefix else params.name %}
@@ -13,13 +30,13 @@
 {% set ns = namespace() %}
 {% set ns.describedBy = params.describedBy if params.describedBy else "" %}
 {% if params.fieldset.describedBy %}
-  {% set describedBy = params.fieldset.describedBy %}
+  {% set ns.describedBy = params.fieldset.describedBy %}
 {% endif %}
 
 {#- Jinja compatibility - avoid referencing params.items/params.values directly
   as it clashes with dict.items() and dict.values() -#}
-{% set items = params["items"] if "items" in params else [] %}
-{% set values = params["values"] if "values" in params else [] %}
+{% set items = params.get("items", []) if params else [] %}
+{% set values = params.get("values", []) if params else [] %}
 
 {#- fieldset is false by default -#}
 {% set hasFieldset = true if params.fieldset else false %}
@@ -50,8 +67,8 @@
         {{- nhsukAttributes(item.attributes) }}>
       {{ label({
         "html": item.html,
-        "id": item.label.id,
         "text": item.text,
+        "id": item.label.id,
         "classes": "nhsuk-checkboxes__label" ~ (" " ~ item.label.classes if item.label.classes),
         "size": item.label.size,
         "attributes": item.label.attributes,
@@ -100,8 +117,17 @@
     "visuallyHiddenText": params.errorMessage.visuallyHiddenText
   }) | trim | indent(2) }}
 {% endif %}
-  <div {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-checkboxes {%- if params.classes %} {{ params.classes }}{% endif %}"
-    {{- nhsukAttributes(params.attributes) }} data-module="nhsuk-checkboxes">
+  <div
+    {{- nhsukAttributes({
+      "class": classNames,
+      "id": {
+        "value": params.id,
+        "optional": true
+      },
+      "data-module": "nhsuk-checkboxes"
+    }) -}}
+
+    {{- nhsukAttributes(params.attributes) -}}>
     {% if params.formGroup.beforeInputs %}
     {{ params.formGroup.beforeInputs.html | safe | trim | indent(4) if params.formGroup.beforeInputs.html else params.formGroup.beforeInputs.text }}
     {% endif %}
@@ -116,8 +142,7 @@
   </div>
 {% endset -%}
 
-<div class="nhsuk-form-group {%- if params.errorMessage %} nhsuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}"
-  {{- nhsukAttributes(params.formGroup.attributes) }}>
+<div class="{{ classNamesFormGroup }}" {{- nhsukAttributes(params.formGroup.attributes) }}>
 {% if hasFieldset %}
   {{ fieldset({
     "describedBy": ns.describedBy,

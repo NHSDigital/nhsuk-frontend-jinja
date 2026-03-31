@@ -27,7 +27,7 @@ def test_character_count_form_group_attributes(environment):
             Can you provide more detail?
           </label>
           <textarea class="nhsuk-textarea nhsuk-js-character-count" id="example" name="example" rows="5" aria-describedby="example-info"></textarea>
-          <div id="example-info" class="nhsuk-hint nhsuk-character-count__message">
+          <div class="nhsuk-hint nhsuk-character-count__message" id="example-info">
             You can enter up to 150 characters
           </div>
         </div>

@@ -47,7 +47,7 @@ npm install
 Then install the python dependencies:
 
 ```
-uv install
+uv sync
 ```
 
 ## 4. Run the tests
@@ -55,8 +55,6 @@ uv install
 ```
 uv run pytest
 ```
-
-> The application will be available at [http://localhost:3000/nhsuk-frontend](http://localhost:3000/nhsuk-frontend).
 
 ---
 

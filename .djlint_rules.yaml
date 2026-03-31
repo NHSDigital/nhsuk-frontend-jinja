@@ -1,6 +1,6 @@
 - rule:
     name: X001
-    message: Use ~ for string concatenation (Jinja compatability)
+    message: Use ~ for string concatenation (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - '\+ ?"[^"]+"'
@@ -10,14 +10,14 @@
 
 - rule:
     name: X002
-    message: Use params['items'] rather than params.items (Jinja compatability)
+    message: Use params.get("items", []) rather than params.items (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - params.items
 
 - rule:
     name: X003
-    message: Use params['values'] rather than params.values (Jinja compatability)
+    message: Use params.get("values", []) rather than params.values (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - params.values
@@ -31,14 +31,14 @@
 
 - rule:
     name: X005
-    message: Quote keys in mappings (Jinja compatability)
+    message: Quote keys in mappings (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - '^\s*[^"'']+: '
 
 - rule:
     name: X006
-    message: Avoid strict equality operators (Jinja compatability)
+    message: Avoid strict equality operators (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - '==='
@@ -46,14 +46,14 @@
 
 - rule:
     name: X007
-    message: Use "| length" instead of ".length" (Jinja compatability)
+    message: Use "| length" instead of ".length" (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - '\.length'
 
 - rule:
     name: X008
-    message: Use "in array" instead of "array.includes()" (Jinja compatability)
+    message: Use "in array" instead of "array.includes()" (Jinja compatibility)
     flags: re.DOTALL|re.I
     patterns:
       - '\.includes'

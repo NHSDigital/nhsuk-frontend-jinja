@@ -1,37 +1,42 @@
-{% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
+{% from "nhsuk/components/card/macro.jinja" import card %}
 {% from "nhsuk/macros/icon.jinja" import nhsukIcon %}
+
+{#- Set icon or (deprecated) type for this component #}
+{%- set icon = "cross" if (params.icon or params.type) == "cross" else "tick" %}
 
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{%- set items = params.get("items", []) | select("mapping") | list if params else [] %}
 
-{%- set type = "cross" if params.type == "cross" else "tick" %}
-{%- set headingLevel = params.headingLevel if params.headingLevel else 3 %}
-
-{%- macro _listItem(params, data, type) %}
+{%- macro _listItem(params, data, icon) %}
   {% set item = {
     "text": data.item if data.item is string,
     "html": data.item if data.item is escaped
   } if data.item else data -%}
 
-  {{ nhsukIcon(type) | trim }}
-  {% if not params.hidePrefix and (params.prefixText or type == "cross") %}
+  {{ nhsukIcon(icon) | trim }}
+  {% if not params.hidePrefix and (params.prefixText or icon == "cross") %}
     {{- (params.prefixText if params.prefixText else "do not") ~ " " -}}
   {% endif %}
-  {{- item.html | safe | trim | indent(6) if item.html else item.text }}
+  {{- item.html | safe | trim | indent(4) if item.html else item.text }}
 {% endmacro -%}
 
-<div {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-do-dont-list
-  {%- if params.classes %} {{ params.classes }}{% endif %}"
-  {{- nhsukAttributes(params.attributes) }}>
-  <h{{ headingLevel }} class="nhsuk-do-dont-list__label">{{ params.title }}</h{{ headingLevel }}>
-  <ul class="nhsuk-list nhsuk-list--{{ type }}" role="list">
+{% set listHtml %}
+<ul class="nhsuk-list nhsuk-list--{{ icon }}" role="list">
 {% for data in items %}
-  {% if data %}
-    <li>
-      {{ _listItem(params, data, type) | trim | indent(6) }}
-    </li>
-  {% endif %}
+  <li>
+    {{ _listItem(params, data, icon) | trim | indent(4) }}
+  </li>
 {% endfor %}
-  </ul>
-</div>
+</ul>
+{% endset -%}
+
+{{ card({
+  "id": params.id,
+  "heading": params.title,
+  "headingLevel": params.headingLevel if params.headingLevel else 3,
+  "descriptionHtml": listHtml,
+  "classes": params.classes,
+  "attributes": params.attributes,
+  "variant": "feature"
+}) | trim }}

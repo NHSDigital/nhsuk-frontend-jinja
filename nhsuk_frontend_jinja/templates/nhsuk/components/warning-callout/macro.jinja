@@ -1,6 +1,6 @@
 {% macro warningCallout(params) %}
-  {% if caller %}
+  {%- if caller -%}
   {# noop for Jinja support #}
-  {% endif %}
+  {%- endif -%}
   {%- include "nhsuk/components/warning-callout/template.jinja" -%}
 {% endmacro %}

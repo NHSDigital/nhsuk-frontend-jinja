@@ -1,11 +1,25 @@
 {% from "nhsuk/components/back-link/macro.jinja" import backLink %}
 {% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
 
+{#- Set variant for this component #}
+{%- set variant = params.variant -%}
+
+{#- Set classes for this component #}
+{%- set classNames = "nhsuk-breadcrumb" -%}
+
+{%- if variant == "reverse" and (not params.classes or not "nhsuk-breadcrumb--reverse" in params.classes) %}
+  {% set classNames = classNames ~ " nhsuk-breadcrumb--" ~ variant %}
+{% endif %}
+
+{%- if params.classes %}
+  {% set classNames = classNames ~ " " ~ params.classes %}
+{% endif -%}
+
 {#- Jinja compatibility - avoid referencing params.items directly
   as it clashes with dict.items() -#}
-{% set items = params["items"] if "items" in params else [] %}
+{%- set items = params.get("items", []) if params else [] -%}
 
-<nav {%- if params.id %} id="{{ params.id }}"{% endif %} class="nhsuk-breadcrumb{% if params.classes %} {{ params.classes }}{% endif %}" aria-label="{{ params.labelText | default("Breadcrumb") }}"
+<nav class="{{ classNames }}" {%- if params.id %} id="{{ params.id }}"{% endif %} aria-label="{{ params.labelText | default("Breadcrumb") }}"
   {{- nhsukAttributes(params.attributes) }}>
   <ol class="nhsuk-breadcrumb__list">
 {% for item in items %}
@@ -33,6 +47,7 @@
     "text": params.backLink.text if (params.backLink.html or params.backLink.text) else lastText,
     "html": params.backLink.html if (params.backLink.html or params.backLink.text),
     "href": params.backLink.href if params.backLink.href else lastHref,
+    "variant": params.backLink.variant if params.backLink.variant else variant,
     "classes": params.backLink.classes,
     "attributes": params.backLink.attributes if params.backLink.attributes else lastItem.attributes,
     "element": params.backLink.element
