@@ -20,9 +20,10 @@
   {% set classNamesFormGroup = classNamesFormGroup ~ " " ~ params.formGroup.classes %}
 {% endif %}
 
-{#- Jinja compatibility - avoid referencing params.values directly
-  as it clashes with dict.values() -#}
-{% set values = params.get("values", []) if params else [] %}
+{#- Jinja compatibility - avoid referencing params.items/params.values directly
+  as it clashes with dict.items() and dict.values() -#}
+{% set items = params.get("items", []) if params else [] %}
+{% set values = params.get("values", {}) if params else {} %}
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
@@ -32,79 +33,131 @@
 {#- fieldset is false by default -#}
 {% set hasFieldset = true if params.fieldset else false %}
 
-{%- if params and params.get("items", []) | length %}
-  {% set dateInputItems = params.get("items", []) %}
+{%- set dateInputDay = params.day | default({
+  "name": "day",
+  "value": values.day,
+  "width": 2
+}) -%}
+
+{%- set dateInputMonth = params.month | default({
+  "name": "month",
+  "value": values.month,
+  "width": 2
+}) -%}
+
+{%- set dateInputYear = params.year | default({
+  "name": "year",
+  "value": values.year,
+  "width": 4
+}) -%}
+
+{%- if items | length %}
+  {% set ns.dateInputItems = items %}
 {% else %}
-  {% set dateInputItems = [
-    {
-      "name": "day",
-      "value": values.day,
-      "width": 2
-    },
-    {
-      "name": "month",
-      "value": values.month,
-      "width": 2
-    },
-    {
-      "name": "year",
-      "value": values.year,
-      "width": 4
-    }
+  {% set ns.dateInputItems = [
+    dateInputDay,
+    dateInputMonth,
+    dateInputYear
   ] %}
 {% endif %}
+
+{%- macro _dateInputItem(params, item, anyItemHasError) %}
+{% set itemLabel = item.label if item.label is mapping and item.label is not escaped else {
+  "text": item.label if item.label is string else undefined,
+  "html": item.label if item.label is escaped else undefined
+} %}
+{% set itemName = item.name %}
+{% set itemValue = item.value %}
+{% set itemWidth = item.width | default(2) %}
+{% set itemClasses = "" %}
+{% set itemHasError = true if item.error or (item.classes and "nhsuk-input--error" in item.classes) else false %}
+
+{%- if item is sameas(dateInputDay) or (item.name and item.name in ["day", dateInputDay.name]) %}
+  {% set itemName = item.name | default("day") %}
+  {% set itemValue = item.value | default(dateInputDay.value) %}
+{% elif item is sameas(dateInputMonth) or (item.name and item.name in ["month", dateInputMonth.name]) %}
+  {% set itemName = item.name | default("month") %}
+  {% set itemValue = item.value | default(dateInputMonth.value) %}
+{% elif item is sameas(dateInputYear) or (item.name and item.name in ["year", dateInputYear.name]) %}
+  {% set itemName = item.name | default("year") %}
+  {% set itemValue = item.value | default(dateInputYear.value) %}
+  {% set itemWidth = item.width | default(4) %}
+{% endif -%}
+
+{%- if item.classes %}
+  {% set itemClasses = (itemClasses ~ " " ~ item.classes) | trim %}
+{% endif %}
+
+<div class="nhsuk-date-input__item">
+  {{ input({
+    "label": {
+      "html": itemLabel.html,
+      "text": itemLabel.text | default(itemName | capitalize),
+      "id": itemLabel.id,
+      "for": itemLabel.for,
+      "classes": "nhsuk-date-input__label" ~ (" " ~ itemLabel.classes if itemLabel.classes),
+      "attributes": itemLabel.attributes
+    },
+    "errorMessage": itemHasError or (item.error != false and params.errorMessage and not anyItemHasError),
+    "id": item.id if item.id else (params.id ~ "-" ~ itemName),
+    "name": (params.namePrefix ~ "[" ~ itemName ~ "]") if params.namePrefix else itemName,
+    "value": itemValue | default(values[itemName]),
+    "type": item.type | default("text", true),
+    "prefix": item.prefix,
+    "suffix": item.suffix,
+    "width": itemWidth,
+    "inputmode": item.inputmode if item.inputmode else "numeric",
+    "spellcheck": item.spellcheck,
+    "autocomplete": item.autocomplete,
+    "autocapitalize": item.autocapitalize,
+    "pattern": item.pattern,
+    "disabled": item.disabled | default(params.disabled),
+    "describedBy": item.describedBy,
+    "classes": ("nhsuk-date-input__input" ~ " " ~ itemClasses) | trim,
+    "attributes": item.attributes
+  }) | trim | indent(2) }}
+</div>
+{%- endmacro -%}
+
+{#- Determine if any date input item has an error #}
+{%- set ns.anyItemHasError = false %}
+{% for item in ns.dateInputItems %}
+  {% set ns.anyItemHasError = true if item.error or (item.classes and "nhsuk-input--error" in item.classes) else ns.anyItemHasError %}
+{% endfor -%}
 
 {#- Capture the HTML so we can optionally nest it in a fieldset -#}
 {% set innerHtml %}
 {% if params.hint %}
-  {% set hintId = params.id ~ "-hint" %}
+  {% set hintId = params.hint.id | default(params.id ~ "-hint") %}
   {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
   {{ hint({
-    "id": hintId,
-    "classes": params.hint.classes,
-    "attributes": params.hint.attributes,
     "html": params.hint.html,
-    "text": params.hint.text
+    "text": params.hint.text,
+    "id": params.hint.id | default(hintId),
+    "classes": params.hint.classes,
+    "attributes": params.hint.attributes
   }) | trim | indent(2) }}
 {% endif %}
-{% if params.errorMessage %}
-  {% set errorId = params.id ~ "-error" %}
+{% if params.errorMessage.text or params.errorMessage.html %}
+  {% set errorId = params.errorMessage.id | default(params.id ~ "-error") %}
   {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
   {{ errorMessage({
-    "id": errorId,
-    "classes": params.errorMessage.classes,
-    "attributes": params.errorMessage.attributes,
     "html": params.errorMessage.html,
     "text": params.errorMessage.text,
-    "visuallyHiddenText": params.errorMessage.visuallyHiddenText
+    "visuallyHiddenText": params.errorMessage.visuallyHiddenText,
+    "id": params.errorMessage.id | default(errorId),
+    "classes": params.errorMessage.classes,
+    "attributes": params.errorMessage.attributes
   }) | trim | indent(2) }}
 {% endif %}
   <div class="{{ classNames }}" {%- if params.id %} id="{{ params.id }}"{% endif %} {{- nhsukAttributes(params.attributes) -}}>
     {% if params.formGroup.beforeInputs %}
     {{ params.formGroup.beforeInputs.html | safe | trim | indent(4) if params.formGroup.beforeInputs.html else params.formGroup.beforeInputs.text }}
     {% endif %}
-    {% for item in dateInputItems %}
-    {% if item %}
-    <div class="nhsuk-date-input__item">
-      {{ input({
-        "label": {
-          "text": item.label if item.label else item.name | capitalize,
-          "id": item.label.id,
-          "classes": "nhsuk-date-input__label"
-        },
-        "id": item.id if item.id else (params.id ~ "-" ~ item.name),
-        "classes": ("nhsuk-input--error " if item.error) ~ "nhsuk-date-input__input" ~ (" " ~ item.classes if item.classes),
-        "name": (params.namePrefix ~ "[" ~ item.name ~ "]") if params.namePrefix else item.name,
-        "value": item.value or values[item.name],
-        "width": item.width,
-        "type": "text",
-        "inputmode": item.inputmode if item.inputmode else "numeric",
-        "autocomplete": item.autocomplete,
-        "pattern": item.pattern,
-        "attributes": item.attributes
-      }) | trim | indent(6) }}
-    </div>
-    {% endif %}
+    {% for item in ns.dateInputItems %}
+      {% if item %}
+        {{- _dateInputItem(params, item, ns.anyItemHasError) | trim | indent(4, true) }}
+      {% endif %}
     {% endfor %}
     {% if params.formGroup.afterInputs %}
     {{ params.formGroup.afterInputs.html | safe | trim | indent(4) if params.formGroup.afterInputs.html else params.formGroup.afterInputs.text }}
@@ -119,12 +172,13 @@
     adding the role to the fieldset always makes the output overly verbose for
     radio buttons or checkboxes. -#}
   {{ fieldset({
+    "legend": params.fieldset.legend,
+    "html": innerHtml | trim,
+    "id": params.fieldset.id,
+    "role": params.fieldset.role | default("group"),
     "describedBy": ns.describedBy,
     "classes": params.fieldset.classes,
-    "role": "group",
-    "attributes": params.fieldset.attributes,
-    "legend": params.fieldset.legend,
-    "html": innerHtml | trim
+    "attributes": params.fieldset.attributes
   }) | trim | indent(2) }}
 {% else %}
   {{ innerHtml | safe | trim }}
