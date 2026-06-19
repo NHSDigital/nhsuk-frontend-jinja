@@ -1,6 +1,6 @@
 # NHS.UK frontend jinja changelog
 
-## Unreleased
+## 0.9.0
 
 This version is compatible with v10.5.0 of nhsuk-frontend.
 
