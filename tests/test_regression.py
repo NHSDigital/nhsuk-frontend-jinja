@@ -22,7 +22,7 @@ def test_character_count_form_group_attributes(environment):
     assert (
         result
         == """
-        <div class="nhsuk-form-group nhsuk-character-count app-character-count--custom-modifier" data-module="nhsuk-character-count" data-maxlength="150" data-attribute="my-attribute" data-attribute-2="my-attribute-2">
+        <div class="nhsuk-form-group app-character-count--custom-modifier nhsuk-character-count" data-module="nhsuk-character-count" data-maxlength="150" data-attribute="my-attribute" data-attribute-2="my-attribute-2">
           <label class="nhsuk-label" for="example">
             Can you provide more detail?
           </label>

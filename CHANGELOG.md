@@ -1,5 +1,288 @@
 # NHS.UK frontend jinja changelog
 
+## 0.9.0
+
+This version is compatible with v10.5.0 of nhsuk-frontend.
+
+### :new: **New features**
+
+#### New search input component
+
+We've added a new [search input component](https://service-manual.nhs.uk/design-system/components/search-input).
+
+To use the `searchInput` macro in your service:
+
+```njk
+{{ searchInput({
+  "label": {
+    "text": "Find session"
+  },
+  "name": "search",
+  "width": 10
+}) }}
+```
+
+This change was introduced in [pull request #1660: Add search input component](https://github.com/nhsuk/nhsuk-frontend/pull/1660).
+
+#### Improved character count counting
+
+We've added a new `"countType"` option to the character count component to enable [improved counting with `Intl.Segmenter`](https://developer.mozilla.org/en-US/blog/javascript-intl-segmenter-i18n/).
+
+This feature was introduced because [JavaScript counts `String: length` in code units](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length) not characters, for example:
+
+| String | Length | Remarks                                                                    |
+| ------ | ------ | -------------------------------------------------------------------------- |
+| cafȩ́   | 5      | The character `ȩ́` counted as 2 code units                                  |
+| cafȩ́   | 5      | The character `ȩ` with combining mark ` ́` counted as 2 code units          |
+| cafȩ́   | 6      | The character `e` with combining marks ` ́` and ` ̧` counted as 3 code units |
+| 😹     | 2      | The cat emoji counted as 2 code units                                      |
+| 👩🏻‍🚀     | 7      | The astronaut emoji with gender and skin modifiers counted as 7 code units |
+
+Similarly when counting words, "my mother-in-law" is now counted as 4 (not 2) words to correctly follow the [Unicode **Default Word Boundary Specification**](https://unicode.org/reports/tr29/#Default_Word_Boundaries).
+
+To enable improved counting in [supported browsers](https://caniuse.com/wf-intl-segmenter) you should either:
+
+- add `"countType": "characters"` to count user-perceived characters
+- add `"countType": "words"` to count words between word boundaries
+
+Unsupported browsers will default to the `"textareaDescriptionText"` message shown when JavaScript is unavailable, such as:
+
+> You can enter up to 350 characters
+
+When counting characters:
+
+```patch
+  {{ characterCount({
+    "label": {
+      "text": "Can you provide more detail?",
+      "size": "l",
+      "isPageHeading": true
+    },
+    "name": "more-detail",
+-   "maxlength": 350
++   "maxlength": 350,
++   "countType": "characters"
+  }) }}
+```
+
+Or when counting words:
+
+```patch
+  {{ characterCount({
+    "label": {
+      "text": "Can you provide more detail?",
+      "size": "l",
+      "isPageHeading": true
+    },
+    "name": "more-detail",
+-   "maxwords": 150
++   "maxlength": 150,
++   "countType": "words"
+  }) }}
+```
+
+Note: [The character count `"maxwords"` option and word counting behaviour are deprecated](#rename-the-character-count-maxwords-option) and will be removed in a future release. You must replace `"maxwords"` with `"maxlength"` when using `"countType": "words"`.
+
+This was added in pull requests [#1892: Refactor character count method to reduce repeated updates](https://github.com/nhsuk/nhsuk-frontend/pull/1892), [#1893: Deprecate character count `maxwords` and add `countType` option](https://github.com/nhsuk/nhsuk-frontend/pull/1893), [#1895: Add character count `countType: "characters"` option using Intl.Segmenter](https://github.com/nhsuk/nhsuk-frontend/pull/1895) and [#1899: Add character count `countType: "words"` option using Intl.Segmenter](https://github.com/nhsuk/nhsuk-frontend/pull/1899).
+
+#### Add date input `"day"`, `"month"` and `"year"` options
+
+We've updated the date input component to add individual `"day"`, `"month"` and `"year"` options.
+
+These new options can be used to partially override the defaults. For example, setting `"error": true` on the year item no longer requires all other item defaults to be set:
+
+```patch
+  {{ dateInput({
+    "fieldset": {
+      "legend": {
+        "text": "What is your date of birth?",
+        "size": "l",
+        "isPageHeading": true
+      }
+    },
+    "errorMessage": {
+      "text": "Date of birth must include a year"
+    },
+    "namePrefix": "dob",
+    "values": data.dob,
+-   "items": [
+-     {
+-       "name": "day",
+-       "label": "Day",
+-       "width": 2
+-     },
+-     {
+-       "name": "month",
+-       "label": "Month",
+-       "width": 2
+-     },
+-     {
+-       "name": "year",
+-       "label": "Year",
+-       "width": 4,
+-       "error": true
+-     }
+-   ]
++   "year": {
++     "error": true
++   }
+  }) }}
+```
+
+This was added in [pull request #1869: Add date input `day`, `month` and `year` options](https://github.com/nhsuk/nhsuk-frontend/pull/1869).
+
+#### Updated macro options for components
+
+For consistency with other components, we’ve added new macro options:
+
+- Action link `element` and `type` options
+- Back link `type` option
+- Character count `autocomplete` option
+- Checkboxes and radios `formGroup.classes` option
+- Date input and password input `inputWrapper` option
+- Password input `code`, `prefix` and `suffix` options
+- Password input button `variant` option
+- Radios `formGroup.classes` option
+
+Visit the [design system in the NHS digital service manual](https://service-manual.nhs.uk/design-system/components) to see options for each component.
+
+This was added in pull requests [#1916: Add disabled component examples and review Nunjucks options](https://github.com/nhsuk/nhsuk-frontend/pull/1916) and [#1946: Updates to link classes and mixins, support for action link as a button](https://github.com/nhsuk/nhsuk-frontend/pull/1946).
+
+#### Added a top-level `"disabled"` option to more form controls
+
+We’ve updated more components to include a top-level `"disabled"` option. This will make it easier to set the disabled state for these form controls.
+
+- Character count `disabled` option
+- Checkboxes and radios `disabled` option
+- Date input `disabled` option
+- Password input `disabled` option
+
+Disabled form controls have poor contrast and can confuse some users, so avoid them if possible.
+
+Only use disabled form controls if research shows it makes the user interface easier to understand.
+
+This was added in [pull request #1916: Add disabled component examples and review Nunjucks options](https://github.com/nhsuk/nhsuk-frontend/pull/1916).
+
+#### Add icons to buttons
+
+You can now [add icons](https://service-manual.nhs.uk/design-system/styles/icons) to buttons using the `"icon"` options.
+
+For example, using `"icon": "search"` to add an icon-only search button to a text input:
+
+```njk
+{{ input({
+  "formGroup": {
+    "afterInput": {
+      "html": button({
+        "ariaLabel": "Find",
+        "icon": "search",
+        "small": true
+      })
+    }
+  }
+}) }}
+```
+
+With support for both an icon and text shown together:
+
+```patch
+  "html": button({
+-   "ariaLabel": "Find",
++   "text": "Find",
+    "icon": "search",
+    "small": true
+  })
+```
+
+Or to change the icon and adjust placement:
+
+```patch
+ "html": button({
+   "text": "Find",
+-   "icon": "search",
++   "icon": {
++     "name": "arrow-right",
++     "placement": "end"
++   }
+ })
+```
+
+This was added in [pull request #1712: Add support for icon buttons](https://github.com/nhsuk/nhsuk-frontend/pull/1712).
+
+#### Add a modifier class for inline checkboxes
+
+We've added a new `.nhsuk-checkboxes--inline` class and `"inline"` option for the [checkboxes](https://service-manual.nhs.uk/design-system/components/header) component.
+
+If there are only 2 short options, you can use this to display the checkboxes horizontally (inline). On small screens such as mobile devices, the checkboxes will still stack vertically.
+
+For example:
+
+```patch
+  {{ checkboxes({
+    "fieldset": {
+      "legend": {
+        "text": "Which nipple has changed?"
+      }
+    },
+    "name": "area",
++   "inline": true,
+    "items": [
+      {
+        "value": "right",
+        "text": "Right nipple"
+      },
+      {
+        "value": "left",
+        "text": "Left nipple"
+      }
+    ]
+  }) }}
+```
+
+This was added in [pull request #1937: Add a modifier class for inline checkboxes](https://github.com/nhsuk/nhsuk-frontend/pull/1937).
+
+#### Add a template with all components imported
+
+If you are using our [page template](https://service-manual.nhs.uk/design-system/styles/page-template), you can now extend `template-with-imports.jinja` instead of `template.jinja` to automatically import all components.
+
+This was added in [pull request #1921: Add a template with all components imported](https://github.com/nhsuk/nhsuk-frontend/pull/1921).
+
+### :wastebasket: **Deprecated features**
+
+#### Rename the character count `"maxwords"` option
+
+To support improved word counting using the browser [`Intl.Segmenter` API](https://developer.mozilla.org/en-US/blog/javascript-intl-segmenter-i18n/), you should replace the character count `"maxwords"` option with `"maxlength"` and set `"countType": "words"`.
+
+For example, using Jinja:
+
+```patch
+  {{ characterCount({
+    "label": {
+      "text": "Can you provide more detail?",
+      "size": "l",
+      "isPageHeading": true
+    },
+    "name": "more-detail",
+-   "maxwords": 150
++   "maxlength": 150,
++   "countType": "words"
+  }) }}
+```
+
+Or when using the JavaScript API:
+
+```patch
+  new CharacterCount($root, {
+-   maxwords: 150
++   maxlength: 150,
++   countType: 'words'
+  })
+```
+
+The previous `"maxwords"` option and word counting behaviour are deprecated and will be removed in a future release.
+
+This change was introduced in pull requests [#1893: Deprecate character count `maxwords` and add `countType` option](https://github.com/nhsuk/nhsuk-frontend/pull/1893) and [#1899: Add character count `countType: "words"` option using Intl.Segmenter](https://github.com/nhsuk/nhsuk-frontend/pull/1899).
+
 ## 0.8.0
 
 This version is compatible with v10.4.0 of nhsuk-frontend.

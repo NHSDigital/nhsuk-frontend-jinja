@@ -51,7 +51,7 @@ def render(environment, component, options, call_content):
     elif component == "do-dont-list":
         component_camel_case = "list"
 
-    options_json = json.dumps(options)
+    options_json = json.dumps(options, ensure_ascii=False)
 
     if call_content:
         template_string = f"{{% from 'nhsuk/components/{component}/macro.jinja' import {component_camel_case}%}}\n{{% call {component_camel_case}({options_json}) %}}{call_content}{{% endcall %}}"
