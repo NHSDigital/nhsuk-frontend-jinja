@@ -1,5 +1,13 @@
 # NHS.UK frontend jinja changelog
 
+## 0.9.1
+
+This version is compatible with v10.5.2 of nhsuk-frontend.
+
+### :wrench: **Fixes**
+
+- [#103: Add new icons from NHS.UK frontend](https://github.com/NHSDigital/nhsuk-frontend-jinja/pull/103)
+
 ## 0.9.0
 
 This version is compatible with v10.5.0 of nhsuk-frontend.
