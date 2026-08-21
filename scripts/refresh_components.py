@@ -18,9 +18,19 @@ nunjucks_root = (
 jinja_root = repo_root / "nhsuk_frontend_jinja" / "templates" / "nhsuk" / "components"
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
+INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z_]\w*)\s*:")
+PARAMS_ITEMS = re.compile(r"\bparams\.items\b")
+PARAMS_VALUES = re.compile(r"\bparams\.values\b")
+ITEM_ITEMS = re.compile(r"\bitem\.items\b")
+NESTED_ITEMS = re.compile(r"\b(?P<object>[A-Za-z_][A-Za-z0-9_\.]*)\.items\b(?!\s*\()")
+NESTED_VALUES = re.compile(r"\b(?P<object>[A-Za-z_][A-Za-z0-9_\.]*)\.values\b(?!\s*\()")
 
 
-def standard_macro_replacements(filepath, component_name):
+def standard_macro_replacements(
+    filepath,
+    component_name,
+    accepts_caller=False,
+):
     with filepath.open("r+") as file:
         lines = file.readlines()
 
@@ -37,6 +47,14 @@ def standard_macro_replacements(filepath, component_name):
             )
 
             file.write(line)
+
+            if (
+                accepts_caller
+                and line.lstrip().startswith("{% macro ")
+            ):
+                file.write("  {%- if caller -%}\n")
+                file.write("  {# noop for Jinja support #}\n")
+                file.write("  {%- endif -%}\n")
 
 
 def standard_template_replacements(filepath):
@@ -57,9 +75,48 @@ def standard_template_replacements(filepath):
             # This regex doesn't detect all instances of this problem, but it sorts out
             # most of them.
             if match := UNQUOTED_KEY.match(line):
-                line = UNQUOTED_KEY.sub(
-                    f'{match.group('leading_space')}"{match.group('name')}": ', line
-                )
+                leading = match.group("leading_space")
+                name = match.group("name")
+                line = UNQUOTED_KEY.sub(f'{leading}"{name}": ', line)
+
+            line = INLINE_UNQUOTED_KEY.sub(r'\g<prefix>"\g<name>":', line)
+
+            # Rewrite to get
+            line = PARAMS_ITEMS.sub('(params.get("items", []) if params else [])', line)
+            line = ITEM_ITEMS.sub('(item.get("items", []) if item else [])', line)
+            line = PARAMS_VALUES.sub('(params.get("values", []) if params else [])', line)
+            line = NESTED_ITEMS.sub(r'\g<object>.get("items", [])', line)
+            line = NESTED_VALUES.sub(r'\g<object>.get("values", [])', line)
+
+            # Use list to convert the generator to a list.
+            line = line.replace(
+                '| select("mapping") if',
+                '| select("mapping") | list if',
+            )
+            line = line.replace(
+                '| select("iterable") if',
+                '| select("iterable") | list if',
+            )
+
+            # lowercase booleans
+            line = line.replace(
+                "params.preventDoubleClick | string",
+                "params.preventDoubleClick | string | lower",
+            )
+            line = line.replace(
+                "params.disableAutoFocus | string",
+                "params.disableAutoFocus | string | lower",
+            )
+            line = line.replace(
+                "params.spellcheck | string",
+                "params.spellcheck | string | lower",
+            )
+
+            # Jinja doesn't support `===`, use `is` instead.
+            line = line.replace("=== false", "is false")
+            line = line.replace("=== true", "is true")
+            line = line.replace(" = null", " = none")
+            line = line.replace('["", null, false]', '["", none, false]')
 
             file.write(line)
 
@@ -77,13 +134,21 @@ def refresh_components(components=()):
 
         if filename.is_dir():
             component_directory.mkdir(parents=True, exist_ok=True)
-            macro_path = component_directory / "macro.jinja"
-            shutil.copyfile(filename / "macro.njk", macro_path)
-            standard_macro_replacements(macro_path, component_path.as_posix())
 
             template_path = component_directory / "template.jinja"
             shutil.copyfile(filename / "template.njk", template_path)
             standard_template_replacements(template_path)
+
+            template_source = template_path.read_text(encoding="utf-8")
+            accepts_caller = "caller" in template_source
+
+            macro_path = component_directory / "macro.jinja"
+            shutil.copyfile(filename / "macro.njk", macro_path)
+            standard_macro_replacements(
+                macro_path,
+                component_path.as_posix(),
+                accepts_caller,
+            )
 
 
 if __name__ == "__main__":
