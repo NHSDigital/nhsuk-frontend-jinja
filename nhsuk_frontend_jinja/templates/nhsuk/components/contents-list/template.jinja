@@ -7,6 +7,8 @@
   {% set classNames = classNames ~ " " ~ params.classes %}
 {% endif -%}
 
+{%- set ariaLabel = params.ariaLabel | default(params.landmarkLabel, true) | default("Pages in this guide", true) -%}
+
 {% macro _contentsList(items) %}
 <ol class="nhsuk-contents-list__list">
 {% for item in items %}
@@ -21,8 +23,8 @@
       {{- item.html | safe | trim | indent(4) if item.html else item.text -}}
     </a>
   {% endif %}
-  {% if "items" in item %}
-    {{ _contentsList(item.get("items", [])) | trim | indent(4) }}
+  {% if (item.get("items", []) if item else []) %}
+    {{ _contentsList((item.get("items", []) if item else [])) | trim | indent(4) }}
   {% endif %}
   </li>
   {% endif %}
@@ -30,14 +32,10 @@
 </ol>
 {% endmacro -%}
 
-{#- Jinja compatibility - avoid referencing params.items directly
-  as it clashes with dict.items() -#}
-{% set items = params.get("items", []) if params else [] -%}
-
-<nav class="{{ classNames }}" {%- if params.id %} id="{{ params.id }}"{% endif %} role="navigation" aria-label="{{ params.landmarkLabel | default("Pages in this guide", true) }}"
+<nav class="{{ classNames }}" {%- if params.id %} id="{{ params.id }}"{% endif %} role="navigation" aria-label="{{ ariaLabel }}"
   {{- nhsukAttributes(params.attributes) }}>
   <h2 class="nhsuk-u-visually-hidden">
     {{- params.visuallyHiddenText | default("Contents", true) -}}
   </h2>
-  {{ _contentsList(items) | trim | indent(2) }}
+  {{ _contentsList((params.get("items", []) if params else [])) | trim | indent(2) }}
 </nav>

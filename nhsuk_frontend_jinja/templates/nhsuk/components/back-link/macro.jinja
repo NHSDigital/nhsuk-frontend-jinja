@@ -1,3 +1,6 @@
 {% macro backLink(params) %}
+  {%- if caller -%}
+  {# noop for Jinja support #}
+  {%- endif -%}
   {%- include "nhsuk/components/back-link/template.jinja" -%}
 {% endmacro %}
