@@ -65,20 +65,21 @@ def standard_template_replacements(filepath):
 
 
 def refresh_components(components=()):
-    for filename in nunjucks_root.iterdir():
-        nunjucks_template = filename / "template.njk"
-        component_name = filename.name
+    for nunjucks_template in nunjucks_root.rglob("template.njk"):
+        filename = nunjucks_template.parent
+        component_path = filename.relative_to(nunjucks_root)
+        component_name = component_path.parts[0]
 
         if components and component_name not in components:
             continue
 
-        component_directory = jinja_root / component_name
+        component_directory = jinja_root / component_path
 
-        if filename.is_dir() and (nunjucks_template).exists():
+        if filename.is_dir():
             component_directory.mkdir(parents=True, exist_ok=True)
             macro_path = component_directory / "macro.jinja"
             shutil.copyfile(filename / "macro.njk", macro_path)
-            standard_macro_replacements(macro_path, component_name)
+            standard_macro_replacements(macro_path, component_path.as_posix())
 
             template_path = component_directory / "template.jinja"
             shutil.copyfile(filename / "template.njk", template_path)
