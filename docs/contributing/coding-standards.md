@@ -146,7 +146,7 @@ Good:
 
 ### Avoid strict equality operators
 
-Avoid using the strict equality operators (`===` and `!===`), as they are not compatible with Jinja.
+Avoid using the strict equality operators (`===` and `!==`), as they are not compatible with Jinja.
 
 If the type of a value is unknown, `== true` can be safely used in place of `=== true`. This expression is true for a boolean true value or the number `1`, and false for any other values, including strings.
 
