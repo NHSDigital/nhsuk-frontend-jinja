@@ -18,12 +18,12 @@ nunjucks_root = (
 jinja_root = repo_root / "nhsuk_frontend_jinja" / "templates" / "nhsuk" / "components"
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
-INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z_]\w*)\s*:")
+INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
 PARAMS_ITEMS = re.compile(r"\bparams\.items\b")
 PARAMS_VALUES = re.compile(r"\bparams\.values\b")
 ITEM_ITEMS = re.compile(r"\bitem\.items\b")
-NESTED_ITEMS = re.compile(r"\b(?P<object>[A-Za-z_][A-Za-z0-9_\.]*)\.items\b(?!\s*\()")
-NESTED_VALUES = re.compile(r"\b(?P<object>[A-Za-z_][A-Za-z0-9_\.]*)\.values\b(?!\s*\()")
+NESTED_ITEMS = re.compile(r"\b(?P<object>[A-Za-z\.]*)\.items\b(?!\s*\()")
+NESTED_VALUES = re.compile(r"\b(?P<object>[A-Za-z\.]*)\.values\b(?!\s*\()")
 MACRO_PARAMS = re.compile(r"{% macro (?P<macro>[A-Za-z]+)\((?P<args>[^)]+)\) %}")
 
 
