@@ -21,6 +21,7 @@ UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
 PARAMS_ITEMS = re.compile(r"\bparams\.items\b")
 PARAMS_VALUES = re.compile(r"\bparams\.values\b")
+IS_MAPPING = re.compile(r"\b(?P<params>[A-Za-z\.]*) is mapping and (?P=params) is not escaped\b")
 ITEM_ITEMS = re.compile(r"\bitem\.items\b")
 NESTED_ITEMS = re.compile(r"\b(?P<object>[A-Za-z\.]*)\.items\b(?!\s*\()")
 NESTED_VALUES = re.compile(r"\b(?P<object>[A-Za-z\.]*)\.values\b(?!\s*\()")
@@ -100,6 +101,9 @@ def standard_template_replacements(filepath):
             line = PARAMS_VALUES.sub('(params.get("values", []) if params else [])', line)
             line = NESTED_ITEMS.sub(r'\g<object>.get("items", [])', line)
             line = NESTED_VALUES.sub(r'\g<object>.get("values", [])', line)
+
+            # Remove unnecessary `is escaped` checks
+            line = IS_MAPPING.sub(r"\g<params> is mapping", line)
 
             # Use list to convert the generator to a list.
             line = line.replace(
