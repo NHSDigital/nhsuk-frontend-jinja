@@ -78,7 +78,7 @@
       {{- item.divider -}}
     </div>
   {% else %}
-    {% set isChecked = item.checked | default((item.value in (params.get("values", []) if params else []) and item.checked != false) if (params.get("values", []) if params else []) else false, true) %}
+    {% set isChecked = item.checked | default((item.value in params.get("values", undefined) and item.checked != false) if params.get("values", undefined) else false, true) %}
     {% set hasHint = true if itemHint.text or itemHint.html %}
     {% set itemHintId = itemHint.id | default(itemId ~ "-item-hint") if hasHint else "" %}
     {% set itemDescribedBy = ns.describedBy if not hasFieldset else "" %}
@@ -162,7 +162,7 @@
     {% if params.formGroup.beforeInputs %}
     {{ params.formGroup.beforeInputs.html | safe | trim | indent(4) if params.formGroup.beforeInputs.html else params.formGroup.beforeInputs.text }}
     {% endif %}
-    {% for item in (params.get("items", []) if params else []) %}
+    {% for item in params.get("items", undefined) %}
       {% if item %}
         {{- _checkboxItem(params, item, loop.index) -}}
       {% endif %}

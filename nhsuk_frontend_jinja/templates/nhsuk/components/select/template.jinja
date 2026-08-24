@@ -51,7 +51,7 @@
     {%- if params.disabled %} disabled{% endif %}
     {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
     {{- nhsukAttributes(params.attributes) }}>
-  {% for item in (params.get("items", []) if params else []) %}
+  {% for item in params.get("items", undefined) %}
   {%- if item.divider %}
     <hr>
   {% elif item %}

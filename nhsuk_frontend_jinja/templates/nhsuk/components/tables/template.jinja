@@ -183,7 +183,7 @@
   {{- nhsukAttributes(item.attributes) }}>
 {% set header = head[parent.loop.index0] -%}
 
-{% set isHeader = parent.get("items", []) is sameas(head) -%}
+{% set isHeader = parent.get("items", undefined) is sameas(head) -%}
 {% set isResponsive = true if parent.params.responsive else false -%}
 
 {% set innerHtml %}

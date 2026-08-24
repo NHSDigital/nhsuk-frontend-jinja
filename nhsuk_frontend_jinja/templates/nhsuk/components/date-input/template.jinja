@@ -34,24 +34,24 @@
 
 {%- set dateInputDay = params.day | default({
   "name": "day",
-  "value": (params.get("values", []) if params else []).day,
+  "value": params.get("values", undefined).day,
   "width": 2
 }) -%}
 
 {%- set dateInputMonth = params.month | default({
   "name": "month",
-  "value": (params.get("values", []) if params else []).month,
+  "value": params.get("values", undefined).month,
   "width": 2
 }) -%}
 
 {%- set dateInputYear = params.year | default({
   "name": "year",
-  "value": (params.get("values", []) if params else []).year,
+  "value": params.get("values", undefined).year,
   "width": 4
 }) -%}
 
-{%- if (params.get("items", []) if params else []) | length %}
-  {% set dateInputItems = (params.get("items", []) if params else []) %}
+{%- if params.get("items", undefined) | length %}
+  {% set dateInputItems = params.get("items", undefined) %}
 {% else %}
   {% set dateInputItems = [
     dateInputDay,
@@ -103,7 +103,7 @@
       (itemHasError or (item.error != false and (errorMessageOptions.text or errorMessageOptions.html or params.errorMessage == true) and not anyItemHasError)),
     "id": item.id if item.id else (params.id ~ "-" ~ itemName),
     "name": (params.namePrefix ~ "[" ~ itemName ~ "]") if params.namePrefix else itemName,
-    "value": itemValue | default((params.get("values", []) if params else [])[itemName]),
+    "value": itemValue | default(params.get("values", undefined)[itemName]),
     "type": item.type | default("text", true),
     "prefix": item.prefix,
     "suffix": item.suffix,

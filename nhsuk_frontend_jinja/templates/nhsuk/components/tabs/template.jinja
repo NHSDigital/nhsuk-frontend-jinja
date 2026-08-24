@@ -50,15 +50,15 @@
     "level": 2,
     "className": "nhsuk-tabs__title"
   }) | trim | indent(2) }}
-{% if (params.get("items", []) if params else []) | length %}
+{% if params.get("items", undefined) | length %}
   <ul class="nhsuk-tabs__list">
-    {% for item in (params.get("items", []) if params else []) %}
+    {% for item in params.get("items", undefined) %}
       {% if item %}
         {{- _tabListItem(params, item, loop.index) | trim | indent(4, true) }}
       {% endif %}
     {% endfor %}
   </ul>
-  {% for item in (params.get("items", []) if params else []) %}
+  {% for item in params.get("items", undefined) %}
     {% if item %}
       {{- _tabPanel(params, item, loop.index) | trim | indent(2, true) }}
     {% endif %}

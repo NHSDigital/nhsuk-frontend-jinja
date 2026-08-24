@@ -148,7 +148,7 @@
     {% if params.formGroup.beforeInputs %}
     {{ params.formGroup.beforeInputs.html | safe | trim | indent(4) if params.formGroup.beforeInputs.html else params.formGroup.beforeInputs.text }}
     {% endif %}
-    {% for item in (params.get("items", []) if params else []) %}
+    {% for item in params.get("items", undefined) %}
       {% if item %}
         {{- _radioItem(params, item, loop.index) -}}
       {% endif %}

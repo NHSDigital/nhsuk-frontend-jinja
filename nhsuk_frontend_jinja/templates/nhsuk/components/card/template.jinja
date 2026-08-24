@@ -80,7 +80,7 @@
   {% set classNames = classNames ~ " " ~ params.classes %}
 {% endif %}
 
-{%- set actions = params.actions.get("items", []) | select("mapping") | list if params.actions.get("items", []) | length else [] %}
+{%- set actions = params.actions.get("items", undefined) | select("mapping") | list if params.actions and params.actions.get("items", undefined) | length else [] %}
 
 {%- set image = {
   "src": params.imgURL,

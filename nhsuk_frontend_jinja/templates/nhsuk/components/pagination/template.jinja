@@ -4,7 +4,7 @@
 {#- Set classes for this component #}
 {%- set classNames = "nhsuk-pagination" -%}
 
-{%- if (params.get("items", []) if params else []) | length %}
+{%- if params.get("items", undefined) | length %}
   {% set classNames = classNames ~ " nhsuk-pagination--numbered" %}
 {% endif %}
 
@@ -54,7 +54,7 @@
 
 <nav class="{{ classNames }}" {%- if params.id %} id="{{ params.id }}"{% endif %} role="navigation" aria-label="{{ ariaLabel }}"
   {{- nhsukAttributes(params.attributes) }}>
-{% if previous.href and (params.get("items", []) if params else []) | length %}
+{% if previous.href and params.get("items", undefined) | length %}
   <a href="{{ previous.href }}" class="nhsuk-pagination__previous" rel="prev">
     {{ nhsukIcon("arrow-left") | trim | indent(4) }}
     <span class="nhsuk-pagination__title">
@@ -69,15 +69,15 @@
   </a>
 {% endif %}
 
-{%- if (params.get("items", []) if params else []) | length %}
+{%- if params.get("items", undefined) | length %}
   <ul class="nhsuk-pagination__list">
-  {% for item in (params.get("items", []) if params else []) %}
+  {% for item in params.get("items", undefined) %}
     {{ _pageItem(item) | indent(2) if item }}
   {% endfor %}
   </ul>
 {% endif %}
 
-{%- if next.href and (params.get("items", []) if params else []) | length %}
+{%- if next.href and params.get("items", undefined) | length %}
   <a href="{{ next.href }}" class="nhsuk-pagination__next" rel="next">
     <span class="nhsuk-pagination__title">
     {% if next.html %}
@@ -92,7 +92,7 @@
   </a>
 {% endif %}
 
-{%- if not (params.get("items", []) if params else []) | length %}
+{%- if not params.get("items", undefined) | length %}
   <ul class="nhsuk-list nhsuk-pagination__list">
   {% if previous.href %}
     <li class="nhsuk-pagination-item--previous">

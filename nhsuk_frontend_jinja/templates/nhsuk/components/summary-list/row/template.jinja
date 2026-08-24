@@ -7,7 +7,7 @@
 {%- set classNamesValue = "nhsuk-summary-list__value" -%}
 {%- set classNamesActions = "nhsuk-summary-list__actions" -%}
 
-{%- set actions = params.actions.get("items", []) | select("mapping") | list if params.actions.get("items", []) | length else [] %}
+{%- set actions = params.actions.get("items", undefined) | select("mapping") | list if params.actions and params.actions.get("items", undefined) | length else [] %}
 
 {%- if parent.hasActions and not actions | length %}
   {% set classNames = classNames ~ " nhsuk-summary-list__row--no-actions" %}

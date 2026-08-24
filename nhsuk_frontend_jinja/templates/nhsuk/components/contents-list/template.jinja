@@ -23,8 +23,8 @@
       {{- item.html | safe | trim | indent(4) if item.html else item.text -}}
     </a>
   {% endif %}
-  {% if (item.get("items", []) if item else []) %}
-    {{ _contentsList((item.get("items", []) if item else [])) | trim | indent(4) }}
+  {% if item.get("items", undefined) %}
+    {{ _contentsList(item.get("items", undefined)) | trim | indent(4) }}
   {% endif %}
   </li>
   {% endif %}
@@ -37,5 +37,5 @@
   <h2 class="nhsuk-u-visually-hidden">
     {{- params.visuallyHiddenText | default("Contents", true) -}}
   </h2>
-  {{ _contentsList((params.get("items", []) if params else [])) | trim | indent(2) }}
+  {{ _contentsList(params.get("items", undefined)) | trim | indent(2) }}
 </nav>

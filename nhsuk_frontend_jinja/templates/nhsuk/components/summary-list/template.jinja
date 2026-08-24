@@ -21,7 +21,7 @@
 {%- set ns = namespace() %}
 {%- set ns.hasActions = false %}
 {% for row in rows %}
-  {% set ns.hasActions = true if row.actions.get("items", []) | length else ns.hasActions %}
+  {% set ns.hasActions = true if row.actions and row.actions.get("items", undefined) | length else ns.hasActions %}
 {% endfor -%}
 
 {%- set summaryListHtml %}
