@@ -11,7 +11,7 @@
 {%- set classNamesHeading = "nhsuk-card__heading" -%}
 
 {#- Support heading as string (with deprecated options) #}
-{%- set headingOptions = params.heading if params.heading is mapping and params.heading is not escaped else {
+{%- set headingOptions = params.heading if params.heading is mapping else {
   "id": params.headingId,
   "text": params.heading if params.heading is string else undefined,
   "html": params.heading if params.heading is escaped else params.headingHtml,
@@ -22,7 +22,7 @@
 } -%}
 
 {#- Support description as string (with deprecated options) #}
-{%- set descriptionOptions = params.description if params.description is mapping and params.description is not escaped else {
+{%- set descriptionOptions = params.description if params.description is mapping else {
   "text": params.description if params.description is string else undefined,
   "html": params.description if params.description is escaped else params.descriptionHtml
 } -%}

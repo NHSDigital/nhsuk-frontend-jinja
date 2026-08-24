@@ -2,7 +2,7 @@
 {% from "nhsuk/macros/icon.jinja" import nhsukIcon %}
 
 {#- Support heading as string (with deprecated options) #}
-{%- set headingOptions = params.heading if params.heading is mapping and params.heading is not escaped else {
+{%- set headingOptions = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else params.title,
   "html": params.heading if params.heading is escaped else undefined,
   "level": params.headingLevel

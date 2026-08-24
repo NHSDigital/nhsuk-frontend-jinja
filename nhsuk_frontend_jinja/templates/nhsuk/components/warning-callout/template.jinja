@@ -1,7 +1,7 @@
 {% from "nhsuk/components/card/macro.jinja" import card %}
 
 {#- Support heading as string (with deprecated options) #}
-{%- set headingOptions = params.heading if params.heading is mapping and params.heading is not escaped else {
+{%- set headingOptions = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else undefined,
   "html": params.heading if params.heading is escaped else params.headingHtml
 } -%}

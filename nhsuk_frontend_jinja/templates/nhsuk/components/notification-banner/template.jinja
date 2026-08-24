@@ -8,7 +8,7 @@
 {%- set classNames = "nhsuk-notification-banner" -%}
 
 {#- Support title as string (with deprecated options) #}
-{%- set titleOptions = params.title if params.title is mapping and params.title is not escaped else {
+{%- set titleOptions = params.title if params.title is mapping else {
   "id": params.titleId,
   "text": params.title if params.title is string else params.titleText,
   "html": params.title if params.title is escaped else params.titleHtml,

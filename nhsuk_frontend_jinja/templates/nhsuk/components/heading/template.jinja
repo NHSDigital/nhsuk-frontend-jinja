@@ -35,7 +35,7 @@
 {% endif %}
 
 {%- set headingLevel = params.level if params.level else 1 -%}
-{%- set headingCaption = params.caption if params.caption is mapping and params.caption is not escaped else {
+{%- set headingCaption = params.caption if params.caption is mapping else {
   "text": params.caption if params.caption is string else undefined,
   "html": params.caption if params.caption is escaped else undefined
 } -%}
