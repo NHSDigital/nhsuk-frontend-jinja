@@ -1,4 +1,4 @@
-{% macro image(params) %}
+{% macro image(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

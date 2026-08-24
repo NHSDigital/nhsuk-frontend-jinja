@@ -1,4 +1,4 @@
-{% macro hint(params) %}
+{% macro hint(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

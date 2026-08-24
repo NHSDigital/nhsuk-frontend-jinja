@@ -1,4 +1,4 @@
-{% macro fieldset(params) %}
+{% macro fieldset(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

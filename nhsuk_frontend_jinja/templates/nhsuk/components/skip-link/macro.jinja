@@ -1,4 +1,4 @@
-{% macro skipLink(params) %}
+{% macro skipLink(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

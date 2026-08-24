@@ -1,4 +1,4 @@
-{% macro actionLink(params) %}
+{% macro actionLink(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

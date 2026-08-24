@@ -1,4 +1,4 @@
-{% macro tag(params) %}
+{% macro tag(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

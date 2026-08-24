@@ -1,4 +1,4 @@
-{% macro heading(params) %}
+{% macro heading(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

@@ -1,4 +1,4 @@
-{% macro warningCallout(params) %}
+{% macro warningCallout(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

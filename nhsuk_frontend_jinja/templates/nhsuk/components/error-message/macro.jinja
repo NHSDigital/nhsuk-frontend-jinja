@@ -1,4 +1,4 @@
-{% macro errorMessage(params) %}
+{% macro errorMessage(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}
