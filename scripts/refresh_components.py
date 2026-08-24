@@ -19,12 +19,9 @@ jinja_root = repo_root / "nhsuk_frontend_jinja" / "templates" / "nhsuk" / "compo
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
-PARAMS_ITEMS = re.compile(r"\bparams\.items\b")
-PARAMS_VALUES = re.compile(r"\bparams\.values\b")
 IS_MAPPING = re.compile(r"\b(?P<params>[A-Za-z\.]*) is mapping and (?P=params) is not escaped\b")
-ITEM_ITEMS = re.compile(r"\bitem\.items\b")
-NESTED_ITEMS = re.compile(r"\b(?P<object>[A-Za-z\.]*)\.items\b(?!\s*\()")
-NESTED_VALUES = re.compile(r"\b(?P<object>[A-Za-z\.]*)\.values\b(?!\s*\()")
+ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]*)\.(?P<property>items|values)\b(?!\s*\()")
+ITEMS_GET = re.compile(r"\bif (?P<params>[A-Za-z]+\.[A-Za-z\.]+)\.get\(\"")
 MACRO_PARAMS = re.compile(r"{% macro (?P<macro>[A-Za-z]+)\((?P<args>[^)]+)\) %}")
 
 
@@ -96,11 +93,8 @@ def standard_template_replacements(filepath):
             line = INLINE_UNQUOTED_KEY.sub(r'\g<prefix>"\g<name>":', line)
 
             # Rewrite to get
-            line = PARAMS_ITEMS.sub('(params.get("items", []) if params else [])', line)
-            line = ITEM_ITEMS.sub('(item.get("items", []) if item else [])', line)
-            line = PARAMS_VALUES.sub('(params.get("values", []) if params else [])', line)
-            line = NESTED_ITEMS.sub(r'\g<object>.get("items", [])', line)
-            line = NESTED_VALUES.sub(r'\g<object>.get("values", [])', line)
+            line = ITEMS.sub(r'\g<params>.get("\g<property>", undefined)', line)
+            line = ITEMS_GET.sub(r'if \g<params> and \g<params>.get("', line)
 
             # Remove unnecessary `is escaped` checks
             line = IS_MAPPING.sub(r"\g<params> is mapping", line)
