@@ -68,9 +68,7 @@ Bad (clashes with `dict.items()` in Jinja):
 Good:
 
 ```
-{% set items = params.get("items", []) if params else [] %}
-
-{% for item in items %}
+{% for item in params.get("items", []) %}
 ```
 
 ### Use of classes to specify variants

@@ -24,6 +24,7 @@ PARAMS_VALUES = re.compile(r"\bparams\.values\b")
 ITEM_ITEMS = re.compile(r"\bitem\.items\b")
 NESTED_ITEMS = re.compile(r"\b(?P<object>[A-Za-z_][A-Za-z0-9_\.]*)\.items\b(?!\s*\()")
 NESTED_VALUES = re.compile(r"\b(?P<object>[A-Za-z_][A-Za-z0-9_\.]*)\.values\b(?!\s*\()")
+MACRO_PARAMS = re.compile(r"{% macro (?P<macro>[A-Za-z]+)\((?P<args>[^)]+)\) %}")
 
 
 def standard_macro_replacements(
@@ -44,6 +45,18 @@ def standard_macro_replacements(
             # Expand relative paths
             line = line.replace(
                 "./template.jinja", f"nhsuk/components/{component_name}/template.jinja"
+            )
+
+            # Add default argument values `params = {}` and `parent = {}`
+            line = MACRO_PARAMS.sub(
+                lambda m: "{{% macro {}({}) %}}".format(
+                    m.group("macro"),
+                    ", ".join(
+                        p.strip() + " = {}" if p.strip() in ("params", "parent") else p.strip()
+                        for p in m.group("args").split(",")
+                    ),
+                ),
+                line,
             )
 
             file.write(line)
