@@ -1,0 +1,6 @@
+{% macro heading(params) %}
+  {%- if caller -%}
+  {# noop for Jinja support #}
+  {%- endif -%}
+  {%- include "nhsuk/components/heading/template.jinja" -%}
+{% endmacro %}
