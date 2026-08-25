@@ -12,10 +12,13 @@ from pathlib import Path
 
 repo_root = Path(__file__).parent.parent
 
-nunjucks_root = (
-    repo_root / "node_modules" / "nhsuk-frontend" / "src" / "nhsuk" / "components"
-)
-jinja_root = repo_root / "nhsuk_frontend_jinja" / "templates" / "nhsuk" / "components"
+nunjucks_root = repo_root / "node_modules" / "nhsuk-frontend" / "src" / "nhsuk"
+nunjucks_components = nunjucks_root / "components"
+nunjucks_macros = nunjucks_root / "macros"
+
+jinja_root = repo_root / "nhsuk_frontend_jinja" / "templates" / "nhsuk"
+jinja_components = jinja_root / "components"
+jinja_macros = jinja_root / "macros"
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
@@ -41,9 +44,11 @@ def standard_macro_replacements(
             line = line.replace(".njk", ".jinja")
 
             # Expand relative paths
-            line = line.replace(
-                "./template.jinja", f"nhsuk/components/{component_name}/template.jinja"
-            )
+            if component_name is not None:
+                line = line.replace(
+                    "./template.jinja",
+                    f"nhsuk/components/{component_name}/template.jinja",
+                )
 
             # Add default argument values `params = {}` and `parent = {}`
             line = MACRO_PARAMS.sub(
@@ -132,16 +137,40 @@ def standard_template_replacements(filepath):
             file.write(line)
 
 
+def refresh_templates():
+    for name in ("template.njk", "template-with-imports.njk"):
+        template_path = jinja_root / name.replace(".njk", ".jinja")
+        shutil.copyfile(nunjucks_root / name, template_path)
+        standard_template_replacements(template_path)
+
+
+def refresh_macros():
+    jinja_macros.mkdir(parents=True, exist_ok=True)
+
+    for nunjucks_macro in nunjucks_macros.glob("*.njk"):
+        macro_path = jinja_macros / f"{nunjucks_macro.stem}.jinja"
+        shutil.copyfile(nunjucks_macro, macro_path)
+
+        accepts_caller = "caller" in macro_path.read_text(encoding="utf-8")
+        standard_macro_replacements(macro_path, None, accepts_caller)
+        standard_template_replacements(macro_path)
+
+
 def refresh_components(components=()):
-    for nunjucks_template in nunjucks_root.rglob("template.njk"):
+    if not components:
+        components = [
+            child.name for child in nunjucks_components.iterdir() if child.is_dir()
+        ]
+
+    for nunjucks_template in nunjucks_components.rglob("template.njk"):
         filename = nunjucks_template.parent
-        component_path = filename.relative_to(nunjucks_root)
+        component_path = filename.relative_to(nunjucks_components)
         component_name = component_path.parts[0]
 
-        if components and component_name not in components:
+        if component_name not in components:
             continue
 
-        component_directory = jinja_root / component_path
+        component_directory = jinja_components / component_path
 
         if filename.is_dir():
             component_directory.mkdir(parents=True, exist_ok=True)
@@ -166,4 +195,9 @@ if __name__ == "__main__":
     import sys
 
     components = [c.lower() for c in sys.argv[1:]]
+
+    if not components:
+        refresh_templates()
+        refresh_macros()
+
     refresh_components(components)
