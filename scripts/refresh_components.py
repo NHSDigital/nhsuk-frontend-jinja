@@ -16,9 +16,13 @@ nunjucks_root = repo_root / "node_modules" / "nhsuk-frontend" / "src" / "nhsuk"
 nunjucks_components = nunjucks_root / "components"
 nunjucks_macros = nunjucks_root / "macros"
 
+NUNJUCKS_EXT = ".njk"
+
 jinja_root = repo_root / "nhsuk_frontend_jinja" / "templates" / "nhsuk"
 jinja_components = jinja_root / "components"
 jinja_macros = jinja_root / "macros"
+
+JINJA_EXT = ".jinja"
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
@@ -41,13 +45,13 @@ def standard_macro_replacements(
 
         for line in lines:
             # Change import file extensions
-            line = line.replace(".njk", ".jinja")
+            line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
 
             # Expand relative paths
             if component_name is not None:
                 line = line.replace(
-                    "./template.jinja",
-                    f"nhsuk/components/{component_name}/template.jinja",
+                    f"./template{JINJA_EXT}",
+                    f"nhsuk/components/{component_name}/template{JINJA_EXT}",
                 )
 
             # Add default argument values `params = {}` and `parent = {}`
@@ -82,7 +86,7 @@ def standard_template_replacements(filepath):
 
         for line in lines:
             # Change import file extensions
-            line = line.replace(".njk", ".jinja")
+            line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
 
             # Quote unquoted keys in mappings.
             # In nunjucks, an unquoted identifier is interpreted as a literal string,
@@ -138,8 +142,8 @@ def standard_template_replacements(filepath):
 
 
 def refresh_templates():
-    for name in ("template.njk", "template-with-imports.njk"):
-        template_path = jinja_root / name.replace(".njk", ".jinja")
+    for name in (f"template{NUNJUCKS_EXT}", f"template-with-imports{NUNJUCKS_EXT}"):
+        template_path = jinja_root / name.replace(NUNJUCKS_EXT, JINJA_EXT)
         shutil.copyfile(nunjucks_root / name, template_path)
         standard_template_replacements(template_path)
 
@@ -147,8 +151,8 @@ def refresh_templates():
 def refresh_macros():
     jinja_macros.mkdir(parents=True, exist_ok=True)
 
-    for nunjucks_macro in nunjucks_macros.glob("*.njk"):
-        macro_path = jinja_macros / f"{nunjucks_macro.stem}.jinja"
+    for nunjucks_macro in nunjucks_macros.glob(f"*{NUNJUCKS_EXT}"):
+        macro_path = jinja_macros / f"{nunjucks_macro.stem}{JINJA_EXT}"
         shutil.copyfile(nunjucks_macro, macro_path)
 
         accepts_caller = "caller" in macro_path.read_text(encoding="utf-8")
@@ -162,7 +166,7 @@ def refresh_components(components=()):
             child.name for child in nunjucks_components.iterdir() if child.is_dir()
         ]
 
-    for nunjucks_template in nunjucks_components.rglob("template.njk"):
+    for nunjucks_template in nunjucks_components.rglob(f"template{NUNJUCKS_EXT}"):
         filename = nunjucks_template.parent
         component_path = filename.relative_to(nunjucks_components)
         component_name = component_path.parts[0]
@@ -175,15 +179,15 @@ def refresh_components(components=()):
         if filename.is_dir():
             component_directory.mkdir(parents=True, exist_ok=True)
 
-            template_path = component_directory / "template.jinja"
-            shutil.copyfile(filename / "template.njk", template_path)
+            template_path = component_directory / f"template{JINJA_EXT}"
+            shutil.copyfile(filename / f"template{NUNJUCKS_EXT}", template_path)
             standard_template_replacements(template_path)
 
             template_source = template_path.read_text(encoding="utf-8")
             accepts_caller = "caller" in template_source
 
-            macro_path = component_directory / "macro.jinja"
-            shutil.copyfile(filename / "macro.njk", macro_path)
+            macro_path = component_directory / f"macro{JINJA_EXT}"
+            shutil.copyfile(filename / f"macro{NUNJUCKS_EXT}", macro_path)
             standard_macro_replacements(
                 macro_path,
                 component_path.as_posix(),
