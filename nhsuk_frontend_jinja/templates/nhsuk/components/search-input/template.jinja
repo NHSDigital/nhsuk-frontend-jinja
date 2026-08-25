@@ -1,5 +1,5 @@
-{% from "nhsuk/components/button/macro.jinja" import button -%}
-{% from "nhsuk/components/input/macro.jinja" import input -%}
+{% from "nhsuk/components/button/macro.jinja" import button %}
+{% from "nhsuk/components/input/macro.jinja" import input %}
 {% from "nhsuk/macros/icon.jinja" import nhsukIcon %}
 
 {#- Set classes for this component #}
@@ -31,7 +31,7 @@
 {%- set id = params.id if params.id else params.name -%}
 
 {%- set afterInputHtml %}
-{% if params.button != "" and params.button is not none and params.button is not false %}
+{% if params.button not in ["", none, false] %}
 {{ button({
   "html": params.button.html,
   "text": params.button.text,

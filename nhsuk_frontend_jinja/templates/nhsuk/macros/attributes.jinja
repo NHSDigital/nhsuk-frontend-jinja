@@ -28,6 +28,30 @@
   ```
 
   @example
+  Output attribute ` data-attribute="value"` when type is `string` (default)
+
+  ```njk
+  nhsukAttributes({
+    "data-attribute": {
+      "value": "value",
+      "type": "string"
+    }
+  })
+  ```
+
+  @example
+  Output attribute ` data-attributes='["value1", "value2"]'` when type is `array`
+
+  ```njk
+  nhsukAttributes({
+    "data-attributes": {
+      "value": ["value1", "value2"],
+      "type": "array"
+    }
+  })
+  ```
+
+  @example
   Output attribute ` hidden=""` when `null`, `undefined` or empty `""` (string)
 
   ```njk
@@ -58,41 +82,20 @@
       "optional": true
     },
   })
-
-  @example
-  Output attribute ` data-attribute="value"` when type is `string` (default)
-
-  ```njk
-  nhsukAttributes({
-    "data-attribute": {
-      value: "value",
-      type: "string"
-    }
-  })
-  ```
-
-  @example
-  Output attribute ` data-attributes='["value1", "value2"]'` when type is `array`
-
-  ```njk
-  nhsukAttributes({
-    "data-attributes": {
-      value: ["value1", "value2"],
-      type: "array"
-    }
-  })
   ```
 
   @private
   @param {{ [attribute: string]: string | { value: unknown, type?: 'string' | 'array', optional?: boolean } } | string} attributes - Component attributes param
 #}
 {% macro nhsukAttributes(attributes) -%}
+  {% set ns = namespace() %}
+
   {#- Default attributes output as string -#}
-  {% set ns = namespace(attributesHtml = attributes if attributes is string else "") %}
+  {% set ns.attributesHtml = attributes if attributes is string else "" %}
 
   {#- Append attribute name/value pairs -#}
   {%- if attributes is mapping %}
-    {% for name, item in (attributes.items() if attributes else {}.items()) %}
+    {% for name, item in attributes.items() %}
       {#- Set default attribute options -#}
       {% set options = item if item is mapping else {
         "value": item,

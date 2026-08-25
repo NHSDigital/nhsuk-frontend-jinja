@@ -1,3 +1,6 @@
-{% macro summaryList(params) %}
+{% macro summaryList(params = {}) %}
+  {%- if caller -%}
+  {# noop for Jinja support #}
+  {%- endif -%}
   {%- include "nhsuk/components/summary-list/template.jinja" -%}
 {% endmacro %}

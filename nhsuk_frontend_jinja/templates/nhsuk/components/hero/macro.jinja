@@ -1,4 +1,4 @@
-{% macro hero(params) %}
+{% macro hero(params = {}) %}
   {%- if caller -%}
   {# noop for Jinja support #}
   {%- endif -%}

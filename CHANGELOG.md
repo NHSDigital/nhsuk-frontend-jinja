@@ -1,5 +1,632 @@
 # NHS.UK frontend jinja changelog
 
+## 0.10.0
+
+This version is compatible with v10.6.0 of nhsuk-frontend.
+
+### :new: **New features**
+
+#### Sortable tables
+
+You can now make [table](https://service-manual.nhs.uk/design-system/components/table) columns sortable, so that clicking the header cell sorts the table by that column.
+
+If you're using the `tables` macro, to configure header cells:
+
+- Add the `"sort": "ascending"` or `"sort": "descending"` option to the currently sorted column only
+- Add the `"sort": true` option to enable sorting on any other columns
+- Add the `"format": "numeric"` option to sort numerically rather than alphabetically
+
+For example:
+
+```patch
+  {{ table({
+    "caption": "Childhood MMR coverage",
+    "head": [
+      {
+-       "text": "Nation"
++       "text": "Nation",
++       "sort": "ascending"
+      },
+      {
+-       "text": "MMR"
++       "text": "MMR",
++       "format": "numeric",
++       "sort": true
+      }
+    ],
+    "rows": [
+      [
+        {
+          "text": "Northern Ireland"
+        },
+        {
+          "text": "86.4%"
+        }
+      ],
+      [
+        {
+          "text": "Scotland"
+        },
+        {
+          "text": "89.2%"
+        }
+      ],
+      [
+        {
+          "text": "Wales"
+        },
+        {
+          "text": "89.5%"
+        }
+      ]
+    ]
+  }) }}
+```
+
+This was added in [pull request #1969: Add option to make tables sortable](https://github.com/nhsuk/nhsuk-frontend/pull/1654).
+
+#### Scrolling tables
+
+You can now make the [table](https://service-manual.nhs.uk/design-system/components/table) component scrollable, for when your table has many columns and you cannot split it up or use a responsive table.
+
+```patch
+  {{ table({
+    "caption": "Childhood vaccination coverage",
++   "scroll": true,
+    "head": [],
+    "rows": []
+  }) }}
+```
+
+This was added in [pull request #1969: Add option to make tables scroll](https://github.com/nhsuk/nhsuk-frontend/pull/1969).
+
+#### Set table column widths, align text or adjust row borders
+
+We've updated the table component to pass `"align"`, `"href"`, `"visuallyHiddenText"` and `"width"` options to table cells.
+
+For example, to add a column of "Change" links:
+
+```patch
+  {{ table({
+    "caption": "Appointments",
+    "firstCellIsHeader": true,
+    "head": [
+      {
+        "text": "Name",
++       "width": "one-half",
+        "sort": "descending"
+      },
+      {
+        "text": "Last log in",
++       "align": "right",
++       "width": "one-third",
+        "sort": true
+-     }
++     },
++     {
++       "visuallyHiddenText": "Action"
++       "align": "right"
++     }
+    ],
+    "rows": [
+      [
+        {
+          "text": "Ro Nkosi"
+        },
+        {
+          "text": "28 June 2026"
+-       }
++       },
++       {
++         "text": "Change",
++         "visuallyHiddenText": "details for Ro Nkosi",
++         "href": "/change/1111"
++       }
+      ],
+      [
+        {
+          "text": "Stellan Park"
+        },
+        {
+          "text": "20 June 2026"
+-       }
++       },
++       {
++         "text": "Change",
++         "visuallyHiddenText": "details for Stellan Park",
++         "href": "/change/2222"
++       }
+      ]
+    ]
+  }) }}
+```
+
+For consistency with the summary list component, the following boolean options are also available:
+
+- `"border": false` to remove separating borders from all rows
+- `"lastRowBorder": false` to remove separating border from the last row
+
+This was added in pull requests [#1654: Add option to make tables sortable](https://github.com/nhsuk/nhsuk-frontend/pull/1654) and [#2025: Align table component options with summary list](https://github.com/nhsuk/nhsuk-frontend/pull/2025).
+
+#### Set summary list widths, IDs and attributes
+
+We've updated the summary list component to pass `"width"`, `"id"` and `"attributes"` options to the key, value and actions items.
+
+Summary list rows also support the `"id"` and `"attributes"` options:
+
+```patch
+  {{ summaryList({
+    "rows": [
+      {
++       "id": "row-1233",
+        "key": {
+-         "text": "Name"
++         "text": "Name",
++         "width": "one-half"
+        },
+        "value": {
+          "text": "Karen Francis"
+        }
+      }
+    ]
+  }) }}
+```
+
+This was added in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Add a modifier class for compact tables
+
+We've added a new `.nhsuk-table--compact` class and `"compact"` option for the [table](https://service-manual.nhs.uk/design-system/components/table) component. This reduces table cell padding at all screen sizes.
+
+```patch
+  {{ table({
+    "caption": "Childhood vaccination coverage",
++   "compact": true,
+    "head": [],
+    "rows": []
+  }) }}
+```
+
+This was added in [pull request #1998: Add compact option for tables](https://github.com/nhsuk/nhsuk-frontend/pull/1998).
+
+#### Add a modifier class for striped tables
+
+We've added a new `.nhsuk-table--striped` class and `"striped"` option for the [table](https://service-manual.nhs.uk/design-system/components/table) component. This adds table row backround colours on alternate rows.
+
+```patch
+  {{ table({
+    "caption": "Childhood vaccination coverage",
++   "striped": true,
+    "head": [],
+    "rows": []
+  }) }}
+```
+
+This was added in [pull request #2003: Add striped option for tables](https://github.com/nhsuk/nhsuk-frontend/pull/2003).
+
+#### Add an "all" option to checkboxes
+
+You can now add an "all" option to checkboxes when JavaScript is available. This gives users the option to quickly select or unselect all the checkboxes.
+
+To use it, add the `"behaviour": "inclusive"` option to a checkbox item. If this checkbox is separated from the others using a divider, add the same option to the divider too:
+
+```patch
+  {{ checkboxes({
+    "fieldset": {
+      "legend": {
+        "text": "What are your favourite colours?",
+        "size": "l",
+        "isPageHeading": true
+      }
+    },
+    "idPrefix": "select-all",
+    "name": "example",
+    "items": [
++     {
++       "value": "all",
++       "text": "All colours",
++       "behaviour": "inclusive"
++     },
++     {
++       "divider": "or",
++       "behaviour": "inclusive"
++     },
+      {
+        "value": "red",
+        "text": "Red"
+      },
+      {
+        "value": "green",
+        "text": "Green"
+      },
+      {
+        "value": "blue",
+        "text": "Blue"
+      }
+    ]
+  }) }}
+```
+
+This was added in [pull request #1707: Add checkbox "all" option](https://github.com/nhsuk/nhsuk-frontend/pull/1707).
+
+#### Use buttons for card and summary list actions
+
+You can now configure card and summary list actions as button elements, using new macro options:
+
+- `item.id` for the element `id` attribute
+- `item.type` for the button `type` attribute
+- `item.name` for the button `name` attribute
+- `item.value` for the button `value` attribute
+
+Action items without `"href"` will be visually styled as links.
+
+```patch
++ <form method="post" novalidate>
+    {{ card({
+      "heading": "Regional Manager",
+      "actions": {
+        "items": [
+          {
+            "text": "Delete",
+-           "href": "/delete"
++           "type": "submit",
++           "name": "action",
++           "value": "delete"
+          },
+          {
+            "text": "Withdraw",
+-           "href": "/withdraw",
++           "type": "submit",
++           "name": "action",
++           "value": "withdraw"
+          }
+        ]
+```
+
+This was added in [pull request #1989: Add support for card and summary list actions as buttons](https://github.com/nhsuk/nhsuk-frontend/pull/1989).
+
+#### Use simpler label, legend, hint and error message options
+
+We've updated all form components to support alternative string values for labels, legends, hints and error messages.
+
+For example, when no other nested options are necessary:
+
+```patch
+  {{ textarea({
+-   "label": {
+-     "text": "Can you provide more detail?"
+-   },
+-   "hint": {
+-     "text": "Do not include personal information like your name, date of birth or NHS number"
+-   },
++   "label": "Can you provide more detail?",
++   "hint": "Do not include personal information like your name, date of birth or NHS number",
+    "name": "more-detail"
+  }) }}
+```
+
+This was added in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Review macro `"html"` and `call` usage
+
+For consistency with other components, the following macro changes have been included:
+
+1. Added action link component `caller` support
+2. Added back link component `caller` support
+3. Added breadcrumb component `item.html` option
+4. Added error message component `caller` support
+5. Added hint component `caller` support
+6. Added image component `caller` support
+7. Added skip link component `caller` support
+8. Added tag component `caller` support
+
+This was added in [pull request #1999: Add missing `caller` support and fixture coverage to components](https://github.com/nhsuk/nhsuk-frontend/pull/1999).
+
+#### Remove image background colour, bottom border or add custom width
+
+We've updated the image component to add `"background"`, `"border"` and `"width"` options.
+
+These new options can be used to override the defaults. For example, setting `"background": false` and `"border": false` renders the image without a background or bottom border:
+
+```patch
+  {{ image({
++   "background": false,
++   "border": false,
+    "src": "https://service-manual.nhs.uk/assets/image-example-stretch-marks-600w.jpg",
+    "alt": "Close-up of a person's tummy showing a number of creases in the skin under their belly button. Shown on light brown skin."
+  }) }}
+```
+
+This was added in [pull request #2002: Add image component `background`, `border` and `width` options](https://github.com/nhsuk/nhsuk-frontend/pull/2002).
+
+### :wastebasket: **Deprecated features**
+
+#### Rename checkboxes "none" options
+
+We've renamed the and HTML data attribute options for checkboxes with an option for "none".
+
+If you're using the `checkboxes` macro, you should:
+
+- replace the `"exclusive": true` option with the new `"behaviour": "exclusive"` option
+- rename the `"exclusiveGroup"` option to the new `"behaviourGroup"` option
+
+```patch
+    "items": [
+      {
+        "value": "none",
+-       "exclusive": true,
+-       "exclusiveGroup": "preferences",
++       "behaviour": "exclusive",
++       "behaviourGroup": "preferences"
+      }
+    ]
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #1707: Add checkbox "all" option](https://github.com/nhsuk/nhsuk-frontend/pull/1707).
+
+#### Rename card heading and description options
+
+We've changed the card heading options to support `"text"`, `"html"` and nested options:
+
+- Card `heading` has changed to `heading.text`
+- Card `headingHtml` has changed to `heading.html`
+- Card `headingClasses` and `headingId` have changed to `heading.classes` and `heading.id`
+- Card `headingSize` and `headingLevel` have changed to `heading.size` and `heading.level`
+- Card `headingVisuallyHiddenText` has changed to `heading.visuallyHiddenText`
+
+Similarly for description text:
+
+- Card `description` and `descriptionHtml` have changed to `description.text` and `description.html`
+
+```patch
+  {{ card({
+-   "heading": "Introduction to care and support",
+-   "headingSize": "m"
++   "heading": {
++     "text": "Introduction to care and support",
++     "size": "m"
++   },
+-   "description": "A quick guide for people who have care and support needs and their carers"
++   "description": {
++     "text": "A quick guide for people who have care and support needs and their carers"
++   }
+  }) }}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename details summary options
+
+We've changed the details summary options to support `"text"`, `"html"` and nested options:
+
+- Details `summaryText` has changed to `summary.text`
+- Details `summaryHtml` has changed to `summary.html`
+
+```patch
+  {{ details({
+-   "summaryText": "Where can I find my NHS number?",
++   "summary": {
++     "text": "Where can I find my NHS number?"
++   },
+    "html": '<p>An NHS number is a 10 digit number, like <span class="nhsuk-u-nowrap">999 123 4567</span>.</p>'
+  }) }}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename error summary title and description options
+
+We've changed the error summary title and description options to support `"text"`, `"html"` and nested options:
+
+- Error summary `titleText` has changed to `heading.text`
+- Error summary `titleHtml` has changed to `heading.html`
+- Error summary `descriptionText` has changed to `description.text`
+- Error summary `descriptionHtml` has changed to `description.html`
+
+```patch
+  {{ errorSummary({
+-   "titleText": "There is a problem",
++   "heading": {
++     "text": "There is a problem"
++   },
+    "errorList": []
+  }) }}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename notification banner title options
+
+We've changed the notification banner title options to support `"text"`, `"html"` and nested options:
+
+- Notification banner `titleText` has changed to `title.text`
+- Notification banner `titleHtml` has changed to `title.html`
+- Notification banner `titleId` has changed to `title.id`
+- Notification banner `titleHeadingLevel` has changed to `title.level`
+- Notification banner `heading` option has been added
+
+```patch
+  {% call notificationBanner({
+-   "titleText": "Important"
++   "title": {
++     "text": "Important"
++   },
++   "heading": {
++     "text": "The patient record was updated"
++   }
+  }) %}
+-   <h3 class="nhsuk-notification-banner__heading">
+-     The patient record was updated
+-   </h3>
+    <p class="nhsuk-body">
+      Contact <a class="nhsuk-notification-banner__link" href="#">example@nhs.uk</a> if you think there's a problem.
+    </p>
+  {% endcall %}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename panel title options
+
+We've changed the panel title options to support `"text"`, `"html"` and nested options:
+
+- Panel `titleText` has changed to `heading.text`
+- Panel `titleHtml` has changed to `heading.html`
+- Panel `titleSize` has changed to `heading.size`
+- Panel `headingLevel` has changed to `heading.level`
+- Panel `titleClasses` has changed to `heading.classes`
+
+```patch
+  {{ panel({
+-   "titleText": "Jodie Brown had a COVID-19 vaccine less than 3 months ago",
+-   "titleSize": "l",
++   "heading": {
++     "text": "Jodie Brown had a COVID-19 vaccine less than 3 months ago",
++     "size": "l"
++   },
+    "text": "They had a COVID-19 vaccine on 25 September 2025."
+  }) }}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename table caption options
+
+We've changed the table caption options to support `"text"`, `"html"` and nested options:
+
+- Table `captionSize` has changed to `caption.size`
+- Table `captionClasses` has changed to `caption.classes`
+
+```patch
+  {{ table({
+-   "caption": "Skin symptoms and possible causes",
+-   "captionSize": "l",
++   "caption": {
++     "text": "Skin symptoms and possible causes",
++     "size": "l"
++   },
+    "head": [],
+    "rows": []
+  }) }}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename title and heading options
+
+We've changed the options for titles and headings in all other components to support `text` and `html` and nested options:
+
+- Do and don't list `title` has changed to `heading.text`
+- Do and don't list `headingLevel` has changed to `heading.level`
+- Footer `navigation.title` has changed to `navigation.heading.text`
+- Task list `item.title` has changed to `item.heading`
+- Warning callout `headingLevel` has changed to `heading.level`
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename ARIA label and visually hidden text options
+
+We've changed some of the options relating to `aria-label` attributes and visually hidden text. This change makes sure they're named consistently across our components.
+
+- Breadcrumbs `labelText` has changed to `ariaLabel`
+- Contents list `landmarkLabel` has changed to `ariaLabel`
+- Footer `meta.visuallyHiddenTitle` has changed to `meta.visuallyHiddenText`
+- Header `search.placeholder` has changed to `search.input.placeholder`
+- Header `search.visuallyHiddenLabel` has changed to `search.label.visuallyHiddenText`
+- Header `search.visuallyHiddenButton` has changed to `search.button.ariaLabel`
+- Pagination `item.visuallyHiddenText` has changed to `item.ariaLabel`
+- Pagination `landmarkLabel` has changed to `ariaLabel`
+- Pagination `previous.labelText` has changed to `previous.label.text`
+- Pagination `next.labelText` has changed to `next.label.text`
+- Password input `showPasswordAriaLabelText` has changed to `showPasswordAriaLabel`
+- Password input `hidePasswordAriaLabelText` has changed to `hidePasswordAriaLabel`
+- Tabs `title` has changed to `visuallyHiddenText`
+
+For options with `"text"` and `"html"` nested options, alternative string values are also supported:
+
+```patch
+  {{ pagination({
+    "previous": {
+-     "label": {
+-       "text": "Treatments"
+-     },
++     "label": "Treatments",
+      "href": "/section/treatments"
+    },
+    "next": {
+-     "label": {
+-       "text": "Symptoms"
+-     },
++     "label": "Symptoms",
+      "href": "/section/symptoms"
+    }
+  }) }}
+```
+
+The previous names are deprecated and will be removed in a future release.
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
+#### Rename reverse and responsive table HTML classes
+
+We've renamed HTML classes for reverse and responsive tables. You can still use the previous names but we'll remove them in a future breaking release.
+
+If you're using the `table` macro with the `"responsive"` option, you should:
+
+- remove the unnecessary `"header"` option from table `"rows"` nested items
+
+```patch
+  "rows": [
+    [
+      {
+-       "header": "Age",
+        "text": "3 to 5 months (weighing more than 5kg)"
+      },
+      {
+-       "header": "How much?",
+        "text": "2.5ml"
+      },
+      {
+-       "header": "How often?",
+        "text": "Max 3 times in 24 hours"
+      }
+    ],
+```
+
+This change was introduced in pull requests [#1998: Add `compact` option for tables](https://github.com/nhsuk/nhsuk-frontend/pull/1998) and [#2003: Add `striped` option for tables](https://github.com/nhsuk/nhsuk-frontend/pull/2003).
+
+#### Stop using the `"element"` option on action links, back links and buttons
+
+We’ve deprecated the `"element"` option for action links, back links and button components.
+
+In a future release, if the `"href"` option is set the component will automatically use the `<a>` element. If the `"href"` option is not set the component will automatically use the `<button>` element. It will not be possible to override this change.
+
+```patch
+  {{ actionLink({
+    "text": "Action link",
+-   "element": "button"
++   "type": "submit"
+  }) }}
+```
+
+This change was introduced in [pull request #2047: Review Nunjucks options for headings and ARIA labels](https://github.com/nhsuk/nhsuk-frontend/pull/2047).
+
 ## 0.9.1
 
 This version is compatible with v10.5.2 of nhsuk-frontend.

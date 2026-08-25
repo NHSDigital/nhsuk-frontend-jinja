@@ -1,3 +1,6 @@
-{% macro errorMessage(params) %}
+{% macro errorMessage(params = {}) %}
+  {%- if caller -%}
+  {# noop for Jinja support #}
+  {%- endif -%}
   {%- include "nhsuk/components/error-message/template.jinja" -%}
 {% endmacro %}
