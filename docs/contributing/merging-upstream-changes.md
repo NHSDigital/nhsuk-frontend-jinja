@@ -1,8 +1,8 @@
 # Merging upstream changes
 
 1. Run `npm install nhsuk-frontend@latest`.
-2. in `pyproject.toml` update the version: if a major update of nhsuk-frontend, update the major version, otherwise, update the minor version.
-3. update the [compatibility section of the readme](/README.md#Compatibility).
+2. In `pyproject.toml` update the version: if a major update of nhsuk-frontend, update the major version, otherwise, update the minor version.
+3. Update the [compatibility section of the readme](/README.md#Compatibility).
 4. Review which components, macros and templates have changed in the last update using the ([compare view](https://github.com/nhsuk/nhsuk-frontend/compare/v10.0.0...v10.1.0)) and [changelog](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md). Files to check:
    - `template.njk` files in `packages/nhsuk-frontend/src/nhsuk`
    - `*.njk` files in `packages/nhsuk-frontend/src/nhsuk/components`
