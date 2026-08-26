@@ -62,6 +62,38 @@ def standard_macro_replacements(filepath, accepts_caller=False):
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
 
+            # Append `.items()` when looping i18n messages
+            line = line.replace(
+                "for pluralRule, message in params.messages",
+                "for pluralRule, message in params.messages.items()",
+            )
+
+            # Append `.items()` when looping attributes
+            line = line.replace(
+                "for name, item in attributes", "for name, item in attributes.items()"
+            )
+
+            # Prevent double escaping attributes with double quotes
+            line = line.replace(
+                "attributesHtml ~ \" \" ~ name | escape ~ '=\"' ~ valueEscaped ~ '\"'",
+                "'{} {}=\"{}\"'.format(attributesHtml, name | escape, value | lower if value is boolean else valueEscaped)",
+            )
+
+            # Prevent double escaping attributes with single quotes
+            line = line.replace(
+                'attributesHtml ~ " " ~ name | escape ~ "=\'" ~ valueEscaped ~ "\'"',
+                "\"{} {}='{}'\".format(attributesHtml, name | escape, value | lower if value is boolean else valueEscaped)",
+            )
+
+            # Prevent double escaping boolean attributes
+            line = line.replace(
+                'attributesHtml ~ " " ~ name | escape',
+                '"{} {}".format(attributesHtml, name | escape)',
+            )
+
+            # Jinja doesn't support `dump` filter
+            line = line.replace("| dump", "| tojson")
+
             file.write(line)
 
             if accepts_caller and line.lstrip().startswith("{% macro "):
