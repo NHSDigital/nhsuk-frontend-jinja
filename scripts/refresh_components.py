@@ -59,9 +59,21 @@ def standard_template_replacements(filepath):
         file.seek(0)
         file.truncate()
 
+        in_comment = False
+
         for line in lines:
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
+
+            # Skip replacements inside Jinja `{# ... #}` comment blocks
+            if "{#" in line and "#}" not in line:
+                in_comment = True
+            elif "#}" in line:
+                in_comment = False
+
+            if in_comment:
+                file.write(line)
+                continue
 
             # Quote unquoted keys in mappings.
             # In nunjucks, an unquoted identifier is interpreted as a literal string,
