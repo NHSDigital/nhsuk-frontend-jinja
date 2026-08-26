@@ -29,14 +29,9 @@ INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:"
 IS_MAPPING = re.compile(r"\b(?P<params>[A-Za-z\.]*) is mapping and (?P=params) is not escaped\b")
 ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]*)\.(?P<property>items|values)\b(?!\s*\()")
 ITEMS_GET = re.compile(r"\bif (?P<params>[A-Za-z]+\.[A-Za-z\.]+)\.get\(\"")
-MACRO_PARAMS = re.compile(r"{% macro (?P<macro>[A-Za-z]+)\((?P<args>[^)]+)\) %}")
 
 
-def standard_macro_replacements(
-    filepath,
-    component_name,
-    accepts_caller=False,
-):
+def standard_macro_replacements(filepath, accepts_caller=False):
     with filepath.open("r+") as file:
         lines = file.readlines()
 
@@ -46,25 +41,6 @@ def standard_macro_replacements(
         for line in lines:
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
-
-            # Expand relative paths
-            if component_name is not None:
-                line = line.replace(
-                    f"./template{JINJA_EXT}",
-                    f"nhsuk/components/{component_name}/template{JINJA_EXT}",
-                )
-
-            # Add default argument values `params = {}` and `parent = {}`
-            line = MACRO_PARAMS.sub(
-                lambda m: "{{% macro {}({}) %}}".format(
-                    m.group("macro"),
-                    ", ".join(
-                        p.strip() + " = {}" if p.strip() in ("params", "parent") else p.strip()
-                        for p in m.group("args").split(",")
-                    ),
-                ),
-                line,
-            )
 
             file.write(line)
 
@@ -109,16 +85,6 @@ def standard_template_replacements(filepath):
             # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
             line = IS_MAPPING.sub(r"\g<params> is mapping", line)
 
-            # Use list to convert the generator to a list.
-            line = line.replace(
-                '| select("mapping") if',
-                '| select("mapping") | list if',
-            )
-            line = line.replace(
-                '| select("iterable") if',
-                '| select("iterable") | list if',
-            )
-
             # lowercase booleans
             line = line.replace(
                 "params.preventDoubleClick | string",
@@ -155,8 +121,7 @@ def refresh_macros():
         macro_path = jinja_macros / f"{nunjucks_macro.stem}{JINJA_EXT}"
         shutil.copyfile(nunjucks_macro, macro_path)
 
-        accepts_caller = "caller" in macro_path.read_text(encoding="utf-8")
-        standard_macro_replacements(macro_path, None, accepts_caller)
+        standard_macro_replacements(macro_path)
         standard_template_replacements(macro_path)
 
 
@@ -188,11 +153,7 @@ def refresh_components(components=()):
 
             macro_path = component_directory / f"macro{JINJA_EXT}"
             shutil.copyfile(filename / f"macro{NUNJUCKS_EXT}", macro_path)
-            standard_macro_replacements(
-                macro_path,
-                component_path.as_posix(),
-                accepts_caller,
-            )
+            standard_macro_replacements(macro_path, accepts_caller)
 
 
 if __name__ == "__main__":
