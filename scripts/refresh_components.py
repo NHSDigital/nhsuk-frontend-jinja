@@ -78,7 +78,7 @@ def standard_template_replacements(filepath):
 
             # Rewrite to get
             line = ITEMS.sub(r'\g<params>.get("\g<property>", undefined)', line)
-            line = ITEMS_GET.sub(r'if \g<params> and \g<params>.get("', line)
+            line = ITEMS_GET.sub(r'if \g<params> is mapping and \g<params>.get("', line)
 
             # Remove unnecessary `is escaped` checks added for Nunjucks only
             # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
