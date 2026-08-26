@@ -50,7 +50,7 @@
 {% endif %}
 
 {%- set head = params.head if params.head | length else [] %}
-{%- set rows = params.rows | select("iterable") | list if params.rows | length else [] %}
+{%- set rows = params.rows | select("iterable") if params.rows | length else [] %}
 
 {%- set ns = namespace() %}
 {%- set ns.isSortable = false %}
