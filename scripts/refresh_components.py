@@ -84,7 +84,7 @@ def standard_template_replacements(filepath):
             # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
             line = IS_MAPPING.sub(r"\g<params> is mapping", line)
 
-            # lowercase booleans
+            # Lowercase booleans
             line = line.replace(
                 "params.preventDoubleClick | string",
                 "params.preventDoubleClick | string | lower",
