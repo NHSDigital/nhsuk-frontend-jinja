@@ -51,7 +51,7 @@ NAMESPACE_VAR = re.compile(
 )
 
 
-def standard_macro_replacements(filepath, accepts_caller=False):
+def replace_macros(filepath, accepts_caller=False):
     with filepath.open("r+") as file:
         lines = file.readlines()
 
@@ -102,7 +102,7 @@ def standard_macro_replacements(filepath, accepts_caller=False):
                 file.write("  {%- endif -%}\n")
 
 
-def standard_template_replacements(filepath):
+def replace_templates(filepath):
     with filepath.open("r+") as file:
         lines = file.readlines()
 
@@ -111,20 +111,9 @@ def standard_template_replacements(filepath):
 
         in_comment = False
 
-        macro_params = set()
-        namespace_vars = set()
-
         for line in lines:
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
-
-            # Store known macro parameters
-            if "macro " in line and (match := MACRO_ARGS.search(line)):
-                macro_params = {
-                    arg.split("=")[0].strip() for arg in match.group("args").split(",")
-                }
-            elif "endmacro" in line:
-                macro_params = set()
 
             # Skip replacements inside Jinja `{# ... #}` comment blocks
             if "{#" in line and "#}" not in line:
@@ -192,6 +181,31 @@ def standard_template_replacements(filepath):
             line = line.replace("!== false", "is not false")
             line = line.replace('=== "array"', '== "array"')
 
+            file.write(line)
+
+
+def add_namespaces(filepath):
+    with filepath.open("r+") as file:
+        lines = file.readlines()
+
+        file.seek(0)
+        file.truncate()
+
+        macro_params = set()
+        namespace_vars = set()
+
+        for line in lines:
+            # Change import file extensions
+            line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
+
+            # Store known macro parameters
+            if "macro " in line and (match := MACRO_ARGS.search(line)):
+                macro_params = {
+                    arg.split("=")[0].strip() for arg in match.group("args").split(",")
+                }
+            elif "endmacro" in line:
+                macro_params = set()
+
             # Automatically add namespace declarations
             if assignment := NAMESPACE_SET.search(line):
                 if not namespace_vars:
@@ -219,7 +233,9 @@ def refresh_templates():
     for name in (f"template{NUNJUCKS_EXT}", f"template-with-imports{NUNJUCKS_EXT}"):
         template_path = jinja_root / name.replace(NUNJUCKS_EXT, JINJA_EXT)
         shutil.copyfile(nunjucks_root / name, template_path)
-        standard_template_replacements(template_path)
+
+        replace_templates(template_path)
+        add_namespaces(template_path)
 
 
 def refresh_macros():
@@ -229,8 +245,9 @@ def refresh_macros():
         macro_path = jinja_macros / f"{nunjucks_macro.stem}{JINJA_EXT}"
         shutil.copyfile(nunjucks_macro, macro_path)
 
-        standard_macro_replacements(macro_path)
-        standard_template_replacements(macro_path)
+        replace_macros(macro_path)
+        replace_templates(macro_path)
+        add_namespaces(macro_path)
 
 
 def refresh_components(components=()):
@@ -254,14 +271,16 @@ def refresh_components(components=()):
 
             template_path = component_directory / f"template{JINJA_EXT}"
             shutil.copyfile(filename / f"template{NUNJUCKS_EXT}", template_path)
-            standard_template_replacements(template_path)
+            replace_templates(template_path)
+            add_namespaces(template_path)
 
             template_source = template_path.read_text(encoding="utf-8")
             accepts_caller = "caller" in template_source
 
             macro_path = component_directory / f"macro{JINJA_EXT}"
             shutil.copyfile(filename / f"macro{NUNJUCKS_EXT}", macro_path)
-            standard_macro_replacements(macro_path, accepts_caller)
+            replace_macros(macro_path, accepts_caller)
+            add_namespaces(macro_path)
 
 
 if __name__ == "__main__":
