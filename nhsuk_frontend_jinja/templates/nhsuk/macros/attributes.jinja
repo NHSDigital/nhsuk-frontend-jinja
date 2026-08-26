@@ -1,11 +1,11 @@
-{# Adapted from https://github.com/LandRegistry/govuk-frontend-jinja/blob/main/govuk_frontend_jinja/templates/macros/attributes.html #}
+{# Adapted from https://github.com/alphagov/govuk-frontend/blob/main/packages/govuk-frontend/src/govuk/macros/attributes.jinja #}
 
 {#
   Renders component attributes as string
 
-  * By default or using `"optional": false`, attributes render as ` name="value"`
-  * Using `"optional": true`, attributes with empty (`null`, `undefined` or `false`) values are omitted
-  * Using `"optional": true`, attributes with `true` (boolean) values render `name` only without value
+  * By default or using `optional: false`, attributes render as ` name="value"`
+  * Using `optional: true`, attributes with empty (`null`, `undefined` or `false`) values are omitted
+  * Using `optional: true`, attributes with `true` (boolean) values render `name` only without value
 
   {@link https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML}
 
@@ -33,8 +33,8 @@
   ```njk
   nhsukAttributes({
     "data-attribute": {
-      "value": "value",
-      "type": "string"
+      value: "value",
+      type: "string"
     }
   })
   ```
@@ -45,8 +45,8 @@
   ```njk
   nhsukAttributes({
     "data-attributes": {
-      "value": ["value1", "value2"],
-      "type": "array"
+      value: ["value1", "value2"],
+      type: "array"
     }
   })
   ```
@@ -65,9 +65,9 @@
 
   ```njk
   nhsukAttributes({
-    "hidden": {
-      "value": true,
-      "optional": true
+    hidden: {
+      value: true,
+      optional: true
     },
   })
   ```
@@ -77,9 +77,9 @@
 
   ```njk
   nhsukAttributes({
-    "hidden": {
-      "value": undefined,
-      "optional": true
+    hidden: {
+      value: undefined,
+      optional: true
     },
   })
   ```
@@ -88,13 +88,16 @@
   @param {{ [attribute: string]: string | { value: unknown, type?: 'string' | 'array', optional?: boolean } } | string} attributes - Component attributes param
 #}
 {% macro nhsukAttributes(attributes) -%}
-  {% set ns = namespace() %}
-
   {#- Default attributes output as string -#}
+  {%- set ns = namespace() %}
   {% set ns.attributesHtml = attributes if attributes is string else "" %}
 
+  {#- Default attributes output as `safe` filtered string -#}
+  {%- if attributes is escaped and attributes.val is string %}
+    {% set ns.attributesHtml = attributes %}
+
   {#- Append attribute name/value pairs -#}
-  {%- if attributes is mapping %}
+  {%- elif attributes is mapping %}
     {% for name, item in attributes.items() %}
       {#- Set default attribute options -#}
       {% set options = item if item is mapping else {
@@ -115,8 +118,15 @@
         {% set valueEscaped = options.value %}
 
       {#- Use escaped JSON for iterable values -#}
+      {#- https://jinja.palletsprojects.com/en/stable/templates/#jinja-filters.tojson -#}
       {%- elif options.type == "array" and options.value is iterable %}
-        {% set valueEscaped = options.value | tojson %}
+        {% set valueEscaped = options.value
+          | tojson
+          | replace("<", "\\u003c")
+          | replace(">", "\\u003e")
+          | replace("&", "\\u0026")
+          | replace("'", "\\u0027")
+        %}
 
       {#- Otherwise assume escaping is necessary -#}
       {#- https://github.com/alphagov/govuk-frontend/issues/4940 -#}

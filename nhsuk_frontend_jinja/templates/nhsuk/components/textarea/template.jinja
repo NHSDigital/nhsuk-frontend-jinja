@@ -40,7 +40,8 @@
 
 {#- a record of other elements that we need to associate with the input using
   aria-describedby – for example hints or error messages -#}
-{% set describedBy = params.describedBy if params.describedBy else "" %}
+{%- set ns = namespace() %}
+{% set ns.describedBy = params.describedBy if params.describedBy else "" %}
 {%- set id = params.id if params.id else params.name -%}
 
 <div class="{{ classNamesFormGroup }}" {{- nhsukAttributes(params.formGroup.attributes) }}>
@@ -59,7 +60,7 @@
   }) | trim | indent(2) }}
 {% if hint.text or hint.html %}
   {% set hintId = hint.id | default(id ~ "-hint") %}
-  {% set describedBy = (describedBy ~ " " ~ hintId) | trim %}
+  {% set ns.describedBy = (ns.describedBy ~ " " ~ hintId) | trim %}
   {{ nhsukHint({
     "html": hint.html,
     "text": hint.text,
@@ -70,7 +71,7 @@
 {% endif %}
 {% if errorMessage.text or errorMessage.html %}
   {% set errorId = errorMessage.id | default(id ~ "-error") %}
-  {% set describedBy = (describedBy ~ " " ~ errorId) | trim %}
+  {% set ns.describedBy = (ns.describedBy ~ " " ~ errorId) | trim %}
   {{ nhsukErrorMessage({
     "html": errorMessage.html,
     "text": errorMessage.text,
@@ -86,7 +87,7 @@
   <textarea class="{{ classNames }}" id="{{ id }}" name="{{ params.name }}" rows="{{ params.rows | default(5, true) }}"
   {%- if params.spellcheck in [true, false] %} spellcheck="{{ params.spellcheck }}"{% endif %}
   {%- if params.disabled %} disabled{% endif %}
-  {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
+  {%- if ns.describedBy %} aria-describedby="{{ ns.describedBy }}"{% endif %}
   {%- if params.autocomplete %} autocomplete="{{ params.autocomplete }}"{% endif %}
   {{- nhsukAttributes(params.attributes) }}>{{ params.value }}</textarea>
 {% if params.formGroup.afterInput %}
