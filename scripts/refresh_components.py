@@ -31,6 +31,13 @@ IS_MAPPING = re.compile(
 )
 ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]+)\.(?P<property>items|values)\b(?!\s*\()")
 ITEMS_GET = re.compile(r"\bif (?P<params>[A-Za-z]+\.[A-Za-z\.]+)\.get\(\"")
+IS_NULLISH = re.compile(r"\b(?P<params>[A-Za-z\.]+) in \[undefined, null\]")
+IS_NOT_EMPTY = re.compile(
+    r"\b(?P<params>[A-Za-z\.]+) not in \[undefined, null, false\]"
+)
+IS_NOT_EMPTY_STRING = re.compile(
+    r'\b(?P<params>[A-Za-z\.]+) not in \["", null, false\]'
+)
 
 
 def standard_macro_replacements(filepath, accepts_caller=False):
@@ -96,6 +103,16 @@ def standard_template_replacements(filepath):
             # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
             line = IS_MAPPING.sub(r"\g<params> is mapping", line)
 
+            # Workaround for Jinja equality differences
+            line = line.replace("set value = null", "set value = none")
+            line = IS_NULLISH.sub(
+                r"\g<params> is undefined or \g<params> is none", line
+            )
+            line = IS_NOT_EMPTY.sub(
+                r"\g<params> is not none and \g<params> is not false", line
+            )
+            line = IS_NOT_EMPTY_STRING.sub(r'\g<params> not in ["", none, false]', line)
+
             # Lowercase booleans
             line = line.replace(
                 "params.preventDoubleClick | string",
@@ -110,10 +127,12 @@ def standard_template_replacements(filepath):
                 "params.spellcheck | string | lower",
             )
 
-            # Jinja doesn't support `===`, use `is` instead.
-            line = line.replace("=== false", "is false")
+            # Jinja doesn't support `===`, use `is` or `==` instead
             line = line.replace("=== true", "is true")
-            line = line.replace('["", null, false]', '["", none, false]')
+            line = line.replace("=== false", "is false")
+            line = line.replace("!== true", "is not true")
+            line = line.replace("!== false", "is not false")
+            line = line.replace('=== "array"', '== "array"')
 
             file.write(line)
 
