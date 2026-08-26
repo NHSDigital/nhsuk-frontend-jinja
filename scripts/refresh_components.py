@@ -27,9 +27,9 @@ JINJA_EXT = ".jinja"
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
 IS_MAPPING = re.compile(
-    r"\b(?P<params>[A-Za-z\.]*) is mapping and (?P=params) is not escaped\b"
+    r"\b(?P<params>[A-Za-z\.]+) is mapping and (?P=params) is not escaped\b"
 )
-ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]*)\.(?P<property>items|values)\b(?!\s*\()")
+ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]+)\.(?P<property>items|values)\b(?!\s*\()")
 ITEMS_GET = re.compile(r"\bif (?P<params>[A-Za-z]+\.[A-Za-z\.]+)\.get\(\"")
 
 
