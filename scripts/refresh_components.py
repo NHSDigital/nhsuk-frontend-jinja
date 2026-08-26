@@ -38,6 +38,17 @@ IS_NOT_EMPTY = re.compile(
 IS_NOT_EMPTY_STRING = re.compile(
     r'\b(?P<params>[A-Za-z\.]+) not in \["", null, false\]'
 )
+MACRO_ARGS = re.compile(r"macro\s+\w+\((?P<args>[^)]*)\)")
+
+# Locate variable assignments to prepend `ns = namespace()` line
+NAMESPACE_SET = re.compile(
+    r"\bset (?P<param>anyItemHasError|attributesHtml|describedBy|hasActions|isSortable|isSortableOnServer) ="
+)
+
+# Locate variable references to prepend with `ns.`
+NAMESPACE_VAR = re.compile(
+    r'(?<![\w."])(?P<param>anyItemHasError|attributesHtml|describedBy|hasActions|isSortable|isSortableOnServer)\b'
+)
 
 
 def standard_macro_replacements(filepath, accepts_caller=False):
@@ -68,9 +79,20 @@ def standard_template_replacements(filepath):
 
         in_comment = False
 
+        macro_params = set()
+        namespace_vars = set()
+
         for line in lines:
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
+
+            # Store known macro parameters
+            if "macro " in line and (match := MACRO_ARGS.search(line)):
+                macro_params = {
+                    arg.split("=")[0].strip() for arg in match.group("args").split(",")
+                }
+            elif "endmacro" in line:
+                macro_params = set()
 
             # Skip replacements inside Jinja `{# ... #}` comment blocks
             if "{#" in line and "#}" not in line:
@@ -137,6 +159,26 @@ def standard_template_replacements(filepath):
             line = line.replace("!== true", "is not true")
             line = line.replace("!== false", "is not false")
             line = line.replace('=== "array"', '== "array"')
+
+            # Automatically add namespace declarations
+            if assignment := NAMESPACE_SET.search(line):
+                if not namespace_vars:
+                    indent = line[: len(line) - len(line.lstrip())]
+                    line = f"{indent}{{%- set ns = namespace() %}}\n" + line
+
+                # Flag variable as namespaced
+                namespace_vars.add(assignment.group("param"))
+
+            # Automatically prefix namespace vars unless a macro parameter
+            line = NAMESPACE_VAR.sub(
+                lambda m, params=macro_params: (
+                    f"ns.{m.group('param')}"
+                    if m.group("param") in namespace_vars
+                    and m.group("param") not in params
+                    else m.group()
+                ),
+                line,
+            )
 
             file.write(line)
 
