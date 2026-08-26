@@ -127,6 +127,10 @@ def standard_template_replacements(filepath):
                 "params.spellcheck | string | lower",
             )
 
+            # Jinja doesn't support JavaScript array methods
+            line = line.replace("set rows = (rows.unshift({", "set rows = [{")
+            line = line.replace("}), rows)", "}] + rows")
+
             # Jinja doesn't support `===`, use `is` or `==` instead
             line = line.replace("=== true", "is true")
             line = line.replace("=== false", "is false")
