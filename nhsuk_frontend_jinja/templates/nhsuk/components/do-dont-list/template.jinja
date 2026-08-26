@@ -1,8 +1,8 @@
-{% from "nhsuk/components/card/macro.jinja" import card %}
+{% from "nhsuk/components/card/macro.jinja" import card as nhsukCard %}
 {% from "nhsuk/macros/icon.jinja" import nhsukIcon %}
 
 {#- Support heading as string (with deprecated options) #}
-{%- set headingOptions = params.heading if params.heading is mapping else {
+{%- set heading = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else params.title,
   "html": params.heading if params.heading is escaped else undefined,
   "level": params.headingLevel
@@ -10,7 +10,7 @@
 
 {#- Set icon or (deprecated) type for this component #}
 {%- set icon = "cross" if (params.icon or params.type) == "cross" else "tick" %}
-{%- set items = params.get("items", undefined) | select("mapping") | list if params.get("items", undefined) | length else [] %}
+{%- set items = params.get("items", undefined) | select("mapping") | list if params.get("items", undefined) else [] %}
 
 {%- macro _listItem(params, data, icon) %}
   {% set item = {
@@ -39,16 +39,16 @@
 </ul>
 {% endset -%}
 
-{{ card({
+{{ nhsukCard({
   "id": params.id,
   "heading": {
-    "id": headingOptions.id,
-    "text": headingOptions.text,
-    "html": headingOptions.html,
-    "visuallyHiddenText": headingOptions.visuallyHiddenText,
-    "level": headingOptions.level | default(3),
-    "classes": headingOptions.classes,
-    "attributes": headingOptions.attributes
+    "id": heading.id,
+    "text": heading.text,
+    "html": heading.html,
+    "visuallyHiddenText": heading.visuallyHiddenText,
+    "level": heading.level | default(3),
+    "classes": heading.classes,
+    "attributes": heading.attributes
   },
   "description": {
     "html": listHtml

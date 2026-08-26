@@ -1,4 +1,4 @@
-{% from "nhsuk/components/back-link/macro.jinja" import backLink %}
+{% from "nhsuk/components/back-link/macro.jinja" import backLink as nhsukBackLink %}
 {% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
 
 {#- Set variant for this component #}
@@ -33,7 +33,7 @@
     </li>
   {% endif %}
 {% endfor %}
-{% if params.href %}
+{% if params.text and params.href %}
     <li class="nhsuk-breadcrumb__list-item">
       <a class="nhsuk-breadcrumb__link" href="{{ params.href }}">
         {{ params.text | trim | indent(8) }}
@@ -47,7 +47,7 @@
   {% set lastText = lastItem.text %}
 {% endif %}
   </ol>
-  {{ backLink({
+  {{ nhsukBackLink({
     "id": params.backLink.id,
     "visuallyHiddenText": params.backLink.visuallyHiddenText | default("Back to"),
     "text": params.backLink.text if (params.backLink.html or params.backLink.text) else lastText,
@@ -58,5 +58,5 @@
     "attributes": params.backLink.attributes | default(lastItem.attributes),
     "variant": params.backLink.variant | default(variant),
     "element": params.backLink.element
-  }) | indent(2) }}
+  }) | trim | indent(2) }}
 </nav>
