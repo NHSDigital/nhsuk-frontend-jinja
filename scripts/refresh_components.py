@@ -26,6 +26,7 @@ JINJA_EXT = ".jinja"
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
+IS_ESCAPED = re.compile(r"\b(?P<params>[A-Za-z\.]+) is escaped\b")
 IS_MAPPING = re.compile(
     r"\b(?P<params>[A-Za-z\.]+) is mapping and (?P=params) is not escaped\b"
 )
@@ -141,6 +142,10 @@ def replace_templates(filepath):
             # Rewrite to get
             line = ITEMS.sub(r'\g<params>.get("\g<property>", undefined)', line)
             line = ITEMS_GET.sub(r'if \g<params> is mapping and \g<params>.get("', line)
+
+            # Guard necessary `is escaped` checks with `is defined and … is escaped`
+            # (Jinja incorrectly passes the escaped test when ChainableUndefined is used)
+            line = IS_ESCAPED.sub(r"\g<params> is defined and \g<params> is escaped", line)
 
             # Remove unnecessary `is escaped` checks added for Nunjucks only
             # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
