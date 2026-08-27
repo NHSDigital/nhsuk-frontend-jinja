@@ -26,17 +26,32 @@ JINJA_EXT = ".jinja"
 
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
-IS_MAPPING = re.compile(r"\b(?P<params>[A-Za-z\.]*) is mapping and (?P=params) is not escaped\b")
-ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]*)\.(?P<property>items|values)\b(?!\s*\()")
+IS_MAPPING = re.compile(
+    r"\b(?P<params>[A-Za-z\.]+) is mapping and (?P=params) is not escaped\b"
+)
+ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]+)\.(?P<property>items|values)\b(?!\s*\()")
 ITEMS_GET = re.compile(r"\bif (?P<params>[A-Za-z]+\.[A-Za-z\.]+)\.get\(\"")
-MACRO_PARAMS = re.compile(r"{% macro (?P<macro>[A-Za-z]+)\((?P<args>[^)]+)\) %}")
+IS_NULLISH = re.compile(r"\b(?P<params>[A-Za-z\.]+) in \[undefined, null\]")
+IS_NOT_EMPTY = re.compile(
+    r"\b(?P<params>[A-Za-z\.]+) not in \[undefined, null, false\]"
+)
+IS_NOT_EMPTY_STRING = re.compile(
+    r'\b(?P<params>[A-Za-z\.]+) not in \["", null, false\]'
+)
+MACRO_ARGS = re.compile(r"macro\s+\w+\((?P<args>[^)]*)\)")
+
+# Locate variable assignments to prepend `ns = namespace()` line
+NAMESPACE_SET = re.compile(
+    r"\bset (?P<param>anyItemHasError|attributesHtml|describedBy|hasActions|isSortable|isSortableOnServer) ="
+)
+
+# Locate variable references to prepend with `ns.`
+NAMESPACE_VAR = re.compile(
+    r'(?<![\w."])(?P<param>anyItemHasError|attributesHtml|describedBy|hasActions|isSortable|isSortableOnServer)\b'
+)
 
 
-def standard_macro_replacements(
-    filepath,
-    component_name,
-    accepts_caller=False,
-):
+def replace_macros(filepath, accepts_caller=False):
     with filepath.open("r+") as file:
         lines = file.readlines()
 
@@ -47,46 +62,68 @@ def standard_macro_replacements(
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
 
-            # Expand relative paths
-            if component_name is not None:
-                line = line.replace(
-                    f"./template{JINJA_EXT}",
-                    f"nhsuk/components/{component_name}/template{JINJA_EXT}",
-                )
-
-            # Add default argument values `params = {}` and `parent = {}`
-            line = MACRO_PARAMS.sub(
-                lambda m: "{{% macro {}({}) %}}".format(
-                    m.group("macro"),
-                    ", ".join(
-                        p.strip() + " = {}" if p.strip() in ("params", "parent") else p.strip()
-                        for p in m.group("args").split(",")
-                    ),
-                ),
-                line,
+            # Append `.items()` when looping i18n messages
+            line = line.replace(
+                "for pluralRule, message in params.messages",
+                "for pluralRule, message in params.messages.items()",
             )
+
+            # Append `.items()` when looping attributes
+            line = line.replace(
+                "for name, item in attributes", "for name, item in attributes.items()"
+            )
+
+            # Prevent double escaping attributes with double quotes
+            line = line.replace(
+                "attributesHtml ~ \" \" ~ name | escape ~ '=\"' ~ valueEscaped ~ '\"'",
+                "'{} {}=\"{}\"'.format(attributesHtml, name | escape, value | lower if value is boolean else valueEscaped)",
+            )
+
+            # Prevent double escaping attributes with single quotes
+            line = line.replace(
+                'attributesHtml ~ " " ~ name | escape ~ "=\'" ~ valueEscaped ~ "\'"',
+                "\"{} {}='{}'\".format(attributesHtml, name | escape, value | lower if value is boolean else valueEscaped)",
+            )
+
+            # Prevent double escaping boolean attributes
+            line = line.replace(
+                'attributesHtml ~ " " ~ name | escape',
+                '"{} {}".format(attributesHtml, name | escape)',
+            )
+
+            # Jinja doesn't support `dump` filter
+            line = line.replace("| dump", "| tojson")
 
             file.write(line)
 
-            if (
-                accepts_caller
-                and line.lstrip().startswith("{% macro ")
-            ):
+            if accepts_caller and line.lstrip().startswith("{% macro "):
                 file.write("  {%- if caller -%}\n")
                 file.write("  {# noop for Jinja support #}\n")
                 file.write("  {%- endif -%}\n")
 
 
-def standard_template_replacements(filepath):
+def replace_templates(filepath):
     with filepath.open("r+") as file:
         lines = file.readlines()
 
         file.seek(0)
         file.truncate()
 
+        in_comment = False
+
         for line in lines:
             # Change import file extensions
             line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
+
+            # Skip replacements inside Jinja `{# ... #}` comment blocks
+            if "{#" in line and "#}" not in line:
+                in_comment = True
+            elif "#}" in line:
+                in_comment = False
+
+            if in_comment:
+                file.write(line)
+                continue
 
             # Quote unquoted keys in mappings.
             # In nunjucks, an unquoted identifier is interpreted as a literal string,
@@ -103,23 +140,23 @@ def standard_template_replacements(filepath):
 
             # Rewrite to get
             line = ITEMS.sub(r'\g<params>.get("\g<property>", undefined)', line)
-            line = ITEMS_GET.sub(r'if \g<params> and \g<params>.get("', line)
+            line = ITEMS_GET.sub(r'if \g<params> is mapping and \g<params>.get("', line)
 
             # Remove unnecessary `is escaped` checks added for Nunjucks only
             # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
             line = IS_MAPPING.sub(r"\g<params> is mapping", line)
 
-            # Use list to convert the generator to a list.
-            line = line.replace(
-                '| select("mapping") if',
-                '| select("mapping") | list if',
+            # Workaround for Jinja equality differences
+            line = line.replace("set value = null", "set value = none")
+            line = IS_NULLISH.sub(
+                r"\g<params> is undefined or \g<params> is none", line
             )
-            line = line.replace(
-                '| select("iterable") if',
-                '| select("iterable") | list if',
+            line = IS_NOT_EMPTY.sub(
+                r"\g<params> is not none and \g<params> is not false", line
             )
+            line = IS_NOT_EMPTY_STRING.sub(r'\g<params> not in ["", none, false]', line)
 
-            # lowercase booleans
+            # Lowercase booleans
             line = line.replace(
                 "params.preventDoubleClick | string",
                 "params.preventDoubleClick | string | lower",
@@ -133,10 +170,61 @@ def standard_template_replacements(filepath):
                 "params.spellcheck | string | lower",
             )
 
-            # Jinja doesn't support `===`, use `is` instead.
-            line = line.replace("=== false", "is false")
+            # Jinja doesn't support JavaScript array methods
+            line = line.replace("set rows = (rows.unshift({", "set rows = [{")
+            line = line.replace("}), rows)", "}] + rows")
+
+            # Jinja doesn't support `===`, use `is` or `==` instead
             line = line.replace("=== true", "is true")
-            line = line.replace('["", null, false]', '["", none, false]')
+            line = line.replace("=== false", "is false")
+            line = line.replace("!== true", "is not true")
+            line = line.replace("!== false", "is not false")
+            line = line.replace('=== "array"', '== "array"')
+
+            file.write(line)
+
+
+def add_namespaces(filepath):
+    with filepath.open("r+") as file:
+        lines = file.readlines()
+
+        file.seek(0)
+        file.truncate()
+
+        macro_params = set()
+        namespace_vars = set()
+
+        for line in lines:
+            # Change import file extensions
+            line = line.replace(NUNJUCKS_EXT, JINJA_EXT)
+
+            # Store known macro parameters
+            if "macro " in line and (match := MACRO_ARGS.search(line)):
+                macro_params = {
+                    arg.split("=")[0].strip() for arg in match.group("args").split(",")
+                }
+            elif "endmacro" in line:
+                macro_params = set()
+
+            # Automatically add namespace declarations
+            if assignment := NAMESPACE_SET.search(line):
+                if not namespace_vars:
+                    indent = line[: len(line) - len(line.lstrip())]
+                    line = f"{indent}{{%- set ns = namespace() %}}\n" + line
+
+                # Flag variable as namespaced
+                namespace_vars.add(assignment.group("param"))
+
+            # Automatically prefix namespace vars unless a macro parameter
+            line = NAMESPACE_VAR.sub(
+                lambda m, params=macro_params: (
+                    f"ns.{m.group('param')}"
+                    if m.group("param") in namespace_vars
+                    and m.group("param") not in params
+                    else m.group()
+                ),
+                line,
+            )
 
             file.write(line)
 
@@ -145,7 +233,9 @@ def refresh_templates():
     for name in (f"template{NUNJUCKS_EXT}", f"template-with-imports{NUNJUCKS_EXT}"):
         template_path = jinja_root / name.replace(NUNJUCKS_EXT, JINJA_EXT)
         shutil.copyfile(nunjucks_root / name, template_path)
-        standard_template_replacements(template_path)
+
+        replace_templates(template_path)
+        add_namespaces(template_path)
 
 
 def refresh_macros():
@@ -155,9 +245,9 @@ def refresh_macros():
         macro_path = jinja_macros / f"{nunjucks_macro.stem}{JINJA_EXT}"
         shutil.copyfile(nunjucks_macro, macro_path)
 
-        accepts_caller = "caller" in macro_path.read_text(encoding="utf-8")
-        standard_macro_replacements(macro_path, None, accepts_caller)
-        standard_template_replacements(macro_path)
+        replace_macros(macro_path)
+        replace_templates(macro_path)
+        add_namespaces(macro_path)
 
 
 def refresh_components(components=()):
@@ -181,18 +271,16 @@ def refresh_components(components=()):
 
             template_path = component_directory / f"template{JINJA_EXT}"
             shutil.copyfile(filename / f"template{NUNJUCKS_EXT}", template_path)
-            standard_template_replacements(template_path)
+            replace_templates(template_path)
+            add_namespaces(template_path)
 
             template_source = template_path.read_text(encoding="utf-8")
             accepts_caller = "caller" in template_source
 
             macro_path = component_directory / f"macro{JINJA_EXT}"
             shutil.copyfile(filename / f"macro{NUNJUCKS_EXT}", macro_path)
-            standard_macro_replacements(
-                macro_path,
-                component_path.as_posix(),
-                accepts_caller,
-            )
+            replace_macros(macro_path, accepts_caller)
+            add_namespaces(macro_path)
 
 
 if __name__ == "__main__":
