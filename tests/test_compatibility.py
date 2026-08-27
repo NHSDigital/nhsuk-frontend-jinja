@@ -112,15 +112,7 @@ def test_compatibility(environment, component_name, subtests):
 
 def test_compatibility_escaped(environment):
     template_string = inspect.cleandoc("""
-        {% macro card(params = {}) %}
-            {#- Support description as string (with deprecated options) #}
-            {%- set description = params.description if params.description is mapping else {
-                "text": params.description if params.description is string else undefined,
-                "html": params.description if params.description is defined and params.description is escaped else params.descriptionHtml
-            } -%}
-
-          {{- description.html | safe if description.html else description.text }}
-        {% endmacro %}
+        {% from "nhsuk/components/card/macro.jinja" import card -%}
     """)
 
     text = inspect.cleandoc("""
@@ -157,27 +149,52 @@ def test_compatibility_escaped(environment):
         }) }}
     """)
 
-    assert (
+    assert normalize_html(
         environment.from_string(f"{template_string}\n{text}").render()
-        == "Example description\n"
-    )
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p class="nhsuk-card__description">Example description</p>
+            </div>
+        </div>
+    """)
 
-    assert (
+    assert normalize_html(
         environment.from_string(f"{template_string}\n{text_safe}").render()
-        == "<p>Example description</p>\n"
-    )
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p>Example description</p>
+            </div>
+        </div>
+    """)
 
-    assert (
+    assert normalize_html(
         environment.from_string(f"{template_string}\n{text_nested}").render()
-        == "Example description\n"
-    )
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p class="nhsuk-card__description">Example description</p>
+            </div>
+        </div>
+    """)
 
-    assert (
+    assert normalize_html(
         environment.from_string(f"{template_string}\n{html_nested}").render()
-        == "<p>Example description</p>\n"
-    )
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p>Example description</p>
+            </div>
+        </div>
+    """)
 
-    assert (
+    assert normalize_html(
         environment.from_string(f"{template_string}\n{html_deprecated}").render()
-        == "<p>Example description</p>\n"
-    )
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p>Example description</p>
+            </div>
+        </div>
+    """)
