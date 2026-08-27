@@ -111,7 +111,7 @@ def test_compatibility_escaped(environment):
             {#- Support description as string (with deprecated options) #}
             {%- set description = params.description if params.description is mapping else {
                 "text": params.description if params.description is string else undefined,
-                "html": params.description if params.description is escaped else params.descriptionHtml
+                "html": params.description if params.description is defined and params.description is escaped else params.descriptionHtml
             } -%}
 
           {{- description.html | safe if description.html else description.text }}
