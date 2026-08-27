@@ -7,16 +7,9 @@ on:
       - main
 
 jobs:
-  check:
-    name: Check for changes
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
   test:
     name: Tests
     runs-on: ubuntu-latest
-    needs: check
     steps:
       - uses: actions/checkout@v6
 
@@ -44,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Run linting
-        run: uv run djlint -
+        run: uv run --locked djlint -
 
       - name: Run unit tests
-        run: uv run pytest
+        run: uv run --locked pytest
