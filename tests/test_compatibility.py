@@ -55,6 +55,16 @@ def normalize_array_attributes(soup):
     return soup
 
 
+def normalize_html(html, normalize_arrays=True):
+    if not isinstance(html, BeautifulSoup):
+        html = BeautifulSoup(html, features="html.parser")
+
+    if normalize_arrays:
+        html = normalize_array_attributes(html)
+
+    return html.prettify()
+
+
 def render(environment, component_name, context, call_block):
     """
     Generate a template that renders a component, and return the rendered result
@@ -94,15 +104,10 @@ def test_compatibility(environment, component_name, subtests):
 
             # We are not currently matching the nunjucks version on whitespace, so test
             # a prettified version.
-            ideal_parsed = BeautifulSoup(fixture.html, features="html.parser")
-            ideal_formatted = ideal_parsed.prettify()
+            ideal = normalize_html(fixture.html, normalize_arrays=False)
+            actual = normalize_html(BeautifulSoup(html, features="html.parser"))
 
-            actual_parsed = BeautifulSoup(html, features="html.parser")
-            actual_formatted = normalize_array_attributes(actual_parsed).prettify()
-
-            assert actual_formatted == ideal_formatted, difflib.context_diff(
-                actual_formatted, ideal_formatted
-            )
+            assert actual == ideal, difflib.context_diff(actual, ideal)
 
 
 def test_compatibility_escaped(environment):
