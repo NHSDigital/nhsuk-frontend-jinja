@@ -3,6 +3,7 @@ Test HTML-compatibility with NHS.UK frontend
 """
 
 import difflib
+import inspect
 import json
 from pathlib import Path
 
@@ -102,3 +103,76 @@ def test_compatibility(environment, component_name, subtests):
             assert actual_formatted == ideal_formatted, difflib.context_diff(
                 actual_formatted, ideal_formatted
             )
+
+
+def test_compatibility_escaped(environment):
+    template_string = inspect.cleandoc("""
+        {% macro card(params = {}) %}
+            {#- Support description as string (with deprecated options) #}
+            {%- set description = params.description if params.description is mapping else {
+                "text": params.description if params.description is string else undefined,
+                "html": params.description if params.description is escaped else params.descriptionHtml
+            } -%}
+
+          {{- description.html | safe if description.html else description.text }}
+        {% endmacro %}
+    """)
+
+    text = inspect.cleandoc("""
+        {{ card({
+            "description": "Example description"
+        }) }}
+    """)
+
+    text_safe = inspect.cleandoc("""
+        {{ card({
+            "description": "<p>Example description</p>" | safe
+        }) }}
+    """)
+
+    text_nested = inspect.cleandoc("""
+        {{ card({
+            "description": {
+                "text": "Example description"
+            }
+        }) }}
+    """)
+
+    html_nested = inspect.cleandoc("""
+        {{ card({
+            "description": {
+                "html": "<p>Example description</p>"
+            }
+        }) }}
+    """)
+
+    html_deprecated = inspect.cleandoc("""
+        {{ card({
+          "descriptionHtml": "<p>Example description</p>"
+        }) }}
+    """)
+
+    assert (
+        environment.from_string(f"{template_string}\n{text}").render()
+        == "Example description\n"
+    )
+
+    assert (
+        environment.from_string(f"{template_string}\n{text_safe}").render()
+        == "<p>Example description</p>\n"
+    )
+
+    assert (
+        environment.from_string(f"{template_string}\n{text_nested}").render()
+        == "Example description\n"
+    )
+
+    assert (
+        environment.from_string(f"{template_string}\n{html_nested}").render()
+        == "<p>Example description</p>\n"
+    )
+
+    assert (
+        environment.from_string(f"{template_string}\n{html_deprecated}").render()
+        == "<p>Example description</p>\n"
+    )
