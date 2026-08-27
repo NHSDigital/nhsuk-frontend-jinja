@@ -10,7 +10,7 @@
 {#- Support label as string #}
 {%- set label = params.label if params.label is mapping else {
   "text": params.label if params.label is string else undefined,
-  "html": params.label if params.label is escaped else undefined
+  "html": params.label if params.label is defined and params.label is escaped else undefined
 } -%}
 
 {%- if params.classes %}

@@ -6,7 +6,7 @@
 {#- Support heading as string #}
 {%- set heading = parent.params.heading if parent.params.heading is mapping else {
   "text": parent.params.heading if parent.params.heading is string else undefined,
-  "html": parent.params.heading if parent.params.heading is escaped else undefined
+  "html": parent.params.heading if parent.params.heading is defined and parent.params.heading is escaped else undefined
 } -%}
 
 {%- if params.classes %}

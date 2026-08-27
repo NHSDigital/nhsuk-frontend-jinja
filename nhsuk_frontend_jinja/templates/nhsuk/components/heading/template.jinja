@@ -36,7 +36,7 @@
 
 {%- set headingCaption = params.caption if params.caption is mapping else {
   "text": params.caption if params.caption is string else undefined,
-  "html": params.caption if params.caption is escaped else undefined
+  "html": params.caption if params.caption is defined and params.caption is escaped else undefined
 } %}
 
 {%- set caption = {

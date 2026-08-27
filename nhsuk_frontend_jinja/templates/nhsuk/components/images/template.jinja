@@ -6,7 +6,7 @@
 {#- Support image caption as string #}
 {%- set caption = params.caption if params.caption is mapping else {
   "text": params.caption if params.caption is string else undefined,
-  "html": params.caption if params.caption is escaped else undefined
+  "html": params.caption if params.caption is defined and params.caption is escaped else undefined
 } -%}
 
 {%- if params.border is false and (not params.classes or not "nhsuk-image--no-border" in params.classes) %}

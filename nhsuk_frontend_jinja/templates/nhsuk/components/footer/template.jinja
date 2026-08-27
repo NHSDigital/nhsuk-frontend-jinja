@@ -7,13 +7,13 @@
 {#- Support meta as string #}
 {%- set meta = params.meta if params.meta is mapping else {
   "text": params.meta if params.meta is string else undefined,
-  "html": params.meta if params.meta is escaped else undefined
+  "html": params.meta if params.meta is defined and params.meta is escaped else undefined
 } -%}
 
 {#- Support copyright as string #}
 {%- set copyright = params.copyright if params.copyright is mapping else {
   "text": params.copyright if params.copyright is string else undefined,
-  "html": params.copyright if params.copyright is escaped else undefined
+  "html": params.copyright if params.copyright is defined and params.copyright is escaped else undefined
 } -%}
 
 {%- if params.classes %}
@@ -60,7 +60,7 @@
         {#- Support navigation heading as string (with deprecated options) #}
         {%- set heading = navigation.heading if navigation.heading is mapping else {
           "text": navigation.heading if navigation.heading is string else navigation.title,
-          "html": navigation.heading if navigation.heading is escaped else undefined
+          "html": navigation.heading if navigation.heading is defined and navigation.heading is escaped else undefined
         } -%}
 
         {{- nhsukHeading({

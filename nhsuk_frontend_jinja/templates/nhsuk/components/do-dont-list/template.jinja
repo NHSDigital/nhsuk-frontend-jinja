@@ -4,7 +4,7 @@
 {#- Support heading as string (with deprecated options) #}
 {%- set heading = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else params.title,
-  "html": params.heading if params.heading is escaped else undefined,
+  "html": params.heading if params.heading is defined and params.heading is escaped else undefined,
   "level": params.headingLevel
 } -%}
 
@@ -15,7 +15,7 @@
 {%- macro _listItem(params, data, icon) %}
   {% set item = {
     "text": data.item if data.item is string,
-    "html": data.item if data.item is escaped
+    "html": data.item if data.item is defined and data.item is escaped
   } if data.item else data -%}
 
   {{ nhsukIcon(icon) | trim }}
