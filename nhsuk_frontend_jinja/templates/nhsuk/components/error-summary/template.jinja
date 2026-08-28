@@ -7,13 +7,13 @@
 {#- Support heading as string (with deprecated options) #}
 {%- set heading = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else params.titleText,
-  "html": params.heading if params.heading is escaped else params.titleHtml
+  "html": params.heading if params.heading is defined and params.heading is escaped else params.titleHtml
 } -%}
 
 {#- Support description as string (with deprecated options) #}
 {%- set description = params.description if params.description is mapping else {
   "text": params.description if params.description is string else params.descriptionText,
-  "html": params.description if params.description is escaped else params.descriptionHtml
+  "html": params.description if params.description is defined and params.description is escaped else params.descriptionHtml
 } -%}
 
 {%- if params.classes %}

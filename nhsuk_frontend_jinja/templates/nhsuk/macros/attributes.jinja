@@ -93,7 +93,7 @@
   {% set ns.attributesHtml = attributes if attributes is string else "" %}
 
   {#- Default attributes output as `safe` filtered string -#}
-  {%- if attributes is escaped and attributes.val is string %}
+  {%- if attributes is defined and attributes is escaped and attributes.val is string %}
     {% set ns.attributesHtml = attributes %}
 
   {#- Append attribute name/value pairs -#}
@@ -113,7 +113,7 @@
 
       {#- Extract unescaped value when `safe` filtered -#}
       {#- https://github.com/alphagov/govuk-frontend/issues/4937 -#}
-      {%- elif options.value is escaped %}
+      {%- elif options.value is defined and options.value is escaped %}
         {% set value = options.value.val %}
         {% set valueEscaped = options.value %}
 

@@ -1,5 +1,15 @@
 # NHS.UK frontend jinja changelog
 
+## 0.10.2
+
+This version is compatible with v10.6.1 of nhsuk-frontend.
+
+### :wrench: **Fixes**
+
+We've made fixes to NHS.UK frontend jinja in the following pull requests:
+
+- [#115: Guard `is escaped` checks with `is defined`](https://github.com/NHSDigital/nhsuk-frontend-jinja/pull/115)
+
 ## 0.10.1
 
 This version is compatible with v10.6.1 of nhsuk-frontend.

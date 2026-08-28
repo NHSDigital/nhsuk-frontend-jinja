@@ -10,13 +10,13 @@
 {#- Support row key as string #}
 {%- set key = params.key if params.key is mapping else {
   "text": params.key if params.key is string else undefined,
-  "html": params.key if params.key is escaped else undefined
+  "html": params.key if params.key is defined and params.key is escaped else undefined
 } %}
 
 {#- Support row value as string #}
 {%- set value = params.value if params.value is mapping else {
   "text": params.value if params.value is string else undefined,
-  "html": params.value if params.value is escaped else undefined
+  "html": params.value if params.value is defined and params.value is escaped else undefined
 } %}
 
 {#- Support actions as array #}

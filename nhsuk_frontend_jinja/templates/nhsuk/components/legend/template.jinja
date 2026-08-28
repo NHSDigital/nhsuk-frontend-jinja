@@ -10,10 +10,10 @@
 {%- set heading = params.heading -%}
 
 {#- Support heading as string (optional) #}
-{%- if heading and (heading is string or heading is escaped) %}
+{%- if heading and (heading is string or heading is defined and heading is escaped) %}
   {% set heading = {
     "text": heading if heading is string else undefined,
-    "html": heading if heading is escaped else undefined
+    "html": heading if heading is defined and heading is escaped else undefined
   } %}
 {% endif -%}
 
@@ -26,7 +26,7 @@
 {#- Support heading caption as string #}
 {%- set headingCaption = legendCaption if legendCaption is mapping else {
   "text": legendCaption if legendCaption is string else undefined,
-  "html": legendCaption if legendCaption is escaped else undefined
+  "html": legendCaption if legendCaption is defined and legendCaption is escaped else undefined
 } -%}
 
 {%- set size = heading.size | default(params.size) if hasHeading else params.size -%}

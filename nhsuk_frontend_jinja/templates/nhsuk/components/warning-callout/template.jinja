@@ -3,7 +3,7 @@
 {#- Support heading as string #}
 {%- set heading = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else undefined,
-  "html": params.heading if params.heading is escaped else undefined
+  "html": params.heading if params.heading is defined and params.heading is escaped else undefined
 } -%}
 
 {%- set card = {

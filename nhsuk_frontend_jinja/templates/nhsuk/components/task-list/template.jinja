@@ -18,20 +18,20 @@
   {#- Support item heading as string (with deprecated options) #}
   {%- set itemHeading = item.heading if item.heading is mapping else {
     "text": item.heading if item.heading is string else item.title.text,
-    "html": item.heading if item.heading is escaped else item.title.html,
+    "html": item.heading if item.heading is defined and item.heading is escaped else item.title.html,
     "classes": item.title.classes
   } %}
 
   {#- Support item hint as string #}
   {%- set itemHint = item.hint if item.hint is mapping else {
     "text": item.hint if item.hint is string else undefined,
-    "html": item.hint if item.hint is escaped else undefined
+    "html": item.hint if item.hint is defined and item.hint is escaped else undefined
   } %}
 
   {#- Support item status as string #}
   {%- set itemStatus = item.status if item.status is mapping else {
     "text": item.status if item.status is string else undefined,
-    "html": item.status if item.status is escaped else undefined
+    "html": item.status if item.status is defined and item.status is escaped else undefined
   } %}
   <li class="nhsuk-task-list__item {%- if item.href %} nhsuk-task-list__item--with-link{% endif %}{%- if item.classes %} {{ item.classes }}{% endif %}">
     <div class="nhsuk-task-list__name-and-hint">

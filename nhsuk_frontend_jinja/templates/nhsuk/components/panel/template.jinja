@@ -11,7 +11,7 @@
 {#- Support heading as string (with deprecated options) #}
 {%- set heading = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else params.titleText,
-  "html": params.heading if params.heading is escaped else params.titleHtml,
+  "html": params.heading if params.heading is defined and params.heading is escaped else params.titleHtml,
   "level": params.headingLevel,
   "size": params.titleSize,
   "classes": params.titleClasses

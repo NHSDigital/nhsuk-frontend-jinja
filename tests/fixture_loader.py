@@ -12,32 +12,32 @@ COMPONENTS_DIR = (
 
 @dataclass
 class Fixture:
-    expected: str
-    options: dict[str, Any]
+    html: str
+    context: dict[str, Any]
     call_block: str
 
 
 class FixtureLoader:
     def __init__(self):
-        self._component_fixtures = defaultdict(dict)
-        self.components = []
+        self._fixtures = defaultdict(dict)
+        self.component_names = []
 
         for fixture_file in COMPONENTS_DIR.glob("*/fixtures.json"):
             with fixture_file.open() as f:
                 fixtures = json.load(f)
 
-                component = fixtures["component"]
-                self.components.append(component)
+                component_name = fixtures["component"]
+                self.component_names.append(component_name)
 
                 for fixture in fixtures["fixtures"]:
-                    options = fixture["context"]
+                    context = fixture["context"]
                     call_block = fixture.get("callBlock")
                     html = fixture["html"]
-                    fixture_name = fixture["name"]
+                    name = fixture["name"]
 
-                    self._component_fixtures[component][fixture_name] = Fixture(
-                        expected=html, options=options, call_block=call_block
+                    self._fixtures[component_name][name] = Fixture(
+                        html=html, context=context, call_block=call_block
                     )
 
-    def fixtures(self, component):
-        return self._component_fixtures[component].items()
+    def fixtures(self, component_name):
+        return self._fixtures[component_name].items()

@@ -20,7 +20,7 @@
 {#- Support previous label as string (with deprecated options) #}
 {%- set previousLabel = previous.label if previous.label is mapping else {
   "text": previous.label if previous.label is string else previous.labelText,
-  "html": previous.label if previous.label is escaped else undefined
+  "html": previous.label if previous.label is defined and previous.label is escaped else undefined
 } -%}
 
 {%- set next = {
@@ -31,7 +31,7 @@
 {#- Support next label as string (with deprecated options) #}
 {%- set nextLabel = next.label if next.label is mapping else {
   "text": next.label if next.label is string else next.labelText,
-  "html": next.label if next.label is escaped else undefined
+  "html": next.label if next.label is defined and next.label is escaped else undefined
 } -%}
 
 {%- set ariaLabel = params.ariaLabel | default(params.landmarkLabel, true) | default("Pagination", true) -%}

@@ -11,19 +11,19 @@
 {#- Support label as string #}
 {%- set label = params.label if params.label is mapping else {
   "text": params.label if params.label is string else undefined,
-  "html": params.label if params.label is escaped else undefined
+  "html": params.label if params.label is defined and params.label is escaped else undefined
 } -%}
 
 {#- Support hint as string #}
 {%- set hint = params.hint if params.hint is mapping else {
   "text": params.hint if params.hint is string else undefined,
-  "html": params.hint if params.hint is escaped else undefined
+  "html": params.hint if params.hint is defined and params.hint is escaped else undefined
 } -%}
 
 {#- Support error message as string #}
 {%- set errorMessage = params.errorMessage if params.errorMessage is mapping else {
   "text": params.errorMessage if params.errorMessage is string else undefined,
-  "html": params.errorMessage if params.errorMessage is escaped else undefined
+  "html": params.errorMessage if params.errorMessage is defined and params.errorMessage is escaped else undefined
 } -%}
 
 {%- if errorMessage.text or errorMessage.html or params.errorMessage == true %}

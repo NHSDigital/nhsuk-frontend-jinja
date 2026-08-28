@@ -11,14 +11,14 @@
 {%- set title = params.title if params.title is mapping else {
   "id": params.titleId,
   "text": params.title if params.title is string else params.titleText,
-  "html": params.title if params.title is escaped else params.titleHtml,
+  "html": params.title if params.title is defined and params.title is escaped else params.titleHtml,
   "level": params.titleHeadingLevel
 } -%}
 
 {#- Support heading as string #}
 {%- set heading = params.heading if params.heading is mapping else {
   "text": params.heading if params.heading is string else undefined,
-  "html": params.heading if params.heading is escaped else undefined
+  "html": params.heading if params.heading is defined and params.heading is escaped else undefined
 } -%}
 
 {%- if params.classes %}

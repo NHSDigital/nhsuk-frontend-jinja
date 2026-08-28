@@ -3,6 +3,7 @@ Test HTML-compatibility with NHS.UK frontend
 """
 
 import difflib
+import inspect
 import json
 from pathlib import Path
 
@@ -19,10 +20,24 @@ FIXTURE_LOADER = FixtureLoader()
 
 def camel_case(kebab_case):
     """
-    turn kebab-case into camelCase
+    Turn kebab-case into camelCase
     """
     parts = kebab_case.split("-")
     return parts[0] + "".join([s.title() for s in parts[1:]])
+
+
+def component_name_to_macro_name(component_name):
+    """
+    Turn component-name into componentName
+    """
+    macro_name = camel_case(component_name)
+
+    if component_name in ("tables", "images"):
+        macro_name = macro_name[:-1]
+    elif component_name == "do-dont-list":
+        macro_name = "list"
+
+    return macro_name
 
 
 def normalize_array_attributes(soup):
@@ -37,54 +52,149 @@ def normalize_array_attributes(soup):
                 if value and value[:2] == '["' and value[-2:] == '"]':
                     descendant.attrs[name] = value.replace(", ", ",")
 
+    return soup
 
-def render(environment, component, options, call_content):
+
+def normalize_html(html, normalize_arrays=True):
+    if not isinstance(html, BeautifulSoup):
+        html = BeautifulSoup(html, features="html.parser")
+
+    if normalize_arrays:
+        html = normalize_array_attributes(html)
+
+    return html.prettify()
+
+
+def render(environment, component_name, context, call_block):
     """
     Generate a template that renders a component, and return the rendered result
 
-    If call_content is provided, a call block is used, otherwise a regular macro call
+    If call_block is provided, a call block is used, otherwise a regular macro call
     is used.
     """
-    component_camel_case = camel_case(component)
-    if component in ("tables", "images"):
-        component_camel_case = component_camel_case[:-1]
-    elif component == "do-dont-list":
-        component_camel_case = "list"
+    macro_name = component_name_to_macro_name(component_name)
+    macro_path = f"nhsuk/components/{component_name}/macro.jinja"
+    macro_string = f'{{% from "{macro_path}" import {macro_name} -%}}\n\n'
+    macro_call = f"{macro_name}()"
 
-    options_json = json.dumps(options, ensure_ascii=False)
+    if context:
+        macro_call = f"{macro_name}({json.dumps(context, ensure_ascii=False)})"
 
-    if call_content:
-        template_string = f"{{% from 'nhsuk/components/{component}/macro.jinja' import {component_camel_case}%}}\n{{% call {component_camel_case}({options_json}) %}}{call_content}{{% endcall %}}"
-    else:
-        template_string = f"{{% from 'nhsuk/components/{component}/macro.jinja' import {component_camel_case}%}}\n{{{{ {component_camel_case}({options_json}) }}}}"
+    # If we're nesting child components or text, pass the children to the macro
+    # using the 'caller' Jinja feature
+    macro_string += (
+        f"{{% call {macro_call} %}}\n{call_block.strip()}\n{{%- endcall %}}"
+        if call_block
+        else f"{{{{ {macro_call} }}}}"
+    )
 
-    result = environment.from_string(template_string).render()
-    return result
+    return environment.from_string(macro_string).render().rstrip()
 
 
-@pytest.mark.parametrize("component", FIXTURE_LOADER.components)
-def test_compatibility(environment, component, subtests):
-    for fixture_name, fixture in FIXTURE_LOADER.fixtures(component):
-        with subtests.test(msg=f"{component}: {fixture_name}"):
-            ideal = fixture.expected
-            options = fixture.options
-
-            actual = render(
+@pytest.mark.parametrize("component_name", FIXTURE_LOADER.component_names)
+def test_compatibility(environment, component_name, subtests):
+    for name, fixture in FIXTURE_LOADER.fixtures(component_name):
+        with subtests.test(msg=f"{component_name}: {name}"):
+            html = render(
                 environment,
-                component,
-                options,
+                component_name,
+                fixture.context,
                 fixture.call_block,
             )
 
             # We are not currently matching the nunjucks version on whitespace, so test
             # a prettified version.
-            ideal_formatted = BeautifulSoup(ideal, features="html.parser").prettify()
+            ideal = normalize_html(fixture.html, normalize_arrays=False)
+            actual = normalize_html(BeautifulSoup(html, features="html.parser"))
 
-            soup = BeautifulSoup(actual, features="html.parser")
-            normalize_array_attributes(soup)
+            assert actual == ideal, difflib.context_diff(actual, ideal)
 
-            actual_formatted = soup.prettify()
 
-            assert actual_formatted == ideal_formatted, difflib.context_diff(
-                actual_formatted, ideal_formatted
-            )
+def test_compatibility_escaped(environment):
+    template_string = inspect.cleandoc("""
+        {% from "nhsuk/components/card/macro.jinja" import card -%}
+    """)
+
+    text = inspect.cleandoc("""
+        {{ card({
+            "description": "Example description"
+        }) }}
+    """)
+
+    text_safe = inspect.cleandoc("""
+        {{ card({
+            "description": "<p>Example description</p>" | safe
+        }) }}
+    """)
+
+    text_nested = inspect.cleandoc("""
+        {{ card({
+            "description": {
+                "text": "Example description"
+            }
+        }) }}
+    """)
+
+    html_nested = inspect.cleandoc("""
+        {{ card({
+            "description": {
+                "html": "<p>Example description</p>"
+            }
+        }) }}
+    """)
+
+    html_deprecated = inspect.cleandoc("""
+        {{ card({
+          "descriptionHtml": "<p>Example description</p>"
+        }) }}
+    """)
+
+    assert normalize_html(
+        environment.from_string(f"{template_string}\n{text}").render()
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p class="nhsuk-card__description">Example description</p>
+            </div>
+        </div>
+    """)
+
+    assert normalize_html(
+        environment.from_string(f"{template_string}\n{text_safe}").render()
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p>Example description</p>
+            </div>
+        </div>
+    """)
+
+    assert normalize_html(
+        environment.from_string(f"{template_string}\n{text_nested}").render()
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p class="nhsuk-card__description">Example description</p>
+            </div>
+        </div>
+    """)
+
+    assert normalize_html(
+        environment.from_string(f"{template_string}\n{html_nested}").render()
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p>Example description</p>
+            </div>
+        </div>
+    """)
+
+    assert normalize_html(
+        environment.from_string(f"{template_string}\n{html_deprecated}").render()
+    ) == normalize_html("""
+        <div class="nhsuk-card">
+            <div class="nhsuk-card__content">
+                <p>Example description</p>
+            </div>
+        </div>
+    """)
