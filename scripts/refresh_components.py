@@ -97,10 +97,10 @@ def replace_macros(filepath, accepts_caller=False):
 
             file.write(line)
 
-            if accepts_caller and line.lstrip().startswith("{% macro "):
-                file.write("  {%- if caller -%}\n")
-                file.write("  {# noop for Jinja support #}\n")
-                file.write("  {%- endif -%}\n")
+            if accepts_caller and line.lstrip().startswith("{%- macro "):
+                file.write("  {%- if caller %}\n")
+                file.write("  {#- noop for Jinja support #}\n")
+                file.write("  {%- endif %}\n")
 
 
 def replace_templates(filepath):
