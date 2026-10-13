@@ -15,7 +15,6 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "pytest>=9.0.2,<10",
-    "beautifulsoup4>=4.14.2,<5",
     "djlint>=1.36.4,<2",
 ]
 

@@ -15,7 +15,7 @@ def test_character_count_form_group_attributes(environment):
                     "data-attribute-2": "my-attribute-2"
                 }
             }
-        }) | indent(8) }}
+        }) | trim | indent(8) }}
     """
 
     result = environment.from_string(template).render()
@@ -52,7 +52,7 @@ def test_min_zero(environment):
                     }
                 },
             }
-        }) | indent(8) }}
+        }) | trim | indent(8) }}
     """
 
     result = environment.from_string(template).render()
