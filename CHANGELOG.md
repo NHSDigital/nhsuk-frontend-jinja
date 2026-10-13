@@ -1,5 +1,95 @@
 # NHS.UK frontend jinja changelog
 
+## Unreleased
+
+This version is compatible with v10.7.0 of nhsuk-frontend.
+
+### :new: **New features**
+
+#### Environment banner
+
+We've added an environment banner component to help identify development, review or other non-production environments.
+
+To use the `environmentBanner` macro in your service, add it above the header:
+
+```patch
+  {% block header %}
++   {{ environmentBanner({
++     "tag": environmentName,
++     "colour": themeName
++   }) }}
++
+    {{ header() }}
+  {% endblock %}
+```
+
+Use the global values `"environmentName"` and `"themeName"` to update the banner, matching the [toolbar colour on some devices](https://developer.chrome.com/blog/support-for-theme-color-in-chrome-39-for-android). All tag colours are supported.
+
+```python
+env.globals.update({
+    "environmentName": "Review",
+    "themeName": "purple",
+})
+```
+
+This change was introduced in [pull request #2115: Add environment banner component](https://github.com/nhsuk/nhsuk-frontend/pull/2115).
+
+### :recycle: **Changes**
+
+#### Use conditional content and before/after input slots as strings
+
+We added support for alternative string values in [version 10.6.0](https://github.com/nhsuk/nhsuk-frontend/releases/tag/v10.6.0) and [version 10.6.1](https://github.com/nhsuk/nhsuk-frontend/releases/tag/v10.6.1).
+
+The following component options now support alternative string values:
+
+- checkboxes and radios `item.conditional` option
+- date input `day`, `month` and `year` options
+- single field `formGroup.beforeInput` and `formGroup.afterInput` options
+- multiple field `formGroup.beforeInputs` and `formGroup.afterInputs` options
+- tabs `item.panel` option
+
+The following component options now support `text` and `html` nested options:
+
+- checkboxes and radios `item.divider` option
+- tabs `item.label` option
+
+This change was introduced in [pull request #2127: Add fixture coverage for before/after input slots](https://github.com/nhsuk/nhsuk-frontend/pull/2127).
+
+#### Use macros to add headings, captions, visually hidden text and links
+
+We've updated our components to use macros to render:
+
+- headings and captions via the `heading()` and `caption()` component macros
+- visually hidden text via the `visuallyHidden()` component macro
+- links via the `link()` component macro
+
+We've also added the `nhsukContent()` macro to simplify how text, HTML and visually hidden content is rendered:
+
+```patch
+- {% if item.html %}
+-   {{- item.html | safe | trim }}
+- {% elif item.text %}
+-   {{- item.text | trim }}
+- {% endif %}
+- {% if item.visuallyHiddenText -%}
+-   <span class="nhsuk-u-visually-hidden"> {{ item.visuallyHiddenText }}</span>
+- {% endif %}
++ {{ nhsukContent(item) }}
+```
+
+These shared components and macros can be used by service teams to create their own custom components.
+
+These changes were introduced in pull requests [#2103: Add visually hidden component](https://github.com/nhsuk/nhsuk-frontend/pull/2103), [#2108: Add link component](https://github.com/nhsuk/nhsuk-frontend/pull/2108) and [#1985: Add heading and caption components](https://github.com/nhsuk/nhsuk-frontend/pull/1985).
+
+### :wrench: **Fixes**
+
+We've made fixes to NHS.UK frontend in the following pull requests:
+
+- [#2104: Fix links as buttons not inheriting `text-align`](https://github.com/nhsuk/nhsuk-frontend/pull/2104)
+- [#2105: Render table cell values from numbers including `0`](https://github.com/nhsuk/nhsuk-frontend/pull/2105)
+- [#2117: Restore missing `.nhsuk-back-to-top` styles](https://github.com/nhsuk/nhsuk-frontend/pull/2117)
+- [#2129: Omit stripes on tables with only 1 row](https://github.com/nhsuk/nhsuk-frontend/pull/2129)
+
 ## 0.10.2
 
 This version is compatible with v10.6.1 of nhsuk-frontend.
