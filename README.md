@@ -51,8 +51,13 @@ app.jinja_options = {
             PackageLoader("nhsuk_frontend_jinja"),
         ]
     ),
+    "keep_trailing_newline": True,
+    "trim_blocks": True,
+    "lstrip_blocks": True,
     "autoescape": True
 }
+
+app.jinja_env.policies["json.dumps_kwargs"] = {"sort_keys": False, "separators": (",", ":")}
 ```
 
 Plain Jinja example:
@@ -66,8 +71,13 @@ jinja_env = Environment(
         FileSystemLoader(PATH_TO_YOUR_TEMPLATES),
         PackageLoader("nhsuk_frontend_jinja"),
     ]),
+    keep_trailing_newline=True,
+    trim_blocks=True,
+    lstrip_blocks=True,
     autoescape=True,
 )
+
+jinja_env.policies["json.dumps_kwargs"] = {"sort_keys": False, "separators": (",", ":")}
 ```
 
 Alternatively, if you want to reference components without the 'nhsuk/components' or 'nhsuk/macros' prefixes, you can include additional `PackageLoaders` that specify `package_path`:
