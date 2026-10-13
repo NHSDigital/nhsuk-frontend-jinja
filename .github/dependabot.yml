@@ -1,36 +1,41 @@
 version: 2
 
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
+
     schedule:
-      interval: "daily"
+      interval: daily
     cooldown:
       default-days: 7
 
     groups:
       actions:
         patterns:
-          - "*"
+          - '*'
 
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
+
     schedule:
-      interval: "daily"
-    versioning-strategy: increase
+      interval: daily
     cooldown:
       default-days: 7
+
+    versioning-strategy: increase
 
     ignore:
       - dependency-name: 'nhsuk-frontend'
 
-  - package-ecosystem: "uv"
-    directory: "/"
+  - package-ecosystem: uv
+    directory: /
+
     schedule:
-      interval: "daily"
-    versioning-strategy: auto
+      interval: daily
     cooldown:
       default-days: 7
+
+    versioning-strategy: auto
 
     groups:
       dev:
