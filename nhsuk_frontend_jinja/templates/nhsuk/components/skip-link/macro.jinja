@@ -1,6 +1,6 @@
-{% macro skipLink(params = {}) %}
-  {%- if caller -%}
-  {# noop for Jinja support #}
-  {%- endif -%}
-  {%- include "nhsuk/components/skip-link/template.jinja" -%}
-{% endmacro %}
+{%- macro skipLink(params = {}) %}
+  {%- if caller %}
+  {#- noop for Jinja support #}
+  {%- endif %}
+  {%- include "nhsuk/components/skip-link/template.jinja" %}
+{%- endmacro %}
