@@ -1,0 +1,6 @@
+{%- macro visuallyHidden(params = {}) %}
+  {%- if caller %}
+  {#- noop for Jinja support #}
+  {%- endif %}
+  {%- include "nhsuk/components/visually-hidden/template.jinja" %}
+{%- endmacro %}
