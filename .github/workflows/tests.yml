@@ -33,7 +33,7 @@ jobs:
           version-file: .tool-versions
 
       - name: Install uv dependencies
-        run: uv sync --locked --all-extras --dev
+        run: uv sync --locked
 
       - name: Install Node.js dependencies
         run: npm ci --ignore-scripts
