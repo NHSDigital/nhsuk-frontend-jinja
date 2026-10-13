@@ -8,6 +8,11 @@ updates:
     cooldown:
       default-days: 7
 
+    groups:
+      actions:
+        patterns:
+          - "*"
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -16,6 +21,9 @@ updates:
     cooldown:
       default-days: 7
 
+    ignore:
+      - dependency-name: 'nhsuk-frontend'
+
   - package-ecosystem: "uv"
     directory: "/"
     schedule:
@@ -23,3 +31,7 @@ updates:
     versioning-strategy: auto
     cooldown:
       default-days: 7
+
+    groups:
+      dev:
+        dependency-type: development
