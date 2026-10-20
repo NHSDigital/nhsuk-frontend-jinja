@@ -30,10 +30,14 @@ class FixtureLoader:
                 self.component_names.append(component_name)
 
                 for fixture in fixtures["fixtures"]:
-                    context = fixture["context"]
+                    context = fixture.get("context")
                     call_block = fixture.get("callBlock")
                     html = fixture["html"]
+                    description = fixture.get("description")
                     name = fixture["name"]
+
+                    if description:
+                        name = f"{description} {name}"
 
                     self._fixtures[component_name][name] = Fixture(
                         html=html, context=context, call_block=call_block
