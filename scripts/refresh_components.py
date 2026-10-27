@@ -27,18 +27,8 @@ JINJA_EXT = ".jinja"
 UNQUOTED_KEY = re.compile(r"^(?P<leading_space>\s*)(?P<name>\w+): ")
 INLINE_UNQUOTED_KEY = re.compile(r"(?P<prefix>[{,]\s*)(?P<name>[A-Za-z]\w*)\s*:")
 IS_ESCAPED = re.compile(r"\b(?P<params>[A-Za-z\.]+) is escaped\b")
-IS_MAPPING = re.compile(
-    r"\b(?P<params>[A-Za-z\.]+) is mapping and (?P=params) is not escaped\b"
-)
 ITEMS = re.compile(r"\b(?P<params>[A-Za-z\.]+)\.(?P<property>items|values)\b(?!\s*\()")
 ITEMS_GET = re.compile(r"\bif (?P<params>[A-Za-z]+\.[A-Za-z\.]+)\.get\(\"")
-IS_NULLISH = re.compile(r"\b(?P<params>[A-Za-z\.]+) in \[undefined, null\]")
-IS_NOT_EMPTY = re.compile(
-    r"\b(?P<params>[A-Za-z\.]+) not in \[undefined, null, false\]"
-)
-IS_NOT_EMPTY_STRING = re.compile(
-    r'\b(?P<params>[A-Za-z\.]+) not in \["", null, false\]'
-)
 MACRO_ARGS = re.compile(r"macro\s+\w+\((?P<args>[^)]*)\)")
 
 # Locate variable assignments to prepend `ns = namespace()` line
@@ -74,33 +64,15 @@ def replace_macros(filepath, accepts_caller=False):
                 "for name, item in attributes", "for name, item in attributes.items()"
             )
 
-            # Prevent double escaping attributes with double quotes
-            line = line.replace(
-                "attributesHtml ~ \" \" ~ name | escape ~ '=\"' ~ valueEscaped ~ '\"'",
-                "'{} {}=\"{}\"'.format(attributesHtml, name | escape, value | lower if value is boolean else valueEscaped)",
-            )
-
-            # Prevent double escaping attributes with single quotes
-            line = line.replace(
-                'attributesHtml ~ " " ~ name | escape ~ "=\'" ~ valueEscaped ~ "\'"',
-                "\"{} {}='{}'\".format(attributesHtml, name | escape, value | lower if value is boolean else valueEscaped)",
-            )
-
-            # Prevent double escaping boolean attributes
-            line = line.replace(
-                'attributesHtml ~ " " ~ name | escape',
-                '"{} {}".format(attributesHtml, name | escape)',
-            )
-
             # Jinja doesn't support `dump` filter
             line = line.replace("| dump", "| tojson")
 
             file.write(line)
 
-            if accepts_caller and line.lstrip().startswith("{% macro "):
-                file.write("  {%- if caller -%}\n")
-                file.write("  {# noop for Jinja support #}\n")
-                file.write("  {%- endif -%}\n")
+            if accepts_caller and line.lstrip().startswith("{%- macro "):
+                file.write("  {%- if caller %}\n")
+                file.write("  {#- noop for Jinja support #}\n")
+                file.write("  {%- endif %}\n")
 
 
 def replace_templates(filepath):
@@ -147,44 +119,9 @@ def replace_templates(filepath):
             # (Jinja incorrectly passes the escaped test when ChainableUndefined is used)
             line = IS_ESCAPED.sub(r"\g<params> is defined and \g<params> is escaped", line)
 
-            # Remove unnecessary `is escaped` checks added for Nunjucks only
-            # (Nunjucks incorrectly passes `new SafeString()` escaped string instances)
-            line = IS_MAPPING.sub(r"\g<params> is mapping", line)
-
-            # Workaround for Jinja equality differences
-            line = line.replace("set value = null", "set value = none")
-            line = IS_NULLISH.sub(
-                r"\g<params> is undefined or \g<params> is none", line
-            )
-            line = IS_NOT_EMPTY.sub(
-                r"\g<params> is not none and \g<params> is not false", line
-            )
-            line = IS_NOT_EMPTY_STRING.sub(r'\g<params> not in ["", none, false]', line)
-
-            # Lowercase booleans
-            line = line.replace(
-                "params.preventDoubleClick | string",
-                "params.preventDoubleClick | string | lower",
-            )
-            line = line.replace(
-                "params.disableAutoFocus | string",
-                "params.disableAutoFocus | string | lower",
-            )
-            line = line.replace(
-                "params.spellcheck | string",
-                "params.spellcheck | string | lower",
-            )
-
             # Jinja doesn't support JavaScript array methods
             line = line.replace("set rows = (rows.unshift({", "set rows = [{")
             line = line.replace("}), rows)", "}] + rows")
-
-            # Jinja doesn't support `===`, use `is` or `==` instead
-            line = line.replace("=== true", "is true")
-            line = line.replace("=== false", "is false")
-            line = line.replace("!== true", "is not true")
-            line = line.replace("!== false", "is not false")
-            line = line.replace('=== "array"', '== "array"')
 
             file.write(line)
 

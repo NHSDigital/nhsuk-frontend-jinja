@@ -1,52 +1,59 @@
+{% from "nhsuk/components/link/macro.jinja" import link as nhsukLink %}
 {% from "nhsuk/components/heading/macro.jinja" import heading as nhsukHeading %}
+{% from "nhsuk/components/visually-hidden/macro.jinja" import visuallyHidden as nhsukVisuallyHidden %}
 {% from "nhsuk/macros/attributes.jinja" import nhsukAttributes %}
+{% from "nhsuk/macros/content.jinja" import nhsukContent %}
 
 {#- Set classes for this component #}
 {%- set classNames = "nhsuk-footer" -%}
 
 {#- Support meta as string #}
-{%- set meta = params.meta if params.meta is mapping else {
+{%- set meta = params.meta if params.meta is mapping and params.meta is not escaped else {
   "text": params.meta if params.meta is string else undefined,
   "html": params.meta if params.meta is defined and params.meta is escaped else undefined
-} -%}
+} %}
 
 {#- Support copyright as string #}
-{%- set copyright = params.copyright if params.copyright is mapping else {
+{%- set copyright = params.copyright if params.copyright is mapping and params.copyright is not escaped else {
   "text": params.copyright if params.copyright is string else undefined,
   "html": params.copyright if params.copyright is defined and params.copyright is escaped else undefined
-} -%}
+} %}
 
 {%- if params.classes %}
-  {% set classNames = classNames ~ " " ~ params.classes %}
-{% endif %}
+  {%- set classNames = classNames ~ " " ~ params.classes %}
+{%- endif %}
 
-{%- set columns = params.columns | default(4, true) -%}
+{%- set columns = params.columns | default(4, true) %}
 
-{% if columns == 1 %}
-  {% set width = "full" %}
-{% elif columns == 2 %}
-  {% set width = "one-half" %}
-{% elif columns == 3 %}
-  {% set width = "one-third" %}
-{% else %}
-  {% set width = "one-quarter" %}
-  {% set columns = 4 %}
-{% endif -%}
+{%- if columns == 1 %}
+  {%- set width = "full" %}
+{%- elif columns == 2 %}
+  {%- set width = "one-half" %}
+{%- elif columns == 3 %}
+  {%- set width = "one-third" %}
+{%- else %}
+  {%- set width = "one-quarter" %}
+  {%- set columns = 4 %}
+{%- endif %}
 
-{% macro _footerList(items, modifier) %}
+{%- macro _footerList(items, modifier) %}
 <ul class="nhsuk-footer__list">
 {% for item in items %}
   {% if item %}
   <li class="nhsuk-footer__list-item">
-    <a class="nhsuk-footer__list-item-link" href="{{ item.href }}"
-      {{- nhsukAttributes(item.attributes) }}>
-      {{- item.html | safe | trim | indent(6) if item.html else item.text -}}
-    </a>
+    {{ nhsukLink({
+      "text": item.text,
+      "html": item.html,
+      "href": item.href,
+      "openInNewTab": item.openInNewTab,
+      "className": "nhsuk-footer__list-item-link",
+      "attributes": item.attributes
+    }) | trim | indent(4) }}
   </li>
   {% endif %}
 {% endfor %}
 </ul>
-{% endmacro -%}
+{%- endmacro -%}
 
 <footer class="{{ classNames }}" {%- if params.id %} id="{{ params.id }}"{% endif %} role="contentinfo"
   {{- nhsukAttributes(params.attributes) }}>
@@ -58,10 +65,10 @@
       <div class="nhsuk-grid-column-{{ navigation.width | default(width, true) }}">
       {% if navigation.heading or navigation.title %}
         {#- Support navigation heading as string (with deprecated options) #}
-        {%- set heading = navigation.heading if navigation.heading is mapping else {
+        {%- set heading = navigation.heading if navigation.heading is mapping and navigation.heading is not escaped else {
           "text": navigation.heading if navigation.heading is string else navigation.title,
           "html": navigation.heading if navigation.heading is defined and navigation.heading is escaped else undefined
-        } -%}
+        } %}
 
         {{- nhsukHeading({
           "id": heading.id,
@@ -70,6 +77,7 @@
           "visuallyHiddenText": heading.visuallyHiddenText,
           "caption": heading.caption,
           "href": heading.href,
+          "openInNewTab": heading.openInNewTab,
           "level": 2,
           "size": "s",
           "className": "nhsuk-footer__heading",
@@ -79,9 +87,11 @@
         }) | trim | indent(8, true) }}
       {% endif %}
       {% if navigation.html %}
-        {{ navigation.html | safe | trim | indent(8) }}
+        {{ nhsukContent({ "html": navigation.html }) | trim | indent(8) }}
       {% elif navigation.text %}
-        <p class="nhsuk-body-s">{{ navigation.text | trim | indent(8) }}</p>
+        <p class="nhsuk-body-s">
+          {{- nhsukContent({ "text": navigation.text }) | trim | indent(8) -}}
+        </p>
       {% endif %}
       {% if navigation.get("items", undefined) %}
         {{ _footerList(navigation.get("items", undefined)) | trim | indent(8) }}
@@ -94,23 +104,28 @@
     <div class="nhsuk-footer__meta">
 {% if caller or meta.get("items", undefined) | length or meta.text or meta.html %}
     {% if meta.get("items", undefined) %}
-      <h2 class="nhsuk-u-visually-hidden">
-        {{- meta.visuallyHiddenText | default(meta.visuallyHiddenTitle) | default("Support links") -}}
-      </h2>
+      {{ nhsukVisuallyHidden({
+        "text": meta.visuallyHiddenText | default(meta.visuallyHiddenTitle) | default("Support links"),
+        "element": "h2"
+      }) | trim | indent(6) }}
       {{ _footerList(meta.get("items", undefined)) | trim | indent(6) }}
     {% endif %}
     {% if caller %}
       {{- caller() }}
     {% elif meta.html %}
-      {{ meta.html | safe | trim | indent(6) }}
+      {{ nhsukContent({ "html": meta.html }) | trim | indent(6) }}
     {% elif meta.text %}
-      <p class="nhsuk-body-s">{{ meta.text | trim | indent(6) }}</p>
+      <p class="nhsuk-body-s">
+        {{- nhsukContent({ "text": meta.text }) | trim | indent(6) -}}
+      </p>
     {% endif %}
 {% endif %}
     {% if copyright.html %}
-      {{ copyright.html | safe | trim | indent(6) }}
+      {{ nhsukContent({ "html": copyright.html }) | trim | indent(6) }}
     {% elif copyright.text or copyright.text not in ["", none, false] %}
-      <p class="nhsuk-body-s">{{ (copyright.text | default("© NHS England", true)) | indent(6) }}</p>
+      <p class="nhsuk-body-s">
+        {{- nhsukContent({ "text": copyright.text | default("© NHS England", true) }) | trim | indent(6) -}}
+      </p>
     {% endif %}
     </div>
   </div>
