@@ -1,5 +1,13 @@
 # NHS.UK frontend jinja changelog
 
+## 1.0.1
+
+### :wrench: **Fixes**
+
+We've made fixes to NHS.UK frontend in the following pull requests:
+
+- [#2173: Update template theme colours to match updated colour palette](https://github.com/nhsuk/nhsuk-frontend/pull/2173)
+
 ## 1.0.0
 
 This version is compatible with v10.7.0 of nhsuk-frontend.
