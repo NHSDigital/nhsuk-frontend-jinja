@@ -2,6 +2,8 @@
 
 ## 1.0.1
 
+This version is compatible with v10.7.1 of nhsuk-frontend.
+
 ### :wrench: **Fixes**
 
 We've made fixes to NHS.UK frontend in the following pull requests:
