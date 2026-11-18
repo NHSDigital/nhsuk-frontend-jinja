@@ -3,7 +3,7 @@ name = "nhsuk-frontend-jinja"
 version = "1.0.2"
 description = "A port of NHS.UK frontend templates for the Jinja templating engine."
 authors = [{ name = "Mat Moore", email = "MatMoore@users.noreply.github.com" }]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 readme = "README.md"
 license = { text = "MIT" }
 dependencies = ["jinja2 (>=3.1.6,<4.0.0)"]
@@ -13,10 +13,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "pytest>=9.0.2,<10",
-    "djlint>=1.36.4,<2",
-]
+dev = ["pytest>=9.0.2,<10", "djlint>=1.36.4,<2"]
 
 [tool.djlint]
 extension = "jinja"
