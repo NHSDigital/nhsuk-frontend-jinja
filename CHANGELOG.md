@@ -9,8 +9,8 @@ This version is compatible with v10.7.2 of nhsuk-frontend.
 We've made fixes to NHS.UK frontend in the following pull requests:
 
 - [#2183: Fix overlapping header menu in high contrast mode](https://github.com/nhsuk/nhsuk-frontend/pull/2183)
-- [#2185: Guard against mock iterable values without length in `nhsukContent()`](https://github.com/nhsuk/nhsuk-frontend/pull/2185)
-- [#2186: Fix summary list row when rendered with custom HTML or call block](https://github.com/nhsuk/nhsuk-frontend/pull/2186)
+- [#2186: Guard against mock iterable values without length in `nhsukContent()`](https://github.com/nhsuk/nhsuk-frontend/pull/2186)
+- [#2187: Fix summary list row when rendered with custom HTML or call block](https://github.com/nhsuk/nhsuk-frontend/pull/2187)
 
 ## 1.0.1
 
