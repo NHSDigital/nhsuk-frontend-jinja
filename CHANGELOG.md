@@ -1,5 +1,13 @@
 # NHS.UK frontend jinja changelog
 
+## 1.0.3
+
+This version is compatible with v10.7.2 of nhsuk-frontend.
+
+### :wrench: **Fixes**
+
+- [#132: Add support for Python 3.10, matching what Jinja supports](https://github.com/NHSDigital/nhsuk-frontend-jinja/pull/132)
+
 ## 1.0.2
 
 This version is compatible with v10.7.2 of nhsuk-frontend.
